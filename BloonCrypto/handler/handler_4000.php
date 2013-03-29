@@ -7,5 +7,5 @@
  * https://github.com/BurakDev/BloonCrypto
  */
 $release = $core->GetNextString($data);
-$core->say("Loaded ".$release[0]);
+$core->say("Loaded ".$release[0],1);
 ?>
