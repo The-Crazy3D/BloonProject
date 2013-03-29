@@ -4,7 +4,7 @@
  * Habbo R63 Post-Shuffle
  * Based on the work of Burak, edited by BloonCrypto Git Community. (skype: burak.karamahmut)
  * 
- * https://github.com/BurakDev/BloonCrypto
+ * https://github.com/BurakDev/BloonProject
  */
 error_reporting(E_ALL);
 set_time_limit(0);
@@ -21,6 +21,7 @@ require "config.php";
 
 
 $core = New Core;
+Console::Write("Welcome to this ALPHA 1.0 of BloonCrypto...");
 Console::Write("Connecting to database...");
 try{
 	if($CONFIG['mysql']['port'] != 3306){
