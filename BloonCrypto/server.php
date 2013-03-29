@@ -23,7 +23,12 @@ require "config.php";
 $core = New Core;
 Console::Write("Connecting to database...");
 try{
-	@$sql = new PDO('mysql:host='.$CONFIG['mysql']['host'].chr(58).$CONFIG['mysql']['port'].';dbname='.$CONFIG['mysql']['database'], $CONFIG['mysql']['user'], $CONFIG['mysql']['password']);
+	if($CONFIG['mysql']['port'] != 3306){
+		$portext = chr(58).$CONFIG['mysql']['port'];
+	}else{
+		$portext = "";
+	}
+	@$sql = new PDO('mysql:host='.$CONFIG['mysql']['host'].$portext.';dbname='.$CONFIG['mysql']['database'], $CONFIG['mysql']['user'], $CONFIG['mysql']['password']);
 	unset($CONFIG['mysql']);
 }catch(Exception $error){
 	Console::WriteLine("failed!");
