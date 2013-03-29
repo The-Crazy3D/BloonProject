@@ -16,5 +16,8 @@ Class Console{
 	public static function Beep(){
 		print(chr(7));
 	}
+	public static function SetTitle($title){
+		system("title ".$title);
+	}
 }
 ?>

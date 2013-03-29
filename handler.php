@@ -29,7 +29,7 @@ $Outgoing['loadUserRoomList'] = 2160;
 $packet = $core->GetHeader($packet);
 $header = $packet[0];
 $data = $packet[2];
-$core->say("[".$header."] ".$data,1);
+// $core->say("[".$header."] ".$data,1);
 switch($header) {
 	case 26979:
 		$crossdomain = '<?xml version="1.0"?>
@@ -86,7 +86,7 @@ switch($header) {
 				$user->vip = $userdata->vip;
 				$user->volume = $userdata->volume;
 				$user->accept_trading = $userdata->accept_trading;
-				
+				$core->Say($user->username ." logged in !",1);
 				$construct = New Constructor;
 				$construct->SetHeader($Outgoing['init1sso']);
 				$construct->SetInt8(0);
@@ -293,9 +293,6 @@ switch($header) {
 		}
 		unset($roomlist,$rlist);
 	break;
-	case 2115:
-	
-	break;
 	case 3891:
 		$key = $core->GetNextString($data);
 		$key = $key[0];
@@ -358,6 +355,7 @@ switch($header) {
 		unset($roomlist,$rlist);
 	break;
 	Default:
+		// $core->say("[HANDLER NOT FOUND] [".$header."] ".$data,1);
 	break;
 }
 unset($packet,$header,$construct,$data,$crossdomain,$ticket,$userdata);

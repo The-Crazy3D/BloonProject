@@ -11,6 +11,7 @@ Class User{
 	var $socket;
 	var $ip;
 	var $port;
+	var $countconnection;
 	var $userid;
 	var $username;
 	var $mail;

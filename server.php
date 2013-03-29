@@ -10,23 +10,28 @@ error_reporting(E_ALL);
 set_time_limit(0);
 ob_implicit_flush();
 
-require "config.php";
-
 spl_autoload_register(function ($class) {
     include 'class/class.' . $class . '.php';
 });
 
+Console::SetTitle("Loading BloonCrypto...");
+
+require "config.php";
+
+
+
 $core = New Core;
+Console::Write("Connecting to database...");
 try{
-	$sql = new PDO('mysql:host='.$CONFIG['mysql']['host'].chr(58).$CONFIG['mysql']['port'].';dbname='.$CONFIG['mysql']['database'], $CONFIG['mysql']['user'], $CONFIG['mysql']['password']);
+	@$sql = new PDO('mysql:host='.$CONFIG['mysql']['host'].chr(58).$CONFIG['mysql']['port'].';dbname='.$CONFIG['mysql']['database'], $CONFIG['mysql']['user'], $CONFIG['mysql']['password']);
 	unset($CONFIG['mysql']);
 }catch(Exception $error){
-	echo 'Erreur : '.$error->getMessage()."\n";
-	echo 'N° : '.$error->getCode()."\n";
+	Console::WriteLine("failed!");
 	exit;
 }
+Console::WriteLine("completed!");
 $DB = New DB;
-$DB->exec("UPDATE users SET online = '0'");
+$core->OnStartTasks();
 $master  = $core->Socket($CONFIG['bindAddr'],$CONFIG['bindPort']);
 $sockets = array($master);
 $users   = array();
@@ -40,8 +45,7 @@ while(true){
       $client=socket_accept($master);
       if($client<0){ continue; }
       else{ $core->connect($client); }
-    }
-    else{
+    }else{
       $bytes = @socket_recv($socket,$buffer,2048,0);
       if($bytes==0){ $core->disconnect($socket); }
       else{

@@ -46,17 +46,22 @@ Class Core{
 	  for($i=0;$i<$n;$i++){
 		if($users[$i]->socket==$socket){ $found=$i; break; }
 	  }
+	  $usertemp = $this->getuserbysocket($socket);
+	  $this->say("[".$usertemp->countconnection ."] Connection lost from ".$usertemp->ip,1);
 	  if(!is_null($found)){ array_splice($users,$found,1); }
 	  $index = array_search($socket,$sockets);
 	  socket_close($socket);
 	  if($index>=0){ array_splice($sockets,$index,1); }
 	}
 	public function connect($socket){
-	  global $sockets,$users,$CONFIG;
+	  global $sockets,$users,$CONFIG,$countconnection;
+	  if(!isset($countconnection)){
+		$countconnection = 0;
+	  }
 	  socket_getpeername($socket, $ip, $port);
 	  if($CONFIG['ipaccess']){
 		if(!in_array($ip, $CONFIG['ipaccesslist'])){
-			$this->Say("Connexion de ".$ip." mais pas whitelist !",1);
+			$this->Say("Connection from ".$ip." but blacklisted.",1);
 			socket_close($socket);
 			return false;
 		}
@@ -66,7 +71,9 @@ Class Core{
 	  $user->socket = $socket;
 	  $user->ip = $ip;
 	  $user->port = $port;
-	  $this->say("Connexion recu de ".$ip,1);
+	  $user->countconnection = $countconnection;
+	  $this->say("[".$countconnection."] Connection from ".$ip,1);
+	  $countconnection++;
 	  array_push($users,$user);
 	  array_push($sockets,$socket);
 	}
@@ -82,7 +89,7 @@ Class Core{
 	}
 	public function send($client,$msg){
 	  socket_write($client,$msg,strlen($msg));
-	  $this->say(">> ".$msg);
+	  // $this->say(">> ".$msg);
 	}
 	public function HexaString($hex){
 		$string='';
@@ -131,10 +138,110 @@ Class Core{
 		$reste = substr($str, $stringLenth);
 		return Array($string, $reste);
 	}
+	public function OnStartTasks(){
+		$this->LoadBans();
+		$this->LoadRoles();
+		$this->LoadHelpCategories();
+		$this->LoadHelpTopics();
+		$this->LoadSoundtracks();
+		$this->LoadCataloguePages();
+		$this->LoadCatalogueItems();
+		$this->LoadNavigatorCategories();
+		$this->LoadNavigatorPublics();
+		$this->LoadRoomModels();
+		$this->LoadRoomAds();
+		$this->LoadBots();
+		$this->LoadAchievements();
+		Console::Beep();
+		$this->StatsTasks();
+	}
+	public function LoadBans(){
+		global $DB,$bans;
+		Console::Write("Loading Bans...");
+		$bans = $DB->mquery("SELECT * FROM bans");
+		Console::WriteLine("completed!");
+	}
+	public function LoadRoles(){
+		global $DB,$permissions;
+		Console::Write("Loading Roles...");
+		$permissions = Array();
+		$permissions['ranks'] = $DB->mquery("SELECT * FROM permissions_ranks");
+		$permissions['users'] = $DB->mquery("SELECT * FROM permissions_users");
+		$permissions['vip'] = $DB->mquery("SELECT * FROM permissions_vip");
+		Console::WriteLine("completed!");
+	}
+	public function LoadHelpCategories(){
+		global $DB,$helpcategories;
+		Console::Write("Loading Help Categories...");
+		$helpcategories = $DB->mquery("SELECT * FROM help_subjects");
+		Console::WriteLine("completed!");
+	}
+	public function LoadHelpTopics(){
+		global $DB,$helptopics;
+		Console::Write("Loading Help Topics...");
+		$helptopics = $DB->mquery("SELECT * FROM help_topics");
+		Console::WriteLine("completed!");
+	}
+	public function LoadSoundtracks(){
+		global $DB,$soundtracks;
+		Console::Write("Loading Soundtracks...");
+		$soundtracks = $DB->mquery("SELECT * FROM soundtracks");
+		Console::WriteLine("completed!");
+	}
+	public function LoadCataloguePages(){
+		global $DB,$cataloguepages;
+		Console::Write("Loading Catalogue Pages...");
+		$cataloguepages = $DB->mquery("SELECT * FROM catalog_pages");
+		Console::WriteLine("completed!");
+	}
+	public function LoadCatalogueItems(){
+		global $DB,$catalogueitems;
+		Console::Write("Loading Catalogue Items...");
+		$catalogueitems = $DB->mquery("SELECT * FROM catalog_items");
+		Console::WriteLine("completed!");
+	}
+	public function LoadNavigatorCategories(){
+		global $DB,$navigatorcategories;
+		Console::Write("Loading Navigator Categories...");
+		$navigatorcategories = $DB->mquery("SELECT * FROM navigator_flatcats");
+		Console::WriteLine("completed!");
+	}
+	public function LoadNavigatorPublics(){
+		global $DB,$navigatorpublics;
+		Console::Write("Loading Navigator Publics...");
+		$navigatorpublics = $DB->mquery("SELECT * FROM navigator_publics");
+		Console::WriteLine("completed!");
+	}
+	public function LoadRoomModels(){
+		global $DB,$roommodels;
+		Console::Write("Loading Room Models...");
+		$roommodels = $DB->mquery("SELECT * FROM room_models");
+		Console::WriteLine("completed!");
+	}
+	public function LoadRoomAds(){
+		global $DB,$roomads;
+		Console::Write("Loading Room Adverts...");
+		$roomads = $DB->mquery("SELECT * FROM room_ads");
+		Console::WriteLine("completed!");
+	}
+	public function LoadBots(){
+		global $DB,$bots,$botsspeech,$botsresponses;
+		Console::Write("Loading Bots...");
+		$bots = $DB->mquery("SELECT * FROM bots");
+		$botsspeech = $DB->mquery("SELECT * FROM bots_speech");
+		$botsresponses = $DB->mquery("SELECT * FROM botsresponses");
+		Console::WriteLine("completed!");
+	}
+	public function LoadAchievements(){
+		global $DB,$achievements;
+		Console::Write("Loading Achievements...");
+		$achievements = $DB->mquery("SELECT * FROM achievements");
+		Console::WriteLine("completed!");
+	}
 	public function StatsTasks(){
 		global $users;
 		$memory = $this->get_php_memory();
-		system('title BloonPHP I Users online : '.count($users).' I Rooms loaded : 0 I Memory : '.$memory);
+		Console::SetTitle('BloonCrypto I Users online : '.count($users).' I Rooms loaded : 0 I Memory : '.$memory);
 	}
 	public function get_php_memory(){
 		$mem_usage = memory_get_usage(true); 
@@ -144,7 +251,7 @@ Class Core{
 		}else if ($mem_usage < 1048576){
 			$result = round($mem_usage/1024,2)." Ko"; 
 		}else{
-			$reqult = round($mem_usage/1048576,2)." Mo"; 
+			$result = round($mem_usage/1048576,2)." Mo"; 
 		}
 		return $result;
 	}
