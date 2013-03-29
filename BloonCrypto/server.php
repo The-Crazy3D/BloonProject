@@ -27,6 +27,7 @@ try{
 	unset($CONFIG['mysql']);
 }catch(Exception $error){
 	Console::WriteLine("failed!");
+	Console::WriteLine("Error : ".$error->getMessage());
 	exit;
 }
 Console::WriteLine("completed!");
