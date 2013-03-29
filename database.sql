@@ -1,18 +1,3 @@
-/*
-Navicat MySQL Data Transfer
-
-Source Server         : HabbyFinale
-Source Server Version : 100001
-Source Host           : 91.236.254.65:3306
-Source Database       : blooncrypto
-
-Target Server Type    : MYSQL
-Target Server Version : 100001
-File Encoding         : 65001
-
-Date: 2013-03-29 21:39:24
-*/
-
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
