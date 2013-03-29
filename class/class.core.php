@@ -137,35 +137,16 @@ Class Core{
 		system('title BloonPHP I Users online : '.count($users).' I Rooms loaded : 0 I Memory : '.$memory);
 	}
 	public function get_php_memory(){
-		$output = array(); 
-		exec( 'tasklist /FO LIST', $output );
-		$ramdata = array();
-		$ram = 0;
-		$next = false;
-		foreach($output as $raminfo){
-			if(!$next){
-				if(preg_match("/PID/i", $raminfo)){
-					$ramstr = str_replace("PID", "", $raminfo);
-					$ramstr = str_replace(" ", "", $ramstr);
-					$ramstr = substr($ramstr, 2);
-					$ramstr = intval($ramstr);
-					if(getmypid() == $ramstr){
-						$next = true;
-					}
-				}
-			}else{
-				if(preg_match("/Utilisation/i", $raminfo)){
-					$next = false;
-					$ramstr = str_replace("Utilisation m‚moire: ", "", $raminfo);
-					$ramstr = str_replace(" ", "", $ramstr);
-					$ramstr = str_replace("ÿ", " ", $ramstr);
-					$ramstr = str_replace("Ko", " Ko", $ramstr);
-					$ram = $ramstr;
-					break;
-				}
-			}
+		$mem_usage = memory_get_usage(true); 
+		
+		if ($mem_usage < 1024){
+			$result = $mem_usage." o"; 
+		}else if ($mem_usage < 1048576){
+			$result = round($mem_usage/1024,2)." Ko"; 
+		}else{
+			$reqult = round($mem_usage/1048576,2)." Mo"; 
 		}
-		return $ram;
+		return $result;
 	}
 }
 ?>
