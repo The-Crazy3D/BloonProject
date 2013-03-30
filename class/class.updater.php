@@ -29,18 +29,19 @@
  
 Class Updater{
 	public static function Check(){
-		Console::WriteLine("Checking for update...");
-		
+		Console::WriteLine("Checking for a new build...");
 		$gitbuild = intval(curl_file_get_contents("https://raw.github.com/BurakDev/BloonProject/BloonCrypto/revision"));
 		$localbuild = file_get_contents("revision");
 		Console::WriteLine("Git build : ".$gitbuild.", Local build : ".$localbuild);
 		if($gitbuild == $localbuild){
-			Console::WriteLine("Completed! No update needed.");
+			Console::WriteLine("Completed! No new build.");
+		}else if($gitbuild < $localbuild){
+			Console::WriteLine("What the hell?! You have a better build than all US, are you.... god?");
 		}else if($gitbuild > $localbuild){
-			Console::WriteLine("Completed! BloonCrypto need update !");
+			Console::WriteLine("Completed! BloonCrypto Build ".$gitbuild." has been released  !");
 			Console::WriteLine();
-			Console::WriteLine("If you want update emulator from GitHub, say y (or yes)");
-			Console::WriteLine("The Update will be in the folder : BloonProject-BloonCrypto");
+			Console::WriteLine("If you want to download the new build from GitHub, say y (or yes)");
+			Console::WriteLine("The new build will be in the folder : BloonProject-BloonCrypto");
 			Console::Write(">>> ");
 			$get = trim(fgets(STDIN));
 			Switch($get){
@@ -50,7 +51,7 @@ Class Updater{
 					self::GetZip();
 				break;
 				Default:
-					Console::WriteLine("Okay, emulator is not updated.");
+					Console::WriteLine("No new build for you.");
 				break;
 			}
 		}else{
@@ -68,7 +69,7 @@ Class Updater{
 		Console::WriteLine("Unzip new release...");
 		self::_unzip($filename, './');
 		unlink($filename);
-		Console::WriteLine("Unzip finished. Now emulator close, restart it.");
+		Console::WriteLine("Unzip finished. Now close emulator, remplace the files from your directory by the files on BloonProject-BloonCrypto");
 		exit;
 	}
 	
