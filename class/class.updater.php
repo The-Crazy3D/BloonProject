@@ -5,11 +5,33 @@
  * Based on the work of Burak, edited by BloonCrypto Git Community. (skype: burak.karamahmut)
  * 
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
+ * Thanks to Ligams for this unZip SCRIPT.
  */
+ function curl_file_get_contents($url)
+{
+ $curl = curl_init();
+ $userAgent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.A.B.C Safari/525.13';
+ 
+ curl_setopt($curl,CURLOPT_URL,$url); 
+ curl_setopt($curl,CURLOPT_RETURNTRANSFER,TRUE);
+ curl_setopt($curl,CURLOPT_CONNECTTIMEOUT,10); 
+ curl_setopt($curl, CURLOPT_USERAGENT, $userAgent);
+ curl_setopt($curl, CURLOPT_FAILONERROR, TRUE); 
+ curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
+ curl_setopt($curl, CURLOPT_AUTOREFERER, TRUE);
+ curl_setopt($curl, CURLOPT_TIMEOUT, 10); 	
+ curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+ 
+ $curl_contents = curl_exec($curl);
+ curl_close($curl);
+ return $curl_contents;
+}
+ 
 Class Updater{
 	public static function Check(){
 		Console::WriteLine("Checking for update...");
-		$gitbuild = intval(file_get_contents("http://raw.github.com/BurakDev/BloonProject/BloonCrypto/revision"));
+		
+		$gitbuild = intval(curl_file_get_contents("https://raw.github.com/BurakDev/BloonProject/BloonCrypto/revision"));
 		$localbuild = file_get_contents("revision");
 		Console::WriteLine("Git build : ".$gitbuild.", Local build : ".$localbuild);
 		if($gitbuild == $localbuild){
@@ -41,7 +63,7 @@ Class Updater{
 			unlink($filename);
 		}
 		touch($filename);
-		file_put_contents($filename, file_get_contents("https://github.com/BurakDev/BloonProject/archive/BloonCrypto.zip"));
+		file_put_contents($filename, curl_file_get_contents("https://github.com/BurakDev/BloonProject/archive/BloonCrypto.zip"));
 		Console::WriteLine("Downloaded and writed to disk.");
 		Console::WriteLine("Unzip new release...");
 		self::_unzip($filename, './');
