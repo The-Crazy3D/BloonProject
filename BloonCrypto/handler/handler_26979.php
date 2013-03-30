@@ -6,10 +6,5 @@
  * 
  * https://github.com/BurakDev/BloonProject
  */
-$crossdomain = '<?xml version="1.0"?>
-<!DOCTYPE cross-domain-policy SYSTEM "/xml/dtds/cross-domain-policy.dtd">
-<cross-domain-policy>
-<allow-access-from domain="*" to-ports="1-31111" />
-</cross-domain-policy>'.chr(0);
-Core::send($user->socket, $crossdomain);
+Core::send($user->socket, Core::Crossdomain());
 ?>
