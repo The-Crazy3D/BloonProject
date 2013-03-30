@@ -137,7 +137,8 @@ Class Core{
 		}
 		return $string;
 	}
-	public function GetHeader($packet) {
+	
+	public static function GetHeader($packet) {
 		$packdata = substr($packet, 6);
 		$packet = substr($packet, 4);
 		$len = (strlen($packet)-2);
