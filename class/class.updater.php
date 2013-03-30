@@ -6,6 +6,9 @@
  * 
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  */
-$release = Core::GetNextString($data);
-Core::say("Loaded ".$release[0],1);
+Class Updater{
+	public static function Check(){
+		Console::WriteLine("https://raw.github.com/BurakDev/BloonProject/BloonCrypto/revision");
+	}
+}
 ?>

@@ -4,7 +4,7 @@
  * Habbo R63 Post-Shuffle
  * Based on the work of Burak, edited by BloonCrypto Git Community. (skype: burak.karamahmut)
  * 
- * https://github.com/BurakDev/BloonProject
+ * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  */
 $CONFIG = Array();
 $CONFIG['bindAddr'] = "0.0.0.0"; // Server IP (you can use 0.0.0.0 for allow access from everywhere)
