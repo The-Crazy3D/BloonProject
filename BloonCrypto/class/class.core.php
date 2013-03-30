@@ -20,7 +20,7 @@ Class Core{
 	*	@desc constructor of the class Core
 	*/
 	
-	private function __construct(){
+	public function __construct(){
 	
 	}
 	

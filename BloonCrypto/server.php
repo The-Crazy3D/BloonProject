@@ -21,7 +21,8 @@ require "config.php";
 
 
 $core = New Core;
-Console::Write("Welcome to this ALPHA 1.0 of BloonCrypto...");
+Console::WriteLine("Welcome to this ALPHA 1.0 of BloonCrypto...");
+Console::WriteLine();
 Console::Write("Connecting to database...");
 try{
 	if($CONFIG['mysql']['port'] != 3306){
