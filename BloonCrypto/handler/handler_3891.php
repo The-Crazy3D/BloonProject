@@ -6,7 +6,7 @@
  * 
  * https://github.com/BurakDev/BloonProject
  */
-$key = $core->GetNextString($data);
+$key = Core::GetNextString($data);
 $key = $key[0];
 $key = str_replace("owner:", "", $key);
 $roomlist = $DB->mquery("SELECT u.username,u.id as userid,r.id,r.caption,r.state,r.users_max,r.users_now FROM rooms r,users u WHERE u.username = r.owner AND r.owner LIKE '".$key."%' OR r.caption LIKE '".$key."%' ORDER BY owner");

@@ -149,6 +149,14 @@ Class Core{
 		$say = Array($decode,$packet,$packdata);
 		return $say;
 	}
+	
+	/**
+	*	BufferParser( $buffer )
+	*	@desc return an array according to the buffer sent
+	*	@param $buffer string buffer value
+	*	@return $packet array containing buffer information.
+	*/
+	
 	public static function BufferParser($buffer){
 		$tache = true;
 		$packet = array();
@@ -167,7 +175,15 @@ Class Core{
 		}
 		return $packet;
 	}
-	public function GetNextString($str){
+	
+	/**
+	*	GetNextString( $str )
+	*	@desc ...
+	*	@param $str string
+	*	@return array of string
+	*/
+	
+	public static function GetNextString($str){
 		$stringArray = str_split($str);
 		$stringLenth = HabboEncoding::DecodeBit8($stringArray[0].$stringArray[1])+2;
 		$string = substr($str, 0, $stringLenth);
@@ -277,10 +293,17 @@ Class Core{
 	}
 	public function StatsTasks(){
 		global $users;
-		$memory = $this->get_php_memory();
+		$memory = self::get_php_memory();
 		Console::SetTitle('BloonCrypto I Users online : '.count($users).' I Rooms loaded : 0 I Memory : '.$memory);
 	}
-	public function get_php_memory(){
+	
+	/**
+	*	get_php_memory()
+	*	@desc return the current programm consumtion
+	*	@return $result string (memory + size type)
+	*/
+	
+	public static function get_php_memory(){
 		$mem_usage = memory_get_usage(true); 
 		
 		if ($mem_usage < 1024){

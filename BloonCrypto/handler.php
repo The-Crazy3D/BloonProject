@@ -26,7 +26,7 @@ $Outgoing['loadFriendRequest'] = 1671;
 $Outgoing['loadProfil'] = 2776;
 $Outgoing['loadUserRoomList'] = 2160;
 
-$packet = $core->GetHeader($packet);
+$packet = Core::GetHeader($packet);
 $header = $packet[0];
 $data = $packet[2];
 // Core::say("[".$header."] ".$data,1);
