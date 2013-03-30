@@ -8,7 +8,15 @@
  */
 $roomlist = $DB->mquery("SELECT * FROM rooms WHERE owner = '".$user->username ."'");
 if(!$roomlist){
-	// Aucun appart
+	$construct = New Constructor;
+	$construct->SetHeader($Outgoing['loadUserRoomList']);
+	$construct->SetInt24(5);
+	$construct->SetInt24(0);
+	$construct->SetInt24(0);
+	$construct->SetInt24(0);
+	$construct->SetInt8(0);
+	$construct->SetStr(chr(0));
+	$core->send($user->socket, $construct->get());
 }else{
 	$construct = New Constructor;
 	$construct->SetHeader($Outgoing['loadUserRoomList']);
