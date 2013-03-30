@@ -9,7 +9,7 @@
 $construct = New Constructor;
 $construct->SetHeader($Outgoing['loadProfil']);
 $id = HabboEncoding::DecodeBit24($data);
-$profile = $DB->query("SELECT CONCAT((SELECT COUNT(*) as nb FROM messenger_friendships WHERE user_two_id = ".$id.")) as friend_count,u.last_online,u.username,u.look,u.motto,a.AchievementScore as score FROM users u, user_stats a WHERE u.id = ".$id." AND a.id = ".$id);
+$profile = DB::query("SELECT CONCAT((SELECT COUNT(*) as nb FROM messenger_friendships WHERE user_two_id = ".$id.")) as friend_count,u.last_online,u.username,u.look,u.motto,a.AchievementScore as score FROM users u, user_stats a WHERE u.id = ".$id." AND a.id = ".$id);
 $construct->SetInt24($id);
 $construct->SetStr($profile->username,true);
 $construct->SetStr($profile->look,true);
@@ -20,6 +20,6 @@ $construct->SetInt24($profile->friend_count);
 $construct->SetInt24(256);
 $construct->SetInt24(0);
 $construct->SetInt24(time()-$profile->last_online);
-$core->send($user->socket, $construct->get());
+Core::send($user->socket, $construct->get());
 unset($id,$profile);
 ?>

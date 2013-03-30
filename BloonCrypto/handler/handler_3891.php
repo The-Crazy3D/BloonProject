@@ -9,7 +9,7 @@
 $key = Core::GetNextString($data);
 $key = $key[0];
 $key = str_replace("owner:", "", $key);
-$roomlist = $DB->mquery("SELECT u.username,u.id as userid,r.id,r.caption,r.state,r.users_max,r.users_now FROM rooms r,users u WHERE u.username = r.owner AND r.owner = '".$key."' OR r.caption LIKE '".$key."%' ORDER BY owner");
+$roomlist = DB::mquery("SELECT u.username,u.id as userid,r.id,r.caption,r.state,r.users_max,r.users_now FROM rooms r,users u WHERE u.username = r.owner AND r.owner = '".$key."' OR r.caption LIKE '".$key."%' ORDER BY owner");
 if(!$roomlist){
 	$construct = New Constructor;
 	$construct->SetHeader($Outgoing['loadUserRoomList']);
@@ -19,7 +19,7 @@ if(!$roomlist){
 	$construct->SetInt24(0);
 	$construct->SetInt8(0);
 	$construct->SetStr(chr(0));
-	$core->send($user->socket, $construct->get());
+	Core::send($user->socket, $construct->get());
 }else{
 	$construct = New Constructor;
 	$construct->SetHeader($Outgoing['loadUserRoomList']);
@@ -70,7 +70,7 @@ if(!$roomlist){
 	}
 	$construct->SetInt24(0);
 	$construct->SetInt24(0);
-	$core->send($user->socket, $construct->get());
+	Core::send($user->socket, $construct->get());
 }
 unset($roomlist,$rlist);
 ?>

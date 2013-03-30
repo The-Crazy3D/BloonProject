@@ -11,5 +11,5 @@ $crossdomain = '<?xml version="1.0"?>
 <cross-domain-policy>
 <allow-access-from domain="*" to-ports="1-31111" />
 </cross-domain-policy>'.chr(0);
-$core->send($user->socket, $crossdomain);
+Core::send($user->socket, $crossdomain);
 ?>

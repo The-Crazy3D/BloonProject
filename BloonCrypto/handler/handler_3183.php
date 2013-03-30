@@ -19,12 +19,12 @@ $construct->SetInt24(768);
 $construct->SetInt24(769);
 $construct->SetStr("28/03/2013 11:50:05", true);
 $construct->SetInt8(0);
-$core->send($user->socket, $construct->get());
+Core::send($user->socket, $construct->get());
 unset($construct);
 
 $construct = New Constructor;
 $construct->SetHeader($Outgoing['init8sso']);
 $construct->SetInt24(15);
-$core->send($user->socket, $construct->get());
+Core::send($user->socket, $construct->get());
 unset($construct);
 ?>

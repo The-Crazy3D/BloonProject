@@ -9,14 +9,14 @@
 $ticket = Core::GetNextString($data);
 $data = $ticket[1];
 $ticket = $ticket[0];
-$userdata = $DB->query("SELECT * FROM users WHERE auth_ticket = '".addslashes($ticket)."' LIMIT 1");
+$userdata = DB::query("SELECT * FROM users WHERE auth_ticket = '".addslashes($ticket)."' LIMIT 1");
 if(!$userdata){
-	$core->disconnect($user->socket);
+	Core::disconnect($user->socket);
 }else{
 	if($user->ip != $userdata->ip_last){
-		$core->disconnect($user->socket);
+		Core::disconnect($user->socket);
 	}else{
-		$DB->exec("UPDATE users SET online = '1' AND last_online = '".time()."' WHERE id = '".($userdata->id)."'");
+		DB::exec("UPDATE users SET online = '1' AND last_online = '".time()."' WHERE id = '".($userdata->id)."'");
 		$user->userid = $userdata->id;
 		$user->username = $userdata->username;
 		$user->mail = $userdata->mail;
@@ -43,39 +43,39 @@ if(!$userdata){
 		$construct = New Constructor;
 		$construct->SetHeader($Outgoing['init1sso']);
 		$construct->SetInt8(0);
-		$core->send($user->socket, $construct->get());
+		Core::send($user->socket, $construct->get());
 		unset($construct);
 		
 		$construct = New Constructor;
 		$construct->SetHeader($Outgoing['init2sso']);
-		$core->send($user->socket, $construct->get());
+		Core::send($user->socket, $construct->get());
 		unset($construct);
 		
 		$construct = New Constructor;
 		$construct->SetHeader($Outgoing['init3sso']);
 		$construct->SetInt24($user->userid);
 		$construct->SetInt24(0);
-		$core->send($user->socket, $construct->get());
+		Core::send($user->socket, $construct->get());
 		unset($construct);
 		
 		$construct = New Constructor;
 		$construct->SetHeader($Outgoing['init4sso']);
 		$construct->SetInt24(2);
 		$construct->SetInt24(2);
-		$core->send($user->socket, $construct->get());
+		Core::send($user->socket, $construct->get());
 		unset($construct);
 		
 		$construct = New Constructor;
 		$construct->SetHeader($Outgoing['init5sso']);
 		$construct->SetInt8(256);
-		$core->send($user->socket, $construct->get());
+		Core::send($user->socket, $construct->get());
 		unset($construct);
 		
 		$construct = New Constructor;
 		$construct->SetHeader($Outgoing['init6sso']);
 		$construct->SetInt24(636);
 		$construct->SetInt24(0);
-		$core->send($user->socket, $construct->get());
+		Core::send($user->socket, $construct->get());
 		unset($construct);
 		
 		$construct = New Constructor;
@@ -85,22 +85,22 @@ if(!$userdata){
 		$construct->SetInt24($user->activity_points);
 		$construct->SetInt24(105);
 		$construct->SetInt24(0);
-		$core->send($user->socket, $construct->get());
+		Core::send($user->socket, $construct->get());
 		unset($construct);
 		
 		$construct = New Constructor;
 		$construct->SetHeader($Outgoing['initCredits']);
 		$construct->SetStr($user->credits .".0",true);
-		$core->send($user->socket, $construct->get());
+		Core::send($user->socket, $construct->get());
 		unset($construct);
 		
 		$construct = New Constructor;
 		$construct->SetHeader($Outgoing['initMsg']);
 		$construct->SetStr("Bienvenue sur Bloon ! Le serveur est encore en développement.\nBon jeu à tous !\n\n - Burak.",true);
-		$core->send($user->socket, $construct->get());
+		Core::send($user->socket, $construct->get());
 		unset($construct);
 		
-		$friend = $DB->mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_friendships m, users u WHERE m.user_one_id = ".$user->userid ." AND u.id = m.user_two_id ORDER BY -online;");
+		$friend = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_friendships m, users u WHERE m.user_one_id = ".$user->userid ." AND u.id = m.user_two_id ORDER BY -online;");
 		
 		$construct = New Constructor;
 		$construct->SetHeader($Outgoing['loadFriend']);
@@ -126,10 +126,10 @@ if(!$userdata){
 			$construct->SetInt8(257);
 			$construct->SetStr(chr(0));
 		}
-		$core->send($user->socket, $construct->get());
+		Core::send($user->socket, $construct->get());
 		unset($construct,$friend,$fdata);
 		
-		$request = $DB->mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_requests m, users u WHERE m.to_id = ".$user->userid ." AND u.id = m.from_id;");
+		$request = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_requests m, users u WHERE m.to_id = ".$user->userid ." AND u.id = m.from_id;");
 		$construct = New Constructor;
 		$construct->SetHeader($Outgoing['loadFriendRequest']);
 		$construct->SetInt24(count($request));
@@ -139,7 +139,7 @@ if(!$userdata){
 			$construct->SetStr($rdata->username,true);
 			$construct->SetStr($rdata->look,true);
 		}
-		$core->send($user->socket, $construct->get());
+		Core::send($user->socket, $construct->get());
 		unset($construct,$request,$rdata);
 	}
 }

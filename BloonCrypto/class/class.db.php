@@ -7,7 +7,7 @@
  * https://github.com/BurakDev/BloonProject
  */
 Class DB{
-	public function query($req){
+	public static function query($req){
 		global $sql;
 		$exe = $sql->prepare($req);
 		$exe->execute();
@@ -17,7 +17,7 @@ Class DB{
 			return $exe->fetch(PDO::FETCH_OBJ);
 		}
 	}
-	public function mquery($req){
+	public static function mquery($req){
 		global $sql;
 		$exe = $sql->prepare($req);
 		$exe->execute();
@@ -31,13 +31,13 @@ Class DB{
 			return $result;
 		}
 	}
-	public function numrows($req){
+	public static function numrows($req){
 		global $sql;
 		$exe = $sql->prepare($req);
 		$exe->execute();
 		return $exe->rowCount();
 	}
-	public function exec($req){
+	public static function exec($req){
 		global $sql;
 		$exe = $sql->prepare($req);
 		$exe->execute();

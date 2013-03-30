@@ -19,8 +19,6 @@ Console::SetTitle("Loading BloonCrypto...");
 require "config.php";
 
 
-
-$core = New Core;
 Console::WriteLine("Welcome to this ALPHA 1.0 of BloonCrypto...");
 Console::WriteLine();
 Console::Write("Connecting to database...");
@@ -38,26 +36,26 @@ try{
 	exit;
 }
 Console::WriteLine("completed!");
-$DB = New DB;
-$core->OnStartTasks();
-$master  = $core->Socket($CONFIG['bindAddr'],$CONFIG['bindPort']);
+
+Core::OnStartTasks();
+$master  = Core::Socket($CONFIG['bindAddr'],$CONFIG['bindPort']);
 $sockets = array($master);
 $users   = array();
 
 while(true){
-  $core->StatsTasks();
+  Core::StatsTasks();
   $changed = $sockets;
   socket_select($changed,$write=NULL,$except=NULL,NULL);
   foreach($changed as $socket){
     if($socket==$master){
       $client=socket_accept($master);
       if($client<0){ continue; }
-      else{ $core->connect($client); }
+      else{ Core::connect($client); }
     }else{
       $bytes = @socket_recv($socket,$buffer,2048,0);
-      if($bytes==0){ $core->disconnect($socket); }
+      if($bytes==0){ Core::disconnect($socket); }
       else{
-        $user = $core->getuserbysocket($socket);
+        $user = Core::getuserbysocket($socket);
 		$packets = Core::BufferParser($buffer);
 		foreach($packets as $packet){
 			require "handler.php";
