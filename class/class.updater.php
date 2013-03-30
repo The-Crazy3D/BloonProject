@@ -7,29 +7,30 @@
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  * Thanks to Ligams for this unZip SCRIPT.
  */
- function curl_load($url)
-{
- $curl = curl_init();
- $userAgent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.A.B.C Safari/525.13';
  
- curl_setopt($curl,CURLOPT_URL,$url); 
- curl_setopt($curl,CURLOPT_RETURNTRANSFER,TRUE);
- curl_setopt($curl,CURLOPT_CONNECTTIMEOUT,10); 
- curl_setopt($curl, CURLOPT_USERAGENT, $userAgent);
- curl_setopt($curl, CURLOPT_FAILONERROR, TRUE); 
- curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
- curl_setopt($curl, CURLOPT_AUTOREFERER, TRUE);
- curl_setopt($curl, CURLOPT_TIMEOUT, 10); 	
- curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
- 
- $curl_contents = curl_exec($curl);
- curl_close($curl);
- return $curl_contents;
-}
  
 Class Updater{
 	public static function Check(){
 		Console::WriteLine("Checking for a new build...");
+	public static function curl_load($url)
+		{
+ 		$curl = curl_init();
+ 		$userAgent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.A.B.C Safari/525.13';
+ 
+ 		curl_setopt($curl,CURLOPT_URL,$url); 
+ 		curl_setopt($curl,CURLOPT_RETURNTRANSFER,TRUE);
+		curl_setopt($curl,CURLOPT_CONNECTTIMEOUT,10); 
+		curl_setopt($curl, CURLOPT_USERAGENT, $userAgent);
+ 		curl_setopt($curl, CURLOPT_FAILONERROR, TRUE); 
+ 		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
+ 		curl_setopt($curl, CURLOPT_AUTOREFERER, TRUE);
+ 		curl_setopt($curl, CURLOPT_TIMEOUT, 10); 	
+		curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+ 
+		$curl_contents = curl_exec($curl);
+ 		curl_close($curl);
+ 		return $curl_contents;
+		}
 		$gitbuild = intval(curl_load("https://raw.github.com/BurakDev/BloonProject/BloonCrypto/revision"));
 		$localbuild = file_get_contents("revision");
 		Console::WriteLine("Git build : ".$gitbuild.", Local build : ".$localbuild);
