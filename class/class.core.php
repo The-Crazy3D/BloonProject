@@ -295,7 +295,7 @@ Class Core{
 	public static function StatsTasks(){
 		global $users;
 		$memory = self::get_php_memory();
-		Console::SetTitle('BloonCrypto I Users online : '.count($users).' I Rooms loaded : 0 I Memory : '.$memory);
+		Console::SetTitle('BloonCrypto - Users online : '.count($users).' - Rooms loaded : 0 - Memory : '.$memory);
 	}
 	
 	/**
