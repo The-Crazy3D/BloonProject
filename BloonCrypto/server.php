@@ -58,7 +58,7 @@ while(true){
       if($bytes==0){ $core->disconnect($socket); }
       else{
         $user = $core->getuserbysocket($socket);
-		$packets = $core->BufferParser($buffer);
+		$packets = Core::BufferParser($buffer);
 		foreach($packets as $packet){
 			require "handler.php";
 		}

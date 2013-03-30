@@ -149,7 +149,7 @@ Class Core{
 		$say = Array($decode,$packet,$packdata);
 		return $say;
 	}
-	public function BufferParser($buffer){
+	public static function BufferParser($buffer){
 		$tache = true;
 		$packet = array();
 		while($tache){
