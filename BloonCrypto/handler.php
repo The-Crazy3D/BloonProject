@@ -29,7 +29,7 @@ $Outgoing['loadUserRoomList'] = 2160;
 $packet = $core->GetHeader($packet);
 $header = $packet[0];
 $data = $packet[2];
-// $core->say("[".$header."] ".$data,1);
+// Core::say("[".$header."] ".$data,1);
 $filepath = ("handler/handler_".$header.".php");
 if(file_exists($filepath)){
 	@include($filepath);

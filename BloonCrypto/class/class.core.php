@@ -7,7 +7,44 @@
  * https://github.com/BurakDev/BloonProject
  */
 Class Core{
-	public function say($msg="",$type=""){
+
+	/**
+	*	$_instance
+	*	@desc single instance of the core class
+	*/
+	
+	private static $_instance = null;
+	
+	/**
+	*	__construct()
+	*	@desc constructor of the class Core
+	*/
+	
+	private function __construct(){
+	
+	}
+	
+	/**
+	*	getInstance()
+	*	@desc get the Core singleton
+	*	@return Core instance
+	*/
+	
+	public static function getInstance(){
+		if( self::$_instance === null )
+			self::$_instance = new self();
+		return self::$_instance;
+	}
+	
+	/**
+	*	say( $msg, $type )
+	*	@version 1.1 (became static to be respectfull with POO rules)
+	*	@param $msg string content of the message
+	*	@param $type int type of message (should we print the current date ?)
+	*	@desc display the specified message
+	*/
+	
+	public static function say($msg="",$type=""){
 		$print = "";
 		if($type == 1){
 			$print.= "[".date("d-m-Y")." ".date("H:i")."] ";
@@ -47,7 +84,7 @@ Class Core{
 		if($users[$i]->socket==$socket){ $found=$i; break; }
 	  }
 	  $usertemp = $this->getuserbysocket($socket);
-	  $this->say("[".$usertemp->countconnection ."] Connection lost from ".$usertemp->ip,1);
+	  self::say("[".$usertemp->countconnection ."] Connection lost from ".$usertemp->ip,1);
 	  if(!is_null($found)){ array_splice($users,$found,1); }
 	  $index = array_search($socket,$sockets);
 	  socket_close($socket);
@@ -61,7 +98,7 @@ Class Core{
 	  socket_getpeername($socket, $ip, $port);
 	  if($CONFIG['ipaccess']){
 		if(!in_array($ip, $CONFIG['ipaccesslist'])){
-			$this->Say("Connection from ".$ip." but blacklisted.",1);
+			self::say("Connection from ".$ip." but blacklisted.",1);
 			socket_close($socket);
 			return false;
 		}
@@ -72,7 +109,7 @@ Class Core{
 	  $user->ip = $ip;
 	  $user->port = $port;
 	  $user->countconnection = $countconnection;
-	  $this->say("[".$countconnection."] Connection from ".$ip,1);
+	  self::say("[".$countconnection."] Connection from ".$ip,1);
 	  $countconnection++;
 	  array_push($users,$user);
 	  array_push($sockets,$socket);
@@ -89,7 +126,7 @@ Class Core{
 	}
 	public function send($client,$msg){
 	  socket_write($client,$msg,strlen($msg));
-	  // $this->say(">> ".$msg);
+	  // self::say(">> ".$msg);
 	}
 	public function HexaString($hex){
 		$string='';

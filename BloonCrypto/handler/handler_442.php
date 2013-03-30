@@ -39,7 +39,7 @@ if(!$userdata){
 		$user->vip = $userdata->vip;
 		$user->volume = $userdata->volume;
 		$user->accept_trading = $userdata->accept_trading;
-		$core->Say($user->username ." logged in !",1);
+		Core::say($user->username ." logged in !",1);
 		$construct = New Constructor;
 		$construct->SetHeader($Outgoing['init1sso']);
 		$construct->SetInt8(0);

@@ -7,5 +7,5 @@
  * https://github.com/BurakDev/BloonProject
  */
 $release = $core->GetNextString($data);
-$core->say("Loaded ".$release[0],1);
+Core::say("Loaded ".$release[0],1);
 ?>
