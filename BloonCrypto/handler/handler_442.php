@@ -6,7 +6,7 @@
  * 
  * https://github.com/BurakDev/BloonProject
  */
-$ticket = $Core::GetNextString($data);
+$ticket = Core::GetNextString($data);
 $data = $ticket[1];
 $ticket = $ticket[0];
 $userdata = $DB->query("SELECT * FROM users WHERE auth_ticket = '".addslashes($ticket)."' LIMIT 1");
