@@ -7,7 +7,7 @@
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  */
 $construct = New Constructor;
-$construct->SetHeader($Outgoing['initUser']);
+$construct->SetHeader(Packet::GetHeader('initUser'));
 $construct->SetInt24($user->userid);
 $construct->SetStr($user->username,true);
 $construct->SetStr($user->look,true);
@@ -23,7 +23,7 @@ Core::send($user->socket, $construct->get());
 unset($construct);
 
 $construct = New Constructor;
-$construct->SetHeader($Outgoing['init8sso']);
+$construct->SetHeader(Packet::GetHeader('init8sso'));
 $construct->SetInt24(15);
 Core::send($user->socket, $construct->get());
 unset($construct);

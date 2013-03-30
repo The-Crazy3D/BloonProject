@@ -9,7 +9,7 @@
 $roomlist = DB::mquery("SELECT * FROM rooms WHERE owner = '".$user->username ."'");
 if(!$roomlist){
 	$construct = New Constructor;
-	$construct->SetHeader($Outgoing['loadUserRoomList']);
+	$construct->SetHeader(Packet::GetHeader('loadUserRoomList'));
 	$construct->SetInt24(5);
 	$construct->SetInt24(0);
 	$construct->SetInt24(0);
@@ -19,7 +19,7 @@ if(!$roomlist){
 	Core::send($user->socket, $construct->get());
 }else{
 	$construct = New Constructor;
-	$construct->SetHeader($Outgoing['loadUserRoomList']);
+	$construct->SetHeader(Packet::GetHeader('loadUserRoomList'));
 	$construct->SetInt24(5);
 	$construct->SetInt8(0);
 	$construct->SetInt24(count($roomlist));

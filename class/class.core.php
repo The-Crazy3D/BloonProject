@@ -115,6 +115,11 @@ Class Core{
 	  array_push($sockets,$socket);
 	}
 	public static function Socket($address,$port){
+	  $fp = @fsockopen($address, $port, $errno, $errstr, 0.5);
+	  if($fp){
+	    Console::WriteLine("Can't bind ".$address.":".$port." because is already used by other program.");
+		exit;
+	  }
 	  $master=socket_create(AF_INET, SOCK_STREAM, SOL_TCP)     or die("socket_create() failed");
 	  socket_set_option($master, SOL_SOCKET, SO_REUSEADDR, 1)  or die("socket_option() failed");
 	  socket_bind($master, $address, $port)                    or die("socket_bind() failed");

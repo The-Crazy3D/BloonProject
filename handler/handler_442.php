@@ -41,45 +41,45 @@ if(!$userdata){
 		$user->accept_trading = $userdata->accept_trading;
 		Core::say($user->username ." logged in !",1);
 		$construct = New Constructor;
-		$construct->SetHeader($Outgoing['init1sso']);
+		$construct->SetHeader(Packet::GetHeader('init1sso'));
 		$construct->SetInt8(0);
 		Core::send($user->socket, $construct->get());
 		unset($construct);
 		
 		$construct = New Constructor;
-		$construct->SetHeader($Outgoing['init2sso']);
+		$construct->SetHeader(Packet::GetHeader('init2sso'));
 		Core::send($user->socket, $construct->get());
 		unset($construct);
 		
 		$construct = New Constructor;
-		$construct->SetHeader($Outgoing['init3sso']);
+		$construct->SetHeader(Packet::GetHeader('init3sso'));
 		$construct->SetInt24($user->userid);
 		$construct->SetInt24(0);
 		Core::send($user->socket, $construct->get());
 		unset($construct);
 		
 		$construct = New Constructor;
-		$construct->SetHeader($Outgoing['init4sso']);
+		$construct->SetHeader(Packet::GetHeader('init4sso'));
 		$construct->SetInt24(2);
 		$construct->SetInt24(2);
 		Core::send($user->socket, $construct->get());
 		unset($construct);
 		
 		$construct = New Constructor;
-		$construct->SetHeader($Outgoing['init5sso']);
+		$construct->SetHeader(Packet::GetHeader('init5sso'));
 		$construct->SetInt8(256);
 		Core::send($user->socket, $construct->get());
 		unset($construct);
 		
 		$construct = New Constructor;
-		$construct->SetHeader($Outgoing['init6sso']);
+		$construct->SetHeader(Packet::GetHeader('init6sso'));
 		$construct->SetInt24(636);
 		$construct->SetInt24(0);
 		Core::send($user->socket, $construct->get());
 		unset($construct);
 		
 		$construct = New Constructor;
-		$construct->SetHeader($Outgoing['init7sso']);
+		$construct->SetHeader(Packet::GetHeader('init7sso'));
 		$construct->SetInt24(2);
 		$construct->SetInt24(0);
 		$construct->SetInt24($user->activity_points);
@@ -89,13 +89,13 @@ if(!$userdata){
 		unset($construct);
 		
 		$construct = New Constructor;
-		$construct->SetHeader($Outgoing['initCredits']);
+		$construct->SetHeader(Packet::GetHeader('initCredits'));
 		$construct->SetStr($user->credits .".0",true);
 		Core::send($user->socket, $construct->get());
 		unset($construct);
 		
 		$construct = New Constructor;
-		$construct->SetHeader($Outgoing['initMsg']);
+		$construct->SetHeader(Packet::GetHeader('initMsg'));
 		$construct->SetStr("Bienvenue sur Bloon ! Le serveur est encore en développement.\nBon jeu à tous !\n\n - Burak.",true);
 		Core::send($user->socket, $construct->get());
 		unset($construct);
@@ -103,7 +103,7 @@ if(!$userdata){
 		$friend = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_friendships m, users u WHERE m.user_one_id = ".$user->userid ." AND u.id = m.user_two_id ORDER BY -online;");
 		
 		$construct = New Constructor;
-		$construct->SetHeader($Outgoing['loadFriend']);
+		$construct->SetHeader(Packet::GetHeader('loadFriend'));
 		$construct->SetInt24(1100);
 		$construct->SetInt24(300);
 		$construct->SetInt24(800);
@@ -131,7 +131,7 @@ if(!$userdata){
 		
 		$request = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_requests m, users u WHERE m.to_id = ".$user->userid ." AND u.id = m.from_id;");
 		$construct = New Constructor;
-		$construct->SetHeader($Outgoing['loadFriendRequest']);
+		$construct->SetHeader(Packet::GetHeader('loadFriendRequest'));
 		$construct->SetInt24(count($request));
 		$construct->SetInt24(count($request));
 		foreach($request as $rdata){

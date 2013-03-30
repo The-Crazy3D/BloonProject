@@ -14,16 +14,24 @@ spl_autoload_register(function ($class) {
     include 'class/class.' . $class . '.php';
 });
 
-Updater::Check();
+loadClass("updater");
+loadClass("console");
 
-Console::SetTitle("Loading BloonCrypto...");
+// Updater::Check();
+Async::call(array("Updater", "Check"), array());
+
+// Console::SetTitle("Loading BloonCrypto...");
+Async::call(array("Console", "SetTitle"), array("Loading BloonCrypto..."));
 
 require "config.php";
 
 
-Console::WriteLine("Welcome to this ALPHA 1.0 of BloonCrypto...");
-Console::WriteLine();
-Console::Write("Connecting to database...");
+// Console::WriteLine("Welcome to this ALPHA 1.3 of BloonCrypto...");
+Async::call(array("Console", "WriteLine"), array("Welcome to this ALPHA 1.3 of BloonCrypto..."));
+// Console::WriteLine();
+Async::call(array("Console", "WriteLine"), array());
+// Console::Write("Connecting to database...");
+Async::call(array("Console", "WriteLine"), array("Connecting to database..."));
 try{
 	if($CONFIG['mysql']['port'] != 3306){
 		$portext = chr(58).$CONFIG['mysql']['port'];
@@ -33,13 +41,17 @@ try{
 	@$sql = new PDO('mysql:host='.$CONFIG['mysql']['host'].$portext.';dbname='.$CONFIG['mysql']['database'], $CONFIG['mysql']['user'], $CONFIG['mysql']['password']);
 	unset($CONFIG['mysql']);
 }catch(Exception $error){
-	Console::WriteLine("failed!");
-	Console::WriteLine("Error : ".$error->getMessage());
+	// Console::WriteLine("failed!");
+	Async::call(array("Console", "WriteLine"), array("failed!"));
+	// Console::WriteLine("Error : ".$error->getMessage());
+	Async::call(array("Console", "WriteLine"), array("Error : ".$error->getMessage()));
 	exit;
 }
-Console::WriteLine("completed!");
+// Console::WriteLine("completed!");
+Async::call(array("Console", "WriteLine"), array("completed!"));
 
 Core::OnStartTasks();
+
 $master  = Core::Socket($CONFIG['bindAddr'],$CONFIG['bindPort']);
 $sockets = array($master);
 $users   = array();
@@ -60,11 +72,23 @@ while(true){
         $user = Core::getuserbysocket($socket);
 		$packets = Core::BufferParser($buffer);
 		foreach($packets as $packet){
-			require "handler.php";
+			$packet = Core::GetHeader($packet);
+			$header = $packet[0];
+			$data = $packet[2];
+			// Core::say("[".$header."] ".$data,1);
+			$filepath = ("handler/handler_".$header.".php");
+			if(file_exists($filepath)){
+				@include($filepath);
+			}
+			unset($packet,$header,$construct,$data,$crossdomain,$ticket,$userdata,$filepath);
 		}
 		unset($packets,$buffer);
       }
     }
   }
+}
+
+function loadClass($class){
+	include 'class/class.' . $class . '.php';
 }
 ?>
