@@ -10,8 +10,7 @@
  
  
 Class Updater{
-	public static function curl_load($url)
-		{
+	public static function curl_load($url){
  		$curl = curl_init();
  		$userAgent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.A.B.C Safari/525.13';
  
@@ -28,10 +27,10 @@ Class Updater{
 		$curl_contents = curl_exec($curl);
  		curl_close($curl);
  		return $curl_contents;
-		}
+	}
 	public static function Check(){
 		Console::WriteLine("Checking for a new build...");
-		$gitbuild = intval(curl_load("https://raw.github.com/BurakDev/BloonProject/BloonCrypto/revision"));
+		$gitbuild = intval(self::curl_load("https://raw.github.com/BurakDev/BloonProject/BloonCrypto/revision"));
 		$localbuild = file_get_contents("revision");
 		Console::WriteLine("Git build : ".$gitbuild.", Local build : ".$localbuild);
 		if($gitbuild == $localbuild){
@@ -55,7 +54,6 @@ Class Updater{
 					Console::WriteLine("No new build for you.");
 				break;
 			}
-		}else{
 		}
 	}
 	public static function GetZip(){
@@ -65,7 +63,7 @@ Class Updater{
 			unlink($filename);
 		}
 		touch($filename);
-		file_put_contents($filename, curl_load("https://github.com/BurakDev/BloonProject/archive/BloonCrypto.zip"));
+		file_put_contents($filename, self::curl_load("https://github.com/BurakDev/BloonProject/archive/BloonCrypto.zip"));
 		Console::WriteLine("Downloaded and writed to disk.");
 		Console::WriteLine("Unzip new release...");
 		self::_unzip($filename, './');
@@ -73,53 +71,50 @@ Class Updater{
 		Console::WriteLine("Unzip finished. Now close emulator, remplace the files from your directory by the files on BloonProject-BloonCrypto");
 		exit;
 	}
-	
+	public static function _unzip($zipfile, $dest){
+		if (extension_loaded('zip')){
+		$zip = zip_open($zipfile);	
+		if (substr( $dest, strlen( $dest ) - 1 ) != '/')
+		$dest = $dest . '/';
 
-function _unzip($zipfile, $dest)
-{
-if (extension_loaded('zip')){
-$zip = zip_open($zipfile);	
-if (substr( $dest, strlen( $dest ) - 1 ) != '/')
-$dest = $dest . '/';
+		if ($zip){
+		while ($zip_entry = zip_read($zip))
+		{
+		$file = zip_entry_name($zip_entry);
+		$aFolderStructure = preg_split('@[\\|/]@', $file);
 
-if ($zip){
-while ($zip_entry = zip_read($zip))
-{
-$file = zip_entry_name($zip_entry);
-$aFolderStructure = preg_split('@[\\|/]@', $file);
+		if (count($aFolderStructure) > 1){
+		for ($i = 0; $i < count($aFolderStructure) - 1; $i++){
+		$dossierFull = $dest;
+		for ($j = 0; $j < count($aFolderStructure) - 1; $j++){
+		if (substr( $dossierFull, strlen( $dossierFull ) - 1 ) != '/')
+		$dossierFull = $dossierFull . '/';
 
-if (count($aFolderStructure) > 1){
-for ($i = 0; $i < count($aFolderStructure) - 1; $i++){
-$dossierFull = $dest;
-for ($j = 0; $j < count($aFolderStructure) - 1; $j++){
-if (substr( $dossierFull, strlen( $dossierFull ) - 1 ) != '/')
-$dossierFull = $dossierFull . '/';
+		$dossierFull = $dossierFull . $aFolderStructure[$j];
+		}
 
-$dossierFull = $dossierFull . $aFolderStructure[$j];
-}
+		if (!file_exists($dossierFull) && !is_dir($dossierFull))
+		mkdir($dossierFull, 0666);
+		}
+		}
 
-if (!file_exists($dossierFull) && !is_dir($dossierFull))
-mkdir($dossierFull, 0666);
-}
-}
+		if(!is_dir($dest . $file)){
+		$fp = @fopen($dest . $file, "w+");
 
-if(!is_dir($dest . $file)){
-$fp = @fopen($dest . $file, "w+");
+		if(zip_entry_open($zip, $zip_entry, "r")){
+		$buf = zip_entry_read($zip_entry, zip_entry_filesize($zip_entry));
+		zip_entry_close($zip_entry);
+		}
 
-if(zip_entry_open($zip, $zip_entry, "r")){
-$buf = zip_entry_read($zip_entry, zip_entry_filesize($zip_entry));
-zip_entry_close($zip_entry);
-}
-
-fwrite($fp, $buf);
-fclose($fp);
-}
-}
-zip_close($zip);
-return true;
-}
-return false;
-}
-}
+		fwrite($fp, $buf);
+		fclose($fp);
+		}
+		}
+		zip_close($zip);
+		return true;
+		}
+		return false;
+		}
+	}
 }
 ?>
