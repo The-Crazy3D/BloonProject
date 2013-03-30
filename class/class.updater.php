@@ -7,7 +7,7 @@
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  * Thanks to Ligams for this unZip SCRIPT.
  */
- function curl_file_get_contents($url)
+ function function curl_load($url)
 {
  $curl = curl_init();
  $userAgent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.A.B.C Safari/525.13';
@@ -30,13 +30,13 @@
 Class Updater{
 	public static function Check(){
 		Console::WriteLine("Checking for a new build...");
-		$gitbuild = intval(curl_file_get_contents("https://raw.github.com/BurakDev/BloonProject/BloonCrypto/revision"));
+		$gitbuild = intval(curl_load("https://raw.github.com/BurakDev/BloonProject/BloonCrypto/revision"));
 		$localbuild = file_get_contents("revision");
 		Console::WriteLine("Git build : ".$gitbuild.", Local build : ".$localbuild);
 		if($gitbuild == $localbuild){
 			Console::WriteLine("Completed! No new build.");
 		}else if($gitbuild < $localbuild){
-			Console::WriteLine("What the hell?! You have a better build than all US, are you.... god?");
+			Console::WriteLine("Better build impossibru..");
 		}else if($gitbuild > $localbuild){
 			Console::WriteLine("Completed! BloonCrypto Build ".$gitbuild." has been released  !");
 			Console::WriteLine();
@@ -64,7 +64,7 @@ Class Updater{
 			unlink($filename);
 		}
 		touch($filename);
-		file_put_contents($filename, curl_file_get_contents("https://github.com/BurakDev/BloonProject/archive/BloonCrypto.zip"));
+		file_put_contents($filename, curl_load("https://github.com/BurakDev/BloonProject/archive/BloonCrypto.zip"));
 		Console::WriteLine("Downloaded and writed to disk.");
 		Console::WriteLine("Unzip new release...");
 		self::_unzip($filename, './');
