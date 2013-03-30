@@ -14,6 +14,8 @@ spl_autoload_register(function ($class) {
     include 'class/class.' . $class . '.php';
 });
 
+Updater::Check();
+
 Console::SetTitle("Loading BloonCrypto...");
 
 require "config.php";
