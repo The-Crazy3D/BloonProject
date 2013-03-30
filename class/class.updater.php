@@ -31,7 +31,7 @@ Class Updater{
 	public static function Check(){
 		Console::WriteLine("Checking for a new build...");
 		$gitbuild = intval(curl_load("https://raw.github.com/BurakDev/BloonProject/BloonCrypto/revision"));
-		$localbuild = file_get_contents("revision");
+		$localbuild = curl_load("revision");
 		Console::WriteLine("Git build : ".$gitbuild.", Local build : ".$localbuild);
 		if($gitbuild == $localbuild){
 			Console::WriteLine("Completed! No new build.");
