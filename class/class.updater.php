@@ -7,7 +7,7 @@
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  * Thanks to Ligams for this unZip SCRIPT.
  */
- function function curl_load($url)
+ function curl_load($url)
 {
  $curl = curl_init();
  $userAgent = 'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US) AppleWebKit/525.13 (KHTML, like Gecko) Chrome/0.A.B.C Safari/525.13';
