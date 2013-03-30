@@ -29,9 +29,13 @@ Class Updater{
  		return $curl_contents;
 	}
 	public static function Check(){
+		$localbuild = file_get_contents("revision");
+		if($localbuild == "dev-custom"){
+			Console::WriteLine("No-update for hardcore developer :D");
+			return true;
+		}
 		Console::WriteLine("Checking for a new build...");
 		$gitbuild = intval(self::curl_load("https://raw.github.com/BurakDev/BloonProject/BloonCrypto/revision"));
-		$localbuild = file_get_contents("revision");
 		Console::WriteLine("Git build : ".$gitbuild.", Local build : ".$localbuild);
 		if($gitbuild == $localbuild){
 			Console::WriteLine("Completed! No new build.");
