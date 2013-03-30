@@ -10,8 +10,6 @@
  
  
 Class Updater{
-	public static function Check(){
-		Console::WriteLine("Checking for a new build...");
 	public static function curl_load($url)
 		{
  		$curl = curl_init();
@@ -31,6 +29,8 @@ Class Updater{
  		curl_close($curl);
  		return $curl_contents;
 		}
+	public static function Check(){
+		Console::WriteLine("Checking for a new build...");
 		$gitbuild = intval(curl_load("https://raw.github.com/BurakDev/BloonProject/BloonCrypto/revision"));
 		$localbuild = file_get_contents("revision");
 		Console::WriteLine("Git build : ".$gitbuild.", Local build : ".$localbuild);
