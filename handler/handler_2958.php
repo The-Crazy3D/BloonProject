@@ -7,7 +7,6 @@
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  */
 $roomlist = DB::mquery("SELECT u.username,u.id as userid,r.id,r.caption,r.state,r.users_max,r.users_now FROM rooms r,users u WHERE u.username = r.owner AND r.users_now > 0 ORDER BY -r.users_now LIMIT 50");
-print_r($roomlist);
 if(!$roomlist){
 	$construct = New Constructor;
 	$construct->SetHeader(Packet::GetHeader('loadUserRoomList'));
