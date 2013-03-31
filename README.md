@@ -3,7 +3,8 @@
 BloonCrypto : a new Habbo EMU based on the latest habbo official revision created with PHP.
 
 You want to join US ? Contact US on Skype : burak.karamahmut
-## Revision 1305
+
+## Revision 13105
 
 * Starting programming multithread on PHP emulator
 * Fix a lot of minnor issue
@@ -12,8 +13,10 @@ You want to join US ? Contact US on Skype : burak.karamahmut
 * Fix a security major issue
 * Fix handler system (Enhanced handler)
 * Add a system in updater class, if you change revision code to "dev-custom", the script will not check the build. (Only for devs.)
+* Add navigation features
+* Fix a medium issue(when the user haven't any friends requests, he will be disconnected.. that's fixed)
 
-## Revision 1200
+## Revision 12000
 
 * Added crossdomain function to core.
 * Edit class function to static method.
