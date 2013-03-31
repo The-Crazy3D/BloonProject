@@ -14,7 +14,7 @@ To run the EMU you'll need these PHP extensions activated :
 
 ### Revision 13105
 
-* Starting programming multithread on PHP emulator
+* Starting add multithread (/w pthread) on PHP emulator
 * Add pthread php extension
 * Fix a lot of minnor issue
 * Fix the update-downloader
