@@ -96,9 +96,10 @@ if(!$userdata){
 		
 		$construct = New Constructor;
 		$construct->SetHeader(Packet::GetHeader('initMsg'));
-		$construct->SetStr("Bienvenue sur Bloon ! Le serveur est encore en développement.\nBon jeu à tous !\n\n - Burak.",true);
+		$motd = DB::query("SELECT motd FROM server_settings");
+		$construct->SetStr($motd->motd,true);
 		Core::send($user->socket, $construct->get());
-		unset($construct);
+		unset($construct,$motd);
 		
 		$friend = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_friendships m, users u WHERE m.user_one_id = ".$user->userid ." AND u.id = m.user_two_id ORDER BY -online;");
 		
@@ -130,16 +131,18 @@ if(!$userdata){
 		unset($construct,$friend,$fdata);
 		
 		$request = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_requests m, users u WHERE m.to_id = ".$user->userid ." AND u.id = m.from_id;");
-		$construct = New Constructor;
-		$construct->SetHeader(Packet::GetHeader('loadFriendRequest'));
-		$construct->SetInt24(count($request));
-		$construct->SetInt24(count($request));
-		foreach($request as $rdata){
-			$construct->SetInt24($rdata->id);
-			$construct->SetStr($rdata->username,true);
-			$construct->SetStr($rdata->look,true);
+		if($request){
+			$construct = New Constructor;
+			$construct->SetHeader(Packet::GetHeader('loadFriendRequest'));
+			$construct->SetInt24(count($request));
+			$construct->SetInt24(count($request));
+			foreach($request as $rdata){
+				$construct->SetInt24($rdata->id);
+				$construct->SetStr($rdata->username,true);
+				$construct->SetStr($rdata->look,true);
+			}
+			Core::send($user->socket, $construct->get());
 		}
-		Core::send($user->socket, $construct->get());
 		unset($construct,$request,$rdata);
 	}
 }
