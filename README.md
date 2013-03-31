@@ -4,9 +4,18 @@ BloonCrypto : a new Habbo EMU based on the latest habbo official revision create
 
 You want to join US ? Contact US on Skype : burak.karamahmut
 
-## Revision 13105
+## Requierments
+To run the EMU you'll need these PHP extensions activated :
+
+* OpenSSL (updater and ssl support)
+* Zip (updater class)
+* cURL (updater class)
+* pThread (multithreadering)
+
+### Revision 13105
 
 * Starting programming multithread on PHP emulator
+* Add pthread php extension
 * Fix a lot of minnor issue
 * Fix the update-downloader
 * Performance enhancement
@@ -16,7 +25,7 @@ You want to join US ? Contact US on Skype : burak.karamahmut
 * Add navigation features
 * Fix a medium issue(when the user haven't any friends requests, he will be disconnected.. that's fixed)
 
-## Revision 12000
+### Revision 12000
 
 * Added crossdomain function to core.
 * Edit class function to static method.
