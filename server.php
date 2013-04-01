@@ -77,7 +77,9 @@ while(true){
 			$packet = Core::GetHeader($packet);
 			$header = $packet[0];
 			$data = $packet[2];
-			Core::say("[".$header."] ".$data,1);
+			if($CONFIG['debug']){
+				Core::say("[".$header."] ".$data,1);
+			}
 			$filepath = ("handler/handler_".$header.".php");
 			if(file_exists($filepath)){
 				@include($filepath);
