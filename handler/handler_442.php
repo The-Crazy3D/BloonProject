@@ -13,9 +13,9 @@ $userdata = DB::query("SELECT * FROM users WHERE auth_ticket = '".addslashes($ti
 if(!$userdata){
 	Core::disconnect($user->socket);
 }else{
-	if($user->ip != $userdata->ip_last){
-		Core::disconnect($user->socket);
-	}else{
+	// if($user->ip != $userdata->ip_last){
+		// Core::disconnect($user->socket);
+	// }else{
 		DB::exec("UPDATE users SET online = '1' AND last_online = '".time()."' WHERE id = '".($userdata->id)."'");
 		$user->userid = $userdata->id;
 		$user->username = $userdata->username;
@@ -104,7 +104,7 @@ if(!$userdata){
 		unset($construct,$motd);
 		
 		$friend = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_friendships m, users u WHERE m.user_one_id = ".$user->userid ." AND u.id = m.user_two_id ORDER BY -online;");
-		
+		if($friend){
 		$construct = New Constructor;
 		$construct->SetHeader(Packet::GetHeader('loadFriend'));
 		$construct->SetInt24(1100);
@@ -131,6 +131,7 @@ if(!$userdata){
 		}
 		Core::send($user->socket, $construct->get());
 		unset($construct,$friend,$fdata);
+		}
 		
 		$request = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_requests m, users u WHERE m.to_id = ".$user->userid ." AND u.id = m.from_id;");
 		if($request){
@@ -146,6 +147,6 @@ if(!$userdata){
 			Core::send($user->socket, $construct->get());
 		}
 		unset($construct,$request,$rdata);
-	}
+	// }
 }
 ?>

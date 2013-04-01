@@ -18,7 +18,7 @@ $construct->SetInt24(0);
 $construct->SetInt24($color);
 $construct->SetInt24(0);
 $construct->SetStr(chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF));
-Core::send($user->socket, $construct->get());
+Core::SendToRoom($user->room_id, $construct->get());
 
 unset($split,$message,$color);
 ?>

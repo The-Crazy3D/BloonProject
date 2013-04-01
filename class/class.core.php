@@ -133,8 +133,11 @@ Class Core{
 	  return $master;
 	}
 	public static function send($client,$msg){
+		global $CONFIG;
 	  socket_write($client,$msg,strlen($msg));
-	  // self::say(">> ".$msg);
+	  if($CONFIG['debug']){
+		self::say("[OUTGOING]".$msg,1);
+	  }
 	}
 	public static function HexaString($hex){
 		$string='';
@@ -355,8 +358,8 @@ Class Core{
 	}
 	public static function GetMap(){
 		$map=array();
-		for($x=1;$x<=20;$x++){
-			for($y=1;$y<=20;$y++){
+		for($x=1;$x<=60;$x++){
+			for($y=1;$y<=60;$y++){
 				// $rand=rand(1,4);
 				// if($rand==1){
 					// $map[$x.'x'.$y]=array('weight'=>'3.0');
@@ -391,6 +394,24 @@ Class Core{
 			return 0;
 		}
 		return 0;
+	}
+	public static function GetUserByRoom($room){
+		global $users;
+		$array = array();
+		foreach($users as $user){
+			if($room == $user->room_id){
+				$array[] = $user;
+			}
+		}
+		return $array;
+	}
+	public static function SendToRoom($room, $packet){
+		global $users;
+		foreach($users as $user){
+			if($room == $user->room_id){
+				self::send($user->socket, $packet);
+			}
+		}
 	}
 }
 ?>

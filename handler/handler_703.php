@@ -75,7 +75,7 @@ if($user->pos_x == 0){
 		$construct->SetInt24($rotate);
 		$construct->SetStr("/flatcrtl 4 useradmin/".$addin,true);
 		usleep(500000);
-		Core::send($user->socket, $construct->get());
+		Core::SendToRoom($user->room_id, $construct->get());
 		$user->pos_x = $xc;
 		$user->pos_y = $yc;
 		unset($xf,$yf,$addin);
