@@ -26,7 +26,7 @@ Console::SetTitle("Loading BloonCrypto...");
 require "config.php";
 
 
-Console::WriteLine("Welcome to this ALPHA 1.3 of BloonCrypto...");
+Console::WriteLine("Welcome to this ALPHA 2.0 of BloonCrypto...");
 // Async::call(array("Console", "WriteLine"), array("Welcome to this ALPHA 1.3 of BloonCrypto..."));
 Console::WriteLine();
 // Async::call(array("Console", "WriteLine"), array());

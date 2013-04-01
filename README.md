@@ -10,8 +10,18 @@ To run the EMU you'll need these PHP extensions activated :
 * OpenSSL (updater and ssl support)
 * Zip (updater class)
 * cURL (updater class)
-* pThread (multithreadering)
+* pThreads (multithreading)
 
+
+### Revision 20000 (working Alpha)
+
+* Rooms enhanced
+* Pathfinder coded
+* Chat coded (shout,say)
+* Chat color coded
+* Minor bug fix
+* Added some feature
+* Added full support of PHP 5.4 (thanks to Ethis)
 
 ### Revision 13506
 
@@ -24,7 +34,7 @@ To run the EMU you'll need these PHP extensions activated :
 ### Revision 13105
 
 * Starting add multithread (/w pthread) on PHP emulator
-* Add pthread php extension
+* Add pthreads php extension
 * Fix a lot of minnor issue
 * Fix the update-downloader
 * Performance enhancement
