@@ -225,7 +225,7 @@ Class Core{
 	}
 	public static function CleanUpDatabase(){
 		Console::Write("Cleaning up database...");
-		DB::exec("UPDATE user SET online = '0'");
+		DB::exec("UPDATE users SET online = '0'");
 		DB::exec("UPDATE rooms SET users_now = '0'");
 		Console::WriteLine("completed!");
 	}
