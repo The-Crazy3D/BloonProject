@@ -14,24 +14,24 @@ spl_autoload_register(function ($class) {
     include 'class/class.' . $class . '.php';
 });
 
-loadClass("updater");
-loadClass("console");
+// loadClass("updater");
+// loadClass("console");
 
-// Updater::Check();
-Async::call(array("Updater", "Check"), array());
+Updater::Check();
+// Async::call(array("Updater", "Check"), array());
 
-// Console::SetTitle("Loading BloonCrypto...");
-Async::call(array("Console", "SetTitle"), array("Loading BloonCrypto..."));
+Console::SetTitle("Loading BloonCrypto...");
+// Async::call(array("Console", "SetTitle"), array("Loading BloonCrypto..."));
 
 require "config.php";
 
 
-// Console::WriteLine("Welcome to this ALPHA 1.3 of BloonCrypto...");
-Async::call(array("Console", "WriteLine"), array("Welcome to this ALPHA 1.3 of BloonCrypto..."));
-// Console::WriteLine();
-Async::call(array("Console", "WriteLine"), array());
-// Console::Write("Connecting to database...");
-Async::call(array("Console", "WriteLine"), array("Connecting to database..."));
+Console::WriteLine("Welcome to this ALPHA 1.3 of BloonCrypto...");
+// Async::call(array("Console", "WriteLine"), array("Welcome to this ALPHA 1.3 of BloonCrypto..."));
+Console::WriteLine();
+// Async::call(array("Console", "WriteLine"), array());
+Console::Write("Connecting to database...");
+// Async::call(array("Console", "Write"), array("Connecting to database..."));
 try{
 	if($CONFIG['mysql']['port'] != 3306){
 		$portext = chr(58).$CONFIG['mysql']['port'];
@@ -41,14 +41,14 @@ try{
 	@$sql = new PDO('mysql:host='.$CONFIG['mysql']['host'].$portext.';dbname='.$CONFIG['mysql']['database'], $CONFIG['mysql']['user'], $CONFIG['mysql']['password']);
 	unset($CONFIG['mysql']);
 }catch(Exception $error){
-	// Console::WriteLine("failed!");
-	Async::call(array("Console", "WriteLine"), array("failed!"));
-	// Console::WriteLine("Error : ".$error->getMessage());
-	Async::call(array("Console", "WriteLine"), array("Error : ".$error->getMessage()));
+	Console::WriteLine("failed!");
+	// Async::call(array("Console", "WriteLine"), array("failed!"));
+	Console::WriteLine("Error : ".$error->getMessage());
+	// Async::call(array("Console", "WriteLine"), array("Error : ".$error->getMessage()));
 	exit;
 }
-// Console::WriteLine("completed!");
-Async::call(array("Console", "WriteLine"), array("completed!"));
+Console::WriteLine("completed!");
+// Async::call(array("Console", "WriteLine"), array("completed!"));
 
 Core::OnStartTasks();
 

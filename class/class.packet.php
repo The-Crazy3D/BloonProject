@@ -27,6 +27,19 @@ Class Packet{
 		$Outgoing['loadProfil'] = 2776;
 		$Outgoing['loadUserRoomList'] = 2160;
 		$Outgoing['loadPublicRoom'] = 3700;
+		$Outgoing['loadRoomInfo1'] = 3798;
+		$Outgoing['loadRoomInfo2'] = 999;
+		$Outgoing['loadRoomInfo3'] = 3663;
+		$Outgoing['loadRoomInfo4'] = 1496;
+		$Outgoing['loadRoomInfo5'] = 213;
+		$Outgoing['loadRoomInfo6'] = 3401;
+		$Outgoing['loadRoomModel1'] = 9;
+		$Outgoing['loadRoomModel2'] = 2483;
+		$Outgoing['loadRoom1'] = 3580;
+		$Outgoing['loadRoom2'] = 3096;
+		$Outgoing['loadRoomUser'] = 2204;
+		$Outgoing['loadRoom3'] = 939;
+		$Outgoing['loadRoom4'] = 15361;
 		if(isset($Outgoing[$name])){
 			return $Outgoing[$name];
 		}else{

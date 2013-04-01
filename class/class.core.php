@@ -189,11 +189,19 @@ Class Core{
 	*	@return array of string
 	*/
 	
-	public static function GetNextString($str){
+	public static function GetNextString($str,$mode=false){
 		$stringArray = str_split($str);
-		$stringLenth = HabboEncoding::DecodeBit8($stringArray[0].$stringArray[1])+2;
+		if($mode){
+			$stringLenth = HabboEncoding::DecodeBit8($stringArray[0].$stringArray[1])+4;
+		}else{
+			$stringLenth = HabboEncoding::DecodeBit8($stringArray[0].$stringArray[1])+2;
+		}
 		$string = substr($str, 0, $stringLenth);
-		$string = substr($string, 2);
+		if($mode){
+			$string = substr($string, 4);
+		}else{
+			$string = substr($string, 2);
+		}
 		$reste = substr($str, $stringLenth);
 		return Array($string, $reste);
 	}
@@ -211,7 +219,7 @@ Class Core{
 		self::LoadRoomAds();
 		self::LoadBots();
 		self::LoadAchievements();
-		Console::Beep();
+		// Console::Beep();
 		self::StatsTasks();
 	}
 	public static function LoadBans(){
@@ -326,6 +334,14 @@ Class Core{
 		<cross-domain-policy>
 		<allow-access-from domain="*" to-ports="1-31111" />
 		</cross-domain-policy>'.chr(0);
+	}
+	public static function GetModel($name){
+		global $roommodels;
+		foreach($roommodels as $model){
+			if($name == $model->id){
+				return $model;
+			}
+		}
 	}
 }
 ?>

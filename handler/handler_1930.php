@@ -24,6 +24,6 @@ foreach($navigatorpublics as $public){
 	$construct->SetStr(chr(1));
 	$construct->SetInt24(0);
 }
-Core::send($user->socket, $construct->get());
+//Core::send($user->socket, $construct->get());
 unset($public);
 ?>
