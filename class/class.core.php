@@ -364,5 +364,30 @@ Class Core{
 		}
 		return $map;
 	}
+	public static function RotationCalculate($one,$two){
+		$one_x = $one[0];
+		$one_y = $one[1];
+		$two_x = $two[0];
+		$two_y = $two[1];
+		
+		if($one_x > $two_x && $one_y > $two_y){
+			return 7;
+		}else if($one_x < $two_x && $one_y < $two_y){
+			return 3;
+		}else if($one_x > $two_x && $one_y < $two_y){
+			return 5;
+		}else if($one_x < $two_x && $one_y > $two_y){
+			return 1;
+		}else if($one_x > $two_x){
+			return 6;
+		}else if($one_x < $two_x){
+			return 2;
+		}else if($one_y < $two_y){
+			return 4;
+		}else if($one_y > $two_y){
+			return 0;
+		}
+		return 0;
+	}
 }
 ?>

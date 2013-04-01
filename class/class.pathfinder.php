@@ -68,8 +68,10 @@ class PathFinder{
             $this->findPath($this->origX,$this->origY);
             return $this->path;
         } else {
-            echo 'Insufficient data, please define origin and destination points and a map';
-            die();
+            // echo 'Insufficient data, please define origin and destination points and a map';
+            // die();
+			$this->setOrigin(1,1);
+			Console::WriteLine("WARNING !! PATHFINDER CRITICAL ERROR !");
         }
     }
     
@@ -111,7 +113,7 @@ class PathFinder{
                                 if(!in_array($checkX.'x'.$checkY,$this->walked)){
                                     $weight=$this->map[$checkX.'x'.$checkY]['weight'];
                                     if($this->diagonal==1 || !(($x==-1 && $y==-1) || ($x==-1 && $y==1) || ($x==1 && $y==-1) || ($x==1 && $y==1)) && $weight<$this->impassable){
-                                        $weight=(($x==-1 && $y==-1) || ($x==-1 && $y==1) || ($x==1 && $y==-1) || ($x==1 && $y==1))?$weight*1.4:$weight;
+                                        $weight=(($x==-1 && $y==-1) || ($x==-1 && $y==1) || ($x==1 && $y==-1) || ($x==1 && $y==1))?$weight:$weight;
                                         $estimatedCost=$this->estimatedCost($checkX,$checkY,$weight);
                                         if($estimatedCost<$lowestEstimatedCost || $lowestEstimatedCost==0){
                                             $lowestEstimatedCost=$estimatedCost;

@@ -7,7 +7,7 @@
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  */
 Core::LoadNavigatorPublics();
-print_r($navigatorpublics);
+// print_r($navigatorpublics);
 $construct = New Constructor;
 $construct->SetHeader(Packet::GetHeader('loadPublicRoom'));
 $construct->SetInt24(count($navigatorpublics));

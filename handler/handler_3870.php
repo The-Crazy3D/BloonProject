@@ -17,6 +17,7 @@ switch($action){
 		$data = $split[1];
 		switch($go){
 			case "go.me":
+			case "go.search":
 				$split = Core::GetNextString($data);
 				$roomid = $split[0];
 				$data = $split[1];
@@ -116,6 +117,7 @@ switch($action){
 				$user->room_id = $roomid;
 				$user->pos_x = $model->door_x;
 				$user->pos_y = $model->door_y;
+				DB::exec("UPDATE rooms SET users_now = users_now+1 WHERE id = '".$user->room_id."'");
 			break;
 			Default:
 				Console::WriteLine("Undefined go : ".$go);
