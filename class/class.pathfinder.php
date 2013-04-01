@@ -5,6 +5,7 @@
  * Based on the work of Burak, edited by BloonCrypto Git Community. (skype: burak.karamahmut)
  * 
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
+ * Pathfinder was found here : http://waher.net/archives/313
  */
 class PathFinder{
     

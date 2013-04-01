@@ -34,5 +34,9 @@ Class User{
 	var $vip;
 	var $volume;
 	var $accept_trading;
+	var $room_id;
+	var $pos_x;
+	var $pos_y;
+	var $pos_z;
 }
 ?>

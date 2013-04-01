@@ -99,6 +99,23 @@ switch($action){
 				/*$construct = New Constructor;
 				$construct->SetHeader(Packet::GetHeader('loadRoom4'));
 				$construct->SetInt24($user->userid);*/
+				$construct = New Constructor;
+				$construct->SetHeader(Packet::GetHeader('pathfinding'));
+				$construct->SetInt24(1);
+				$construct->SetInt24(0);
+				$construct->SetInt24($model->door_x);
+				$construct->SetInt24($model->door_y);
+				$construct->SetInt8(1);
+				$construct->SetStr(chr(0x30));
+				$construct->SetInt24(2);
+				$construct->SetInt24(2);
+				$construct->SetStr("/flatcrtl 4 useradmin/",true);
+				Core::send($user->socket, $construct->get());
+				unset($construct);
+				
+				$user->room_id = $roomid;
+				$user->pos_x = $model->door_x;
+				$user->pos_y = $model->door_y;
 			break;
 			Default:
 				Console::WriteLine("Undefined go : ".$go);

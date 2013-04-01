@@ -350,5 +350,19 @@ Class Core{
 			}
 		}
 	}
+	public static function GetMap(){
+		$map=array();
+		for($x=1;$x<=20;$x++){
+			for($y=1;$y<=20;$y++){
+				// $rand=rand(1,4);
+				// if($rand==1){
+					// $map[$x.'x'.$y]=array('weight'=>'3.0');
+				// } else {
+					$map[$x.'x'.$y]=array('weight'=>'1.0');
+				// }
+			}
+		}
+		return $map;
+	}
 }
 ?>

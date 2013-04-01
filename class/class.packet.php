@@ -40,6 +40,7 @@ Class Packet{
 		$Outgoing['loadRoomUser'] = 2204;
 		$Outgoing['loadRoom3'] = 939;
 		$Outgoing['loadRoom4'] = 15361;
+		$Outgoing['pathfinding'] = 493;
 		if(isset($Outgoing[$name])){
 			return $Outgoing[$name];
 		}else{
