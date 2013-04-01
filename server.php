@@ -59,7 +59,9 @@ $users   = array();
 while(true){
   Core::StatsTasks();
   $changed = $sockets;
-  socket_select($changed,$write=NULL,$except=NULL,NULL);
+  $write=NULL;
+  $except=NULL;
+  socket_select($changed,$write,$except,NULL);
   foreach($changed as $socket){
     if($socket==$master){
       $client=socket_accept($master);
