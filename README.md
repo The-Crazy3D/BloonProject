@@ -13,12 +13,13 @@ To run the EMU you'll need these PHP extensions activated :
 * pThread (multithreadering)
 
 
-### Revision 13505
+### Revision 13506
 
 * Public navigator added.
 * Rooms added, but not finish yet.
 * Minor update.
 * Minor fix.
+* Fix for PHP5.4
 
 ### Revision 13105
 
