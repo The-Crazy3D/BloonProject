@@ -12,6 +12,14 @@ To run the EMU you'll need these PHP extensions activated :
 * cURL (updater class)
 * pThread (multithreadering)
 
+
+### Revision 13505
+
+* Public navigator added.
+* Rooms added, but not finish yet.
+* Minor update.
+* Minor fix.
+
 ### Revision 13105
 
 * Starting add multithread (/w pthread) on PHP emulator
