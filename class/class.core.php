@@ -221,6 +221,13 @@ Class Core{
 		self::LoadAchievements();
 		// Console::Beep();
 		self::StatsTasks();
+		self::CleanUpDatabase();
+	}
+	public static function CleanUpDatabase(){
+		Console::Write("Cleaning up database...");
+		DB::exec("UPDATE user SET online = '0'");
+		DB::exec("UPDATE rooms SET users_now = '0'");
+		Console::WriteLine("completed!");
 	}
 	public static function LoadBans(){
 		global $bans;
