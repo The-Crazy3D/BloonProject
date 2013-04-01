@@ -1,0 +1,20 @@
+703 : Pathfinder
+1953 : talkShout
+4000 : SWF RELEASE
+2958 : Top rooms list
+1650 : load room data
+3350 : show own room list
+1611 : user profile
+2115 : create room window
+2996 : init crypto
+3891 : search room
+3870 : enter room
+26979 : policy file request
+command : chat command file
+3183 : init user
+1930 : navigator publics
+840 : init crypto
+1447 : leave room
+1548 : chat say
+2431 : create room
+442 : sso login

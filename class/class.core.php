@@ -84,6 +84,9 @@ Class Core{
 		if($users[$i]->socket==$socket){ $found=$i; break; }
 	  }
 	  $usertemp = self::getuserbysocket($socket);
+	  if(is_numeric($usertemp->room_id)){
+		DB::exec("UPDATE rooms SET users_now = users_now-1 WHERE id = '".$usertemp->room_id."'");
+	  }
 	  self::say("[".$usertemp->countconnection ."] Connection lost from ".$usertemp->ip,1);
 	  if(!is_null($found)){ array_splice($users,$found,1); }
 	  $index = array_search($socket,$sockets);

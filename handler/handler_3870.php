@@ -21,6 +21,10 @@ switch($action){
 				$split = Core::GetNextString($data);
 				$roomid = $split[0];
 				$data = $split[1];
+				if(is_numeric($user->room_id)){
+					DB::exec("UPDATE rooms SET users_now = users_now-1 WHERE id = '".$user->room_id."'");
+					unset($user->room_id);
+				}
 				$roominfo = DB::query("SELECT * FROM rooms WHERE id = '".$roomid."'");
 				$model = Core::GetModel($roominfo->model_name);
 				$heightmap = str_replace(chr(10), "", $model->heightmap .chr(0x0D));
@@ -120,12 +124,12 @@ switch($action){
 				DB::exec("UPDATE rooms SET users_now = users_now+1 WHERE id = '".$user->room_id."'");
 			break;
 			Default:
-				Console::WriteLine("Undefined go : ".$go);
+				// Console::WriteLine("Undefined go : ".$go);
 			break;
 		}
 	break;
 	Default:
-		Console::WriteLine("Undefined action : ".$action);
+		// Console::WriteLine("Undefined action : ".$action);
 	break;
 }
 unset($split,$roomid,$roominfo,$heightmap);

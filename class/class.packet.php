@@ -43,6 +43,8 @@ Class Packet{
 		$Outgoing['pathfinding'] = 493;
 		$Outgoing['talkShout'] = 3165;
 		$Outgoing['talkSay'] = 2119;
+		$Outgoing['createRoomWindow'] = 3859;
+		$Outgoing['createRoom'] = 290;
 		if(isset($Outgoing[$name])){
 			return $Outgoing[$name];
 		}else{
