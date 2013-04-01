@@ -13,9 +13,9 @@ $CONFIG['ipaccess'] = true; // Configure a access by ip to the server
 $CONFIG['ipaccesslist'] = Array("127.0.0.1"); // List of ip if ipaccess is enabled (true)
 $CONFIG['debug'] = false; // active debug or not
 $CONFIG['mysql'] = Array();
-$CONFIG['mysql']['host'] = "91.236.254.65"; // SQL Host IP (no hostname)
+$CONFIG['mysql']['host'] = "127.0.0.1"; // SQL Host IP (no hostname)
 $CONFIG['mysql']['port'] = 3306; // SQL Host Port (MySQL use 3306 by default)
 $CONFIG['mysql']['user'] = "root"; // SQL User Name (root by default)
-$CONFIG['mysql']['database'] = "blooncrypto"; // SQL Database
-$CONFIG['mysql']['password'] = "mariakey"; // SQL Password
+$CONFIG['mysql']['database'] = "database"; // SQL Database
+$CONFIG['mysql']['password'] = "password"; // SQL Password
 ?>
