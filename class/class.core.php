@@ -268,7 +268,7 @@ Class Core{
 	public static function LoadNavigatorPublics(){
 		global $navigatorpublics;
 		Console::Write("Loading Navigator Publics...");
-		$navigatorpublics = DB::mquery("SELECT * FROM navigator_publics");
+		$navigatorpublics = DB::mquery("SELECT * FROM navigator_publics ORDER BY -ordernum");
 		Console::WriteLine("completed!");
 	}
 	public static function LoadRoomModels(){

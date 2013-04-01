@@ -26,6 +26,7 @@ Class Packet{
 		$Outgoing['loadFriendRequest'] = 1671;
 		$Outgoing['loadProfil'] = 2776;
 		$Outgoing['loadUserRoomList'] = 2160;
+		$Outgoing['loadPublicRoom'] = 3700;
 		if(isset($Outgoing[$name])){
 			return $Outgoing[$name];
 		}else{
