@@ -87,6 +87,7 @@ if($user->pos_x == 0){
 		Core::SendToAllRoom($user->room_id, $construct->get());
 		$user->pos_x = $xc;
 		$user->pos_y = $yc;
+		$user->rotate = $rotate;
 		unset($xf,$yf,$addin);
 	}
 	unset($construct,$map,$path,$result,$coord);

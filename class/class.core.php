@@ -76,6 +76,14 @@ Class Core{
 	  }
 	  return $found;
 	}
+	public static function getuserbyuserid($socket){
+	  global $users;
+	  $found=null;
+	  foreach($users as $user){
+		if($user->userid==$socket){ $found=$user; break; }
+	  }
+	  return $found;
+	}
 	public static function disconnect($socket){
 	  global $sockets,$users;
 	  $found=null;
@@ -85,7 +93,18 @@ Class Core{
 	  }
 	  $usertemp = self::getuserbysocket($socket);
 	  if(is_numeric($usertemp->room_id)){
+		$construct = New Constructor;
+		$construct->SetHeader(Packet::GetHeader('userLeaveRoom'));
+		$construct->SetStr($usertemp->userid,true);
+		self::SendToRoom($usertemp->room_id, $construct->get(),$usertemp->userid);
 		DB::exec("UPDATE rooms SET users_now = users_now-1 WHERE id = '".$usertemp->room_id."'");
+	  }
+	  if(is_numeric($usertemp->userid)){
+		$friend = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_friendships m, users u WHERE m.user_one_id = ".$user->userid ." AND u.id = m.user_two_id AND u.online = '1' ORDER BY -online;");
+		
+		foreach($friend as $fuser){
+			self::LoadFriendBar($fuser->id);
+		}
 	  }
 	  self::say("[".$usertemp->countconnection ."] Connection lost from ".$usertemp->ip,1);
 	  if(!is_null($found)){ array_splice($users,$found,1); }
@@ -429,6 +448,44 @@ Class Core{
 			if($room == $user->room_id){
 				self::send($user->socket, $packet);
 			}
+		}
+	}
+	public static function SendToAll($packet){
+		global $users;
+		foreach($users as $user){
+			self::send($user->socket, $packet);
+		}
+	}
+	public static function LoadFriendBar($userid){
+		$user = self::getuserbyuserid($userid);
+		$friend = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_friendships m, users u WHERE m.user_one_id = ".$user->userid ." AND u.id = m.user_two_id ORDER BY -online;");
+		if($friend){
+		$construct = New Constructor;
+		$construct->SetHeader(Packet::GetHeader('loadFriend'));
+		$construct->SetInt24(1100);
+		$construct->SetInt24(300);
+		$construct->SetInt24(800);
+		$construct->SetInt24(1100);
+		$construct->SetInt24(0);
+		$construct->SetInt24(count($friend));
+		foreach($friend as $fdata){
+			$construct->SetInt24($fdata->id);
+			$construct->SetStr($fdata->username,true);
+			$construct->SetInt24(0);
+			if($fdata->online == 1){
+				$construct->SetInt8(257);
+			}else{
+				$construct->SetInt8(0);
+			}
+			$construct->SetStr($fdata->look,true);
+			$construct->SetInt24(0);
+			$construct->SetStr($fdata->motto,true);
+			$construct->SetInt24(0);
+			$construct->SetInt8(257);
+			$construct->SetStr(chr(0));
+		}
+		self::send($user->socket, $construct->get());
+		unset($construct,$friend,$fdata);
 		}
 	}
 }

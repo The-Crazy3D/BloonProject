@@ -79,7 +79,9 @@ switch($action){
 				$construct->SetInt24(0);
 				Core::send($user->socket, $construct->get());
 				unset($construct);
-				
+				$user->pos_x = $model->door_x;
+				$user->pos_y = $model->door_y;
+				$user->rotate = $model->door_dir;
 				$userlist = Core::GetUserByRoom($roomid);
 				// print_r($userlist);
 				$construct = New Constructor;
@@ -91,8 +93,8 @@ switch($action){
 					$construct->SetStr($roomuser->motto,true);
 					$construct->SetStr($roomuser->look,true);
 					$construct->SetInt24($roomuser->userid);
-					$construct->SetInt24($model->door_x);
-					$construct->SetInt24($model->door_y);
+					$construct->SetInt24($roomuser->pos_x);
+					$construct->SetInt24($roomuser->pos_y);
 					$construct->SetInt8(1);
 					$construct->SetStr(chr(0x30));
 					$construct->SetInt24(2);
@@ -153,8 +155,6 @@ switch($action){
 				$construct->SetStr("/flatcrtl 4 useradmin/",true);
 				Core::send($user->socket, $construct->get());
 				unset($construct);
-				$user->pos_x = $model->door_x;
-				$user->pos_y = $model->door_y;
 				DB::exec("UPDATE rooms SET users_now = users_now+1 WHERE id = '".$user->room_id."'");
 			break;
 			Default:
