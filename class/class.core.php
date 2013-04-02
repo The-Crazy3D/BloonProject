@@ -488,5 +488,19 @@ Class Core{
 		unset($construct,$friend,$fdata);
 		}
 	}
+	public static function PermissionRank($rank, $permission){
+		global $permissions;
+		foreach($permissions['ranks'] as $perm){
+			if($perm->rank == $rank){
+				if(isset($perm->$permission)){
+					if($perm->$permission == 1){
+						return true;
+					}else{
+						return false;
+					}
+				}
+			}
+		}
+	}
 }
 ?>
