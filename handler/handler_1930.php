@@ -14,7 +14,9 @@ $construct->SetInt24(count($navigatorpublics));
 foreach($navigatorpublics as $public){
 	$construct->SetInt24($public->id);
 	$construct->SetStr($public->caption,true);
-	$construct->SetInt24(0);
+	$construct->SetStr($public->descrption,true);
+	// $construct->SetInt24(0);
+	$construct->SetInt8(0);
 	$construct->SetInt24(0);
 	$construct->SetStr($public->image,true);
 	$construct->SetInt24(0);
@@ -24,6 +26,6 @@ foreach($navigatorpublics as $public){
 	$construct->SetStr(chr(1));
 	$construct->SetInt24(0);
 }
-//Core::send($user->socket, $construct->get());
+// Core::send($user->socket, $construct->get());
 unset($public);
 ?>

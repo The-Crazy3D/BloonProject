@@ -18,3 +18,4 @@ command : chat command file
 1548 : chat say
 2431 : create room
 442 : sso login
+1157 : dance

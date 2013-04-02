@@ -192,6 +192,7 @@ Class Core{
 	*	GetNextString( $str )
 	*	@desc ...
 	*	@param $str string
+	*	@param @mode boolean
 	*	@return array of string
 	*/
 	
@@ -212,6 +213,7 @@ Class Core{
 		return Array($string, $reste);
 	}
 	public static function OnStartTasks(){
+		self::LoadServerSettings();
 		self::LoadBans();
 		self::LoadRoles();
 		self::LoadHelpCategories();
@@ -233,6 +235,12 @@ Class Core{
 		Console::Write("Cleaning up database...");
 		DB::exec("UPDATE users SET online = '0'");
 		DB::exec("UPDATE rooms SET users_now = '0'");
+		Console::WriteLine("completed!");
+	}
+	public static function LoadServerSettings(){
+		global $serversettings;
+		Console::Write("Loading Server Settings...");
+		$serversettings = DB::query("SELECT * FROM server_settings");
 		Console::WriteLine("completed!");
 	}
 	public static function LoadBans(){
@@ -405,7 +413,17 @@ Class Core{
 		}
 		return $array;
 	}
-	public static function SendToRoom($room, $packet){
+	public static function SendToRoom($room, $packet,$mode=""){
+		global $users;
+		foreach($users as $user){
+			if($room == $user->room_id){
+				if(is_numeric($mode) && $mode != $user->userid){
+					self::send($user->socket, $packet);
+				}
+			}
+		}
+	}
+	public static function SendToAllRoom($room, $packet){
 		global $users;
 		foreach($users as $user){
 			if($room == $user->room_id){

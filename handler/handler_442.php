@@ -16,7 +16,6 @@ if(!$userdata){
 	// if($user->ip != $userdata->ip_last){
 		// Core::disconnect($user->socket);
 	// }else{
-		DB::exec("UPDATE users SET online = '1' AND last_online = '".time()."' WHERE id = '".($userdata->id)."'");
 		$user->userid = $userdata->id;
 		$user->username = $userdata->username;
 		$user->mail = $userdata->mail;
@@ -45,7 +44,7 @@ if(!$userdata){
 		$construct->SetInt8(0);
 		Core::send($user->socket, $construct->get());
 		unset($construct);
-		
+		DB::exec("UPDATE users SET online = '1' WHERE id = '".$user->userid ."'");
 		Core::send($user->socket, Core::HexaString('00 00 00 F7 02 07 00 00 00 09 00 14 56 4F 54 45 5F 49 4E 5F 43 4F 4D 50 45 54 49 54 49 4F 4E 53 01 00 00 00 05 54 52 41 44 45 01 00 00 00 07 43 49 54 49 5A 45 4E 01 00 00 00 09 53 41 46 45 5F 43 48 41 54 01 00 00 00 09 46 55 4C 4C 5F 43 48 41 54 01 00 00 00 0F 43 41 4C 4C 5F 4F 4E 5F 48 45 4C 50 45 52 53 01 00 00 00 09 53 41 46 45 5F 43 48 41 54 01 00 00 00 0E 55 53 45 5F 47 55 49 44 45 5F 54 4F 4F 4C 00 00 26 72 65 71 75 69 72 65 6D 65 6E 74 2E 75 6E 66 75 6C 66 69 6C 6C 65 64 2E 68 65 6C 70 65 72 5F 6C 65 76 65 6C 5F 34 00 12 4A 55 44 47 45 5F 43 48 41 54 5F 52 45 56 49 45 57 53 00 00 26 72 65 71 75 69 72 65 6D 65 6E 74 2E 75 6E 66 75 6C 66 69 6C 6C 65 64 2E 68 65 6C 70 65 72 5F 6C 65 76 65 6C 5F 36 00 09 53 41 46 45 5F 43 48 41 54 01 00 00'));
 		
 		$construct = New Constructor;
@@ -98,8 +97,7 @@ if(!$userdata){
 		
 		$construct = New Constructor;
 		$construct->SetHeader(Packet::GetHeader('initMsg'));
-		$motd = DB::query("SELECT motd FROM server_settings");
-		$construct->SetStr($motd->motd,true);
+		$construct->SetStr($serversettings->motd,true);
 		Core::send($user->socket, $construct->get());
 		unset($construct,$motd);
 		

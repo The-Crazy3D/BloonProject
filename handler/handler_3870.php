@@ -81,7 +81,7 @@ switch($action){
 				unset($construct);
 				
 				$userlist = Core::GetUserByRoom($roomid);
-				print_r($userlist);
+				// print_r($userlist);
 				$construct = New Constructor;
 				$construct->SetHeader(Packet::GetHeader('loadRoomUser'));
 				$construct->SetInt24(count($userlist));
@@ -90,7 +90,7 @@ switch($action){
 					$construct->SetStr($roomuser->username,true);
 					$construct->SetStr($roomuser->motto,true);
 					$construct->SetStr($roomuser->look,true);
-					$construct->SetInt24(0);
+					$construct->SetInt24($roomuser->userid);
 					$construct->SetInt24($model->door_x);
 					$construct->SetInt24($model->door_y);
 					$construct->SetInt8(1);
@@ -100,10 +100,32 @@ switch($action){
 					$construct->SetStr(strtolower($roomuser->gender),true);
 					$construct->SetStr(chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF));
 					$construct->SetInt24(0);
-					$construct->SetInt24(5);
+					$construct->SetInt24(15);
 				}
 				
 				Core::send($user->socket, $construct->get());
+				unset($construct);
+				
+				$construct = New Constructor;
+				$construct->SetHeader(Packet::GetHeader('loadRoomUser'));
+				$construct->SetInt24(1);
+				$construct->SetInt24($user->userid);
+				$construct->SetStr($user->username,true);
+				$construct->SetStr($user->motto,true);
+				$construct->SetStr($user->look,true);
+				$construct->SetInt24($user->userid);
+				$construct->SetInt24($model->door_x);
+				$construct->SetInt24($model->door_y);
+				$construct->SetInt8(1);
+				$construct->SetStr(chr(0x30));
+				$construct->SetInt24(2);
+				$construct->SetInt24(1);
+				$construct->SetStr(strtolower($user->gender),true);
+				$construct->SetStr(chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF));
+				$construct->SetInt24(0);
+				$construct->SetInt24(0);
+				
+				Core::SendToRoom($user->room_id, $construct->get(),$user->userid);
 				unset($construct);
 				
 				$construct = New Constructor;

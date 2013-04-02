@@ -70,7 +70,6 @@ class PathFinder{
         } else {
             // echo 'Insufficient data, please define origin and destination points and a map';
             // die();
-			$this->setOrigin(1,1);
 			Console::WriteLine("WARNING !! PATHFINDER CRITICAL ERROR !");
         }
     }

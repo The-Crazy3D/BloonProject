@@ -45,6 +45,7 @@ Class Packet{
 		$Outgoing['talkSay'] = 2119;
 		$Outgoing['createRoomWindow'] = 3859;
 		$Outgoing['createRoom'] = 290;
+		$Outgoing['danceRoom'] = 3301;
 		if(isset($Outgoing[$name])){
 			return $Outgoing[$name];
 		}else{
