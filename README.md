@@ -13,6 +13,17 @@ To run the EMU you'll need these PHP extensions activated :
 * pThreads (multithreading)
 
 
+### Revision 20500 (working Alpha #2)
+
+* Rooms enhanced more (yea!)
+* Pathfinder enhanced and fixed.
+* Friend Tools bar started to be fixed (but amigo are not fixed)
+* See-to-see system (play can see others players) working as well.
+* Hotel Alert command (:ha) added.
+* Minor code fix.
+* Minor system enhancement.
+* Minor bugs fix.
+
 ### Revision 20000 (working Alpha)
 
 * Rooms enhanced
