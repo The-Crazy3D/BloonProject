@@ -29,35 +29,39 @@ Class Updater{
  		return $curl_contents;
 	}
 	public static function Check(){
-		$localbuild = file_get_contents("revision");
-		if($localbuild == "dev-custom"){
-			Console::WriteLine("No-update for hardcore developer :D");
-			return true;
-		}
-		Console::WriteLine("Checking for a new build...");
-		$gitbuild = intval(self::curl_load("https://raw.github.com/BurakDev/BloonProject/BloonCrypto/revision"));
-		Console::WriteLine("Git build : ".$gitbuild.", Local build : ".$localbuild);
-		if($gitbuild == $localbuild){
-			Console::WriteLine("Completed! No new build.");
-		}else if($gitbuild < $localbuild){
-			Console::WriteLine("Better build impossibru..");
-		}else if($gitbuild > $localbuild){
-			Console::WriteLine("Completed! BloonCrypto Build ".$gitbuild." has been released  !");
-			Console::WriteLine();
-			Console::WriteLine("If you want to download the new build from GitHub, say y (or yes)");
-			Console::WriteLine("The new build will be in the folder : BloonProject-BloonCrypto");
-			Console::Write(">>> ");
-			$get = trim(fgets(STDIN));
-			Switch($get){
-				case "yes":
-				case "Y":
-				case "y":
-					self::GetZip();
-				break;
-				Default:
-					Console::WriteLine("No new build for you.");
-				break;
+		if(extension_loaded('curl')){
+			$localbuild = file_get_contents("revision");
+			if($localbuild == "dev-custom"){
+				Console::WriteLine("No-update for hardcore developer :D");
+				return true;
 			}
+			Console::WriteLine("Checking for a new build...");
+			$gitbuild = intval(self::curl_load("https://raw.github.com/BurakDev/BloonProject/BloonCrypto/revision"));
+			Console::WriteLine("Git build : ".$gitbuild.", Local build : ".$localbuild);
+			if($gitbuild == $localbuild){
+				Console::WriteLine("Completed! No new build.");
+			}else if($gitbuild < $localbuild){
+				Console::WriteLine("Better build impossibru..");
+			}else if($gitbuild > $localbuild){
+				Console::WriteLine("Completed! BloonCrypto Build ".$gitbuild." has been released  !");
+				Console::WriteLine();
+				Console::WriteLine("If you want to download the new build from GitHub, say y (or yes)");
+				Console::WriteLine("The new build will be in the folder : BloonProject-BloonCrypto");
+				Console::Write(">>> ");
+				$get = trim(fgets(STDIN));
+				Switch($get){
+					case "yes":
+					case "Y":
+					case "y":
+						self::GetZip();
+					break;
+					Default:
+						Console::WriteLine("No new build for you.");
+					break;
+				}
+			}
+		}else{
+			Console::WriteLine("WARNING : cURL isn't activated, can't check for update.");
 		}
 	}
 	public static function GetZip(){
