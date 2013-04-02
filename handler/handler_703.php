@@ -54,7 +54,7 @@ if($user->pos_x == 0){
 	$path->setDestination($x,$y);
 	$path->setMap($map);
 	$result=$path->returnPath();
-
+	$packetarray = array();
 	foreach($result as $coordkey => $coord){
 		$split = explode("x", $coord);
 		$xc = $split[0];
@@ -83,13 +83,25 @@ if($user->pos_x == 0){
 		$construct->SetInt24($rotate);
 		$construct->SetInt24($rotate);
 		$construct->SetStr("/flatcrtl 4 useradmin/".$addin,true);
-		usleep(500000);
-		Core::SendToAllRoom($user->room_id, $construct->get());
+		// usleep(500000);
+		// Core::SendToAllRoom($user->room_id, $construct->get());
+		$packetarray[] = $construct->get();
 		$user->pos_x = $xc;
 		$user->pos_y = $yc;
 		$user->rotate = $rotate;
 		unset($xf,$yf,$addin);
 	}
+		$userlist = Core::GetUserByRoom($user->room_id);
+		$socketarray = array();
+		foreach($userlist as $userroom){
+			$socketarray[] = $userroom->socket;
+		}
+			// print_r($socketarray);
+			$sockethand = New SocketSender;
+			$sockethand->SetData($packetarray,$socketarray);
+			$sockethand->start();
+			// Core::StartThreadPathfinder($packetarray,$socketarray);
+			// Async::call(array("Core", "StartThreadPathfinder"), array($packetarray,$socketarray));
 	unset($construct,$map,$path,$result,$coord);
 // }
 ?>

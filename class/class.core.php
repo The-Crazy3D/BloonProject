@@ -502,5 +502,10 @@ Class Core{
 			}
 		}
 	}
+	public static function StartThreadPathfinder($arg1,$arg2){
+		$sockethand = New SocketSender;
+		$sockethand->SetData($arg1,$arg2);
+		$sockethand->start();
+	}
 }
 ?>

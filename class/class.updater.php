@@ -7,8 +7,6 @@
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  * Thanks to Ligams for this unZip SCRIPT.
  */
- 
- 
 Class Updater{
 	public static function curl_load($url){
  		$curl = curl_init();
