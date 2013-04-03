@@ -12,7 +12,7 @@ To run the EMU you'll need these PHP extensions activated :
 * cURL (updater class)
 * pThreads (multithreading)
 
-## Revision 22000
+### Revision 22000
 
 * Pathfinder multithreading fixed (thanks to krakjoe !)
 * Added all update command

@@ -96,16 +96,10 @@ if($user->pos_x == 0){
 		foreach($userlist as $userroom){
 			$socketarray[] = $userroom->socket;
 		}
-			// print_r($socketarray);
-			Console::WriteLine("Started pathfinding task at ".time());
 			$tid = count($sockethand);
 			$sockethand[$tid] = New SocketSender;
 			$sockethand[$tid]->SetData($packetarray,$socketarray);
 			$sockethand[$tid]->start();
-			Console::WriteLine("Finished pathfinding task at ".time());
-			// Core::StartThreadPathfinder($packetarray,$socketarray);
-			// Async::call(array("Core", "StartThreadPathfinder"), array($packetarray,$socketarray));
-			//eval('User'.$user->userid .'::exec($packetarray,$socketarray);');
 	unset($construct,$map,$path,$result,$coord);
 // }
 ?>
