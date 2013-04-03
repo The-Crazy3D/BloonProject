@@ -6,6 +6,14 @@
  * 
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  */
+if( strtolower($message) == "(l)" || preg_match("/<3/i", strtolower($message))){
+	$construct = New Constructor;
+	$construct->SetHeader(Packet::GetHeader('userAction'));
+	$construct->SetInt24($user->userid);
+	$construct->SetInt24(2);
+	Core::SendToAllRoom($user->room_id, $construct->get());
+	$send = true;
+}
 $smessage = str_split($message);
 if($smessage[0] == ":"){
 	$split = explode(" ", $message);

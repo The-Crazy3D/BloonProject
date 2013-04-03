@@ -9,7 +9,41 @@
 $x = HabboEncoding::DecodeBit24($data);
 $data = substr($data, 4);
 $y = HabboEncoding::DecodeBit24($data);
-Core::say("X : ".$x.", Y : ".$y);
+// Core::say("X : ".$x.", Y : ".$y);
+foreach($sockethand[$user->userid] as $keyp => $threadp){
+	if($threadp->isRunning()){
+		// var_dump($threadp->xa);
+		$user->pos_x = $threadp->xa;
+		$user->pos_y = $threadp->ya;
+		if($user->pos_x > $x && $user->pos_y > $y){
+			$user->pos_x--;
+			$user->pos_y--;
+		}else if($user->pos_x < $x && $user->pos_y < $y){
+			$user->pos_x++;
+			$user->pos_y++;
+		}else if($user->pos_x > $x && $user->pos_y < $y){
+			$user->pos_x--;
+			$user->pos_y++;
+		}else if($user->pos_x < $x && $user->pos_y > $y){
+			$user->pos_x++;
+			$user->pos_y--;
+		}else if($user->pos_x > $x){
+			$user->pos_x--;
+		}else if($user->pos_x < $x){
+			$user->pos_x++;
+		}else if($user->pos_y < $y){
+			$user->pos_y++;
+		}else if($user->pos_y > $y){
+			$user->pos_y--;
+		}
+		usleep(250000);
+		// var_dump($threadp->ya);
+		$threadp->stop();
+		unset($sockethand[$user->userid][$keyp]);
+	}
+}
+// var_dump($user->pos_x);
+// var_dump($user->pos_y);
 if($user->pos_x == 0){
 	$user->pos_x = 1;
 }else if($user->pos_y == 0){
@@ -18,6 +52,9 @@ if($user->pos_x == 0){
 	$x = 1;
 }else if($y == 0){
 	$y == 1;
+}else if($user->pos_x == 1 && $user->pos_y == 1){
+	$user->pos_x++;
+	$user->pos_y++;
 }
 // if($x != $user->pos_x && $y != $user->pos_y){
 	$map=Core::GetMap();
@@ -55,6 +92,8 @@ if($user->pos_x == 0){
 	$path->setMap($map);
 	$result=$path->returnPath();
 	$packetarray = array();
+	$xthread = array();
+	$ythread = array();
 	foreach($result as $coordkey => $coord){
 		$split = explode("x", $coord);
 		$xc = $split[0];
@@ -86,6 +125,8 @@ if($user->pos_x == 0){
 		// usleep(500000);
 		// Core::SendToAllRoom($user->room_id, $construct->get());
 		$packetarray[] = $construct->get();
+		$xthread[] = $xc;
+		$ythread[] = $yc;
 		$user->pos_x = $xc;
 		$user->pos_y = $yc;
 		$user->rotate = $rotate;
@@ -97,9 +138,9 @@ if($user->pos_x == 0){
 			$socketarray[] = $userroom->socket;
 		}
 			$tid = count($sockethand);
-			$sockethand[$tid] = New SocketSender;
-			$sockethand[$tid]->SetData($packetarray,$socketarray);
-			$sockethand[$tid]->start();
+			$sockethand[$user->userid][$tid] = New SocketSender;
+			$sockethand[$user->userid][$tid]->SetData($packetarray,$socketarray,$xthread,$ythread);
+			$sockethand[$user->userid][$tid]->start();
 	unset($construct,$map,$path,$result,$coord);
 // }
 ?>
