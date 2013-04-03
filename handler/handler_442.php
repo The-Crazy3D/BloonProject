@@ -38,7 +38,10 @@ if(!$userdata){
 		$user->vip = $userdata->vip;
 		$user->volume = $userdata->volume;
 		$user->accept_trading = $userdata->accept_trading;
-		Core::say($user->username ." logged in !",1);
+		
+		if(Core::Get("emu.messages.connections")){
+			Core::say($user->username ." logged in !",1);
+		}
 		
 		$construct = New Constructor;
 		$construct->SetHeader(Packet::GetHeader('init1sso'));
@@ -103,35 +106,6 @@ if(!$userdata){
 		Core::send($user->socket, $construct->get());
 		unset($construct);
 		
-		/*$friend = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_friendships m, users u WHERE m.user_one_id = ".$user->userid ." AND u.id = m.user_two_id AND u.online = '1' ORDER BY -online;");
-		if($friend){
-		$construct = New Constructor;
-		$construct->SetHeader(Packet::GetHeader('loadFriend'));
-		$construct->SetInt24(1100);
-		$construct->SetInt24(300);
-		$construct->SetInt24(800);
-		$construct->SetInt24(1100);
-		$construct->SetInt24(0);
-		$construct->SetInt24(count($friend));
-		foreach($friend as $fdata){
-			$construct->SetInt24($fdata->id);
-			$construct->SetStr($fdata->username,true);
-			$construct->SetInt24(0);
-			if($fdata->online == 1){
-				$construct->SetInt8(257);
-			}else{
-				$construct->SetInt8(0);
-			}
-			$construct->SetStr($fdata->look,true);
-			$construct->SetInt24(0);
-			$construct->SetStr($fdata->motto,true);
-			$construct->SetInt24(0);
-			$construct->SetInt8(257);
-			$construct->SetStr(chr(0));
-		}
-		Core::send($user->socket, $construct->get());
-		unset($construct,$friend,$fdata);
-		}*/
 		Core::LoadFriendBar($user->userid);
 		$friend = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_friendships m, users u WHERE m.user_one_id = ".$user->userid ." AND u.id = m.user_two_id AND u.online = '1' ORDER BY -online;");
 		

@@ -106,7 +106,9 @@ Class Core{
 			self::LoadFriendBar($fuser->id);
 		}
 	  }
-	  self::say("[".$usertemp->countconnection ."] Connection lost from ".$usertemp->ip,1);
+	  if(Core::Get("emu.messages.connections")){
+		self::say("[".$usertemp->countconnection ."] Connection lost from ".$usertemp->ip,1);
+	  }
 	  if(!is_null($found)){ array_splice($users,$found,1); }
 	  $index = array_search($socket,$sockets);
 	  socket_close($socket);
@@ -124,7 +126,9 @@ Class Core{
 	  $user->ip = $ip;
 	  $user->port = $port;
 	  $user->countconnection = $countconnection;
-	  self::say("[".$countconnection."] Connection from ".$ip,1);
+	  if(Core::Get("emu.messages.connections")){
+		self::say("[".$countconnection."] Connection from ".$ip,1);
+	  }
 	  $countconnection++;
 	  array_push($users,$user);
 	  array_push($sockets,$socket);
