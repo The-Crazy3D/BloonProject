@@ -113,18 +113,11 @@ Class Core{
 	  if($index>=0){ array_splice($sockets,$index,1); }
 	}
 	public static function connect($socket){
-	  global $sockets,$users,$CONFIG,$countconnection;
+	  global $sockets,$users,$countconnection;
 	  if(!isset($countconnection)){
 		$countconnection = 0;
 	  }
 	  socket_getpeername($socket, $ip, $port);
-	  if($CONFIG['ipaccess']){
-		if(!in_array($ip, $CONFIG['ipaccesslist'])){
-			self::say("Connection from ".$ip." but blacklisted.",1);
-			socket_close($socket);
-			return false;
-		}
-	  }
 	  $user = new User();
 	  $user->id = uniqid();
 	  $user->socket = $socket;
@@ -152,9 +145,8 @@ Class Core{
 	  return $master;
 	}
 	public static function send($client,$msg){
-		global $CONFIG;
 	  socket_write($client,$msg,strlen($msg));
-	  if($CONFIG['debug']){
+	  if(Config::Get("emu.messages.debug")){
 		self::say("[OUTGOING]".$msg,1);
 	  }
 	}

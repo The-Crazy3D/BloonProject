@@ -13,7 +13,6 @@ $data = $split[1];
 switch($action){
 	case "Navigation":
 		$data = str_replace(chr(0).chr(6)."Search", "", $data);
-		Core::say("Final data : ".$data);
 		if(preg_match("/go.me/i", $data) OR preg_match("/go.rooms/i", $data)){
 			$data = substr($data, 2);
 		}
@@ -27,7 +26,6 @@ switch($action){
 			case "go.rooms":
 				$split = Core::GetNextString($data);
 				$roomid = $split[0];
-				Core::say("ROOM ID : ".$roomid);
 				$data = $split[1];
 				if(is_numeric($user->room_id)){
 					DB::exec("UPDATE rooms SET users_now = users_now-1 WHERE id = '".$user->room_id."'");
