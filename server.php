@@ -16,7 +16,9 @@ spl_autoload_register(function ($class) {
 
 // loadClass("updater");
 // loadClass("console");
-
+/*loadClass("user1");
+loadClass("user2");
+loadClass("socketsender");*/
 Updater::Check();
 // Async::call(array("Updater", "Check"), array());
 
@@ -26,7 +28,7 @@ Console::SetTitle("Loading BloonCrypto...");
 require "config.php";
 
 
-Console::WriteLine("Welcome to this ALPHA 2.0 of BloonCrypto...");
+Console::WriteLine("Welcome to this ALPHA 2.1 of BloonCrypto...");
 // Async::call(array("Console", "WriteLine"), array("Welcome to this ALPHA 1.3 of BloonCrypto..."));
 Console::WriteLine();
 // Async::call(array("Console", "WriteLine"), array());
