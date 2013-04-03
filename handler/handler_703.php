@@ -98,9 +98,10 @@ if($user->pos_x == 0){
 		}
 			// print_r($socketarray);
 			Console::WriteLine("Started pathfinding task at ".time());
-			$sockethand = New SocketSender;
-			$sockethand->SetData($packetarray,$socketarray);
-			$sockethand->start();
+			$tid = count($sockethand);
+			$sockethand[$tid] = New SocketSender;
+			$sockethand[$tid]->SetData($packetarray,$socketarray);
+			$sockethand[$tid]->start();
 			Console::WriteLine("Finished pathfinding task at ".time());
 			// Core::StartThreadPathfinder($packetarray,$socketarray);
 			// Async::call(array("Core", "StartThreadPathfinder"), array($packetarray,$socketarray));
