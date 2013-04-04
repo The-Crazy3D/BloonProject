@@ -51,7 +51,9 @@ if($user->pos_x == 0){
 	$user->pos_x++;
 	$user->pos_y++;
 }
-// if($x != $user->pos_x && $y != $user->pos_y){
+var_dump($x);
+var_dump($y);
+if($x != $user->pos_x || $y != $user->pos_y){
 	$map=Core::GetMap();
 	$path=new PathFinder();
 	$origx = $user->pos_x;
@@ -135,5 +137,5 @@ if($user->pos_x == 0){
 			$sockethand[$user->userid][$tid]->SetData($packetarray,$socketarray,$xthread,$ythread);
 			$sockethand[$user->userid][$tid]->start();
 	unset($construct,$map,$path,$result,$coord);
-// }
+}
 ?>
