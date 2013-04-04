@@ -9,7 +9,7 @@
 error_reporting(E_ALL);
 set_time_limit(0);
 ob_implicit_flush();
-
+$start_load = microtime();
 spl_autoload_register(function ($class) {
     include 'class/class.' . $class . '.php';
 });
@@ -47,6 +47,12 @@ Core::OnStartTasks();
 $master  = Core::Socket(Config::Get("game.tcp.bindip"),Config::Get("game.tcp.port"));
 $sockets = array($master);
 $users   = array();
+
+$end_load = microtime();
+
+$statstart = Core::DiffTime($start_load, $end_load);
+Console::WriteLine("Server -> READY! (".$statstart[0]." s, ".$statstart[1]." ms)");
+unset($statstart,$start_load,$end_load);
 
 while(true){
   Core::StatsTasks();

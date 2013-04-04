@@ -143,9 +143,7 @@ Class Core{
 	  socket_set_option($master, SOL_SOCKET, SO_REUSEADDR, 1)  or die("socket_option() failed");
 	  socket_bind($master, $address, $port)                    or die("socket_bind() failed");
 	  socket_listen($master,20)                                or die("socket_listen() failed");
-	  echo "Server Started : ".date('Y-m-d H:i:s')."\n";
-	  echo "Master socket  : ".$master."\n";
-	  echo "Listening on   : ".$address." port ".$port."\n\n";
+	  Console::WriteLine("Listening for connections on port : ".$port);
 	  return $master;
 	}
 	public static function send($client,$msg){
@@ -242,7 +240,7 @@ Class Core{
 		self::LoadRoomAds();
 		self::LoadBots();
 		self::LoadAchievements();
-		// Console::Beep();
+		Console::Beep();
 		self::StatsTasks();
 		self::CleanUpDatabase();
 	}
@@ -555,6 +553,21 @@ Class Core{
 	}
 	public static function GetVersion(){
 		return file_get_contents("version");
+	}
+	public static function DiffTime($microtime1, $microtime2){
+		/* Source : http://www.phpcs.com/codes/TEMPS-GENERATION-PAGE-PHP_12903.aspx */
+		list($micro1, $time1) = explode(' ', $microtime1);
+		list($micro2, $time2) = explode(' ', $microtime2);
+		$time = $time2 - $time1;
+		if ($micro1 > $micro2){
+			$time--;
+			$micro = 1 + $micro2 - $micro1;	 
+		}else{
+			$micro = $micro2 - $micro1;
+		}
+		$micro += $time;
+		$split = explode(".", $micro);
+		return $split;
 	}
 }
 ?>
