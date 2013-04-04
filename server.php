@@ -9,6 +9,12 @@
 error_reporting(E_ALL);
 set_time_limit(0);
 ob_implicit_flush();
+
+if(!extension_loaded("pthreads")){
+	Console::WriteLine("Please install phtreads ! Emulator can't run without it.");
+	exit;
+}
+
 $start_load = microtime();
 spl_autoload_register(function ($class) {
     include 'class/class.' . $class . '.php';
