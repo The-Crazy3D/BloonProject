@@ -53,7 +53,7 @@ switch($action){
 							if($keysplit != $model->door_x){
 								$heightmap_door.= $splitdata;
 							}else{
-								$heightmap_door.= "0";
+								$heightmap_door.= $model->door_z;
 							}
 						}
 						$heightmap_door = $heightmap_door.chr(0x0D);
@@ -80,6 +80,8 @@ switch($action){
 				unset($construct);
 				$user->pos_x = $model->door_x;
 				$user->pos_y = $model->door_y;
+				$user->pos_z = $model->door_z;
+				$user->heightmap = $model->heightmap;
 				$user->rotate = $model->door_dir;
 				$userlist = Core::GetUserByRoom($roomid);
 				$construct = New Constructor;
@@ -93,8 +95,7 @@ switch($action){
 					$construct->SetInt24($roomuser->userid);
 					$construct->SetInt24($roomuser->pos_x);
 					$construct->SetInt24($roomuser->pos_y);
-					$construct->SetInt8(1);
-					$construct->SetStr(chr(0x30));
+					$construct->SetStr($roomuser->pos_z,true);
 					$construct->SetInt24(2);
 					$construct->SetInt24(1);
 					$construct->SetStr(strtolower($roomuser->gender),true);
@@ -116,8 +117,7 @@ switch($action){
 				$construct->SetInt24($user->userid);
 				$construct->SetInt24($model->door_x);
 				$construct->SetInt24($model->door_y);
-				$construct->SetInt8(1);
-				$construct->SetStr(chr(0x30));
+				$construct->SetStr($model->door_z,true);
 				$construct->SetInt24(2);
 				$construct->SetInt24(1);
 				$construct->SetStr(strtolower($user->gender),true);
@@ -143,11 +143,10 @@ switch($action){
 				$construct = New Constructor;
 				$construct->SetHeader(Packet::GetHeader('pathfinding'));
 				$construct->SetInt24(1);
-				$construct->SetInt24(0);
+				$construct->SetInt24($user->userid);
 				$construct->SetInt24($model->door_x);
 				$construct->SetInt24($model->door_y);
-				$construct->SetInt8(1);
-				$construct->SetStr(chr(0x30));
+				$construct->SetStr($model->door_z,true);
 				$construct->SetInt24(2);
 				$construct->SetInt24(2);
 				$construct->SetStr("/flatcrtl 4 useradmin/",true);

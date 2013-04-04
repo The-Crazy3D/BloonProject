@@ -51,8 +51,6 @@ if($user->pos_x == 0){
 	$user->pos_x++;
 	$user->pos_y++;
 }
-var_dump($x);
-var_dump($y);
 if($x != $user->pos_x || $y != $user->pos_y){
 	$map=Core::GetMap();
 	$path=new PathFinder();
@@ -99,11 +97,13 @@ if($x != $user->pos_x || $y != $user->pos_y){
 			$split = explode("x", $result[($coordkey+1)]);
 			$xf = $split[0];
 			$yf = $split[1];
+			$zf = Core::GetTileData($xf, $yf, $user->heightmap);
 		}
+		$user->pos_z = Core::GetTileData($xc, $yc, $user->heightmap);
 		$construct = New Constructor;
 		$construct->SetHeader(Packet::GetHeader('pathfinding'));
 		if(isset($xf) && isset($yf)){
-			$addin = "mv ".$xf.",".$yf.",0//";
+			$addin = "mv ".$xf.",".$yf.",".$zf."//";
 
 			$rotate = Core::RotationCalculate(array($xc,$yc),array($xf,$yf));
 		}else{
@@ -114,8 +114,7 @@ if($x != $user->pos_x || $y != $user->pos_y){
 		$construct->SetInt24($user->userid);
 		$construct->SetInt24($xc);
 		$construct->SetInt24($yc);
-		$construct->SetInt8(1);
-		$construct->SetStr(chr(0x30));
+		$construct->SetStr($user->pos_z,true);
 		$construct->SetInt24($rotate);
 		$construct->SetInt24($rotate);
 		$construct->SetStr("/flatcrtl 4 useradmin/".$addin,true);

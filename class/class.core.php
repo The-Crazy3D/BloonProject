@@ -592,5 +592,14 @@ Class Core{
 		$split = explode(".", $micro);
 		return $split;
 	}
+	public static function GetTileData($x, $y, $model){
+		$heightmap_step1 = explode(chr(0x0D), $model);
+		foreach($heightmap_step1 as $heightmapkey => $heightmapdata){
+			if($y == $heightmapkey){
+				$split = str_split($heightmapdata);
+				return $split[($x+1)];
+			}
+		}
+	}
 }
 ?>
