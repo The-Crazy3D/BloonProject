@@ -4,6 +4,8 @@ BloonCrypto : a new Habbo EMU based on the latest habbo official revision create
 
 You want to join US ? Contact US on Skype : burak.karamahmut
 
+![BloonCrypto](http://i.imgur.com/aW9PZSl.png "BloonCrypto")
+
 ## Requierments
 To run the EMU you'll need these PHP extensions activated :
 
