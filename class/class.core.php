@@ -498,10 +498,24 @@ Class Core{
 			}
 		}
 	}
-	public static function StartThreadPathfinder($arg1,$arg2){
-		$sockethand = New SocketSender;
-		$sockethand->SetData($arg1,$arg2);
-		$sockethand->start();
+	public static function GetSettings($name){
+		global $serversettings;
+		if(isset($serversettings->$name)){
+			$data = $serversettings->$name;
+			if($data == "1"){
+				return true;
+			}else if($data == "0"){
+				return false;
+			}else{
+				return $data;
+			}
+		}
+	}
+	public static function Chatlogs($userid, $roomid, $hour, $minute, $fulldate, $timestamp, $message, $username){
+		if(self::GetSettings("enable_chatlogs")){
+			$message = str_replace("'", "\'", $message);
+			DB::exec("INSERT INTO chatlogs (user_id,room_id,hour,minute,full_date,timestamp,message,user_name) VALUES ('".$userid."','".$roomid."','".$hour."','".$minute."','".$fulldate."','".$timestamp."','".$message."','".$username."')");
+		}
 	}
 }
 ?>

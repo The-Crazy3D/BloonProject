@@ -102,7 +102,7 @@ if(!$userdata){
 		
 		$construct = New Constructor;
 		$construct->SetHeader(Packet::GetHeader('initMsg'));
-		$construct->SetStr($serversettings->motd,true);
+		$construct->SetStr(Core::GetSettings("motd"),true);
 		Core::send($user->socket, $construct->get());
 		unset($construct);
 		

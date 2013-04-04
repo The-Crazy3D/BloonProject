@@ -135,5 +135,9 @@ if($smessage[0] == ":"){
 }else{
 	$send = true;
 }
+if($send){
+	Core::Chatlogs($user->userid,$user->room_id,date('H'),date('i'),date('l j F Y'),time(),$message,$user->username);
+}
+
 unset($smessage,$split);
 ?>
