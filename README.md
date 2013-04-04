@@ -12,6 +12,21 @@ To run the EMU you'll need these PHP extensions activated :
 * cURL (updater class)
 * pThreads (multithreading)
 
+
+### Revision 23350
+
+* Added :hal command
+* Fixed chat bullet
+* Fixed cmdlogs
+* Fixed chatlogs
+* Critical error fixed (class name)
+* If missing line in bloon.conf, now show error
+* Deleted useless file
+* Fixed console writing disable in bloon.conf
+* Added todo list
+* Finished new config system (bloon.conf)
+* Fixed pathfinder bug, started new config system
+
 ### Revision 22000
 
 * Pathfinder multithreading fixed (thanks to krakjoe !)
