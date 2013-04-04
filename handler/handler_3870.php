@@ -6,7 +6,6 @@
  * 
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  */
-// $data = str_replace("Navigation".chr(0).chr(0), "Navigation", $data);
 $split = Core::GetNextString($data);
 $action = $split[0];
 $data = $split[1];
@@ -18,7 +17,6 @@ switch($action){
 		}
 		$split = Core::GetNextString($data);
 		$go = $split[0];
-		// Core::say("lol ! ".$go);
 		$data = $split[1];
 		switch($go){
 			case "go.me":
@@ -32,6 +30,9 @@ switch($action){
 					unset($user->room_id);
 				}
 				$user->room_id = $roomid;
+				if(Config::Get("emu.messages.roommgr")){
+					Core::say("Loaded room ".$roomid,1);
+				}
 				$roominfo = DB::query("SELECT * FROM rooms WHERE id = '".$roomid."'");
 				$model = Core::GetModel($roominfo->model_name);
 				$heightmap = str_replace(chr(10), "", $model->heightmap .chr(0x0D));
@@ -81,7 +82,6 @@ switch($action){
 				$user->pos_y = $model->door_y;
 				$user->rotate = $model->door_dir;
 				$userlist = Core::GetUserByRoom($roomid);
-				// print_r($userlist);
 				$construct = New Constructor;
 				$construct->SetHeader(Packet::GetHeader('loadRoomUser'));
 				$construct->SetInt24(count($userlist));
@@ -155,13 +155,7 @@ switch($action){
 				unset($construct);
 				DB::exec("UPDATE rooms SET users_now = users_now+1 WHERE id = '".$user->room_id."'");
 			break;
-			Default:
-				// Console::WriteLine("Undefined go : ".$go);
-			break;
 		}
-	break;
-	Default:
-		// Console::WriteLine("Undefined action : ".$action);
 	break;
 }
 unset($split,$roomid,$roominfo,$heightmap);
