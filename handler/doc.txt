@@ -24,3 +24,4 @@ If you add handler, add it here !
 1879 : room panel
 1930 : navigator public room
 1650 : load room info
+1332 : change look

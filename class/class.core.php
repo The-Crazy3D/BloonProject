@@ -100,7 +100,7 @@ Class Core{
 		DB::exec("UPDATE rooms SET users_now = users_now-1 WHERE id = '".$usertemp->room_id."'");
 	  }
 	  if(is_numeric($usertemp->userid)){
-		$friend = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_friendships m, users u WHERE m.user_one_id = ".$user->userid ." AND u.id = m.user_two_id AND u.online = '1' ORDER BY -online;");
+		$friend = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_friendships m, users u WHERE m.user_one_id = ".$usertemp->userid ." AND u.id = m.user_two_id AND u.online = '1' ORDER BY -online;");
 		
 		foreach($friend as $fuser){
 			self::LoadFriendBar($fuser->id);
