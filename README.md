@@ -14,6 +14,9 @@ To run the EMU you'll need these PHP extensions activated :
 * cURL (updater class)
 * pThreads (multithreading)
 
+
+## BURAK JOIN US ON SKYPE !
+
 ### Revision 24000
 
 * Coded Z axis of pathfinder !
