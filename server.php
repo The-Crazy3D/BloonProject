@@ -24,7 +24,7 @@ loadClass("updater");
 
 Console::SetTitle("Loading BloonCrypto...");
 
-Async::call(array("Updater", "Check"), array());
+Updater::Check();
 
 Config::init();
 
