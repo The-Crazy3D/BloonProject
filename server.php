@@ -22,7 +22,7 @@ Async::call(array("Updater", "Check"), array());
 
 Config::init();
 
-Console::WriteLine("Welcome to this ALPHA 2.3 Build ".file_get_contents("revision")." of BloonCrypto...");
+Console::WriteLine("Welcome to this ALPHA ".Core::GetVersion()." Build ".Core::GetRevision()." of BloonCrypto...");
 
 Console::WriteLine();
 

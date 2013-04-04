@@ -53,7 +53,20 @@ if($smessage[0] == ":"){
 		break;
 		case ":about":
 		case ":info":
-			
+			$construct = New Constructor;
+			$construct->SetHeader(Packet::GetHeader('alertLink'));
+			$revision = Core::GetRevision();
+			$version = Core::GetVersion();
+			if(Core::GetSettings("ShowUsersAndRoomsInAbout")){
+				$addin = "\n\nUsers online: ".Core::UsersOnline();
+				$addin.= "\nRooms loaded : ".Core::RoomsLoaded();
+			}else{
+				$addin = "";
+			}
+			$construct->SetStr("BloonCrypto ".$version."\n\nThanks/Credits:\nBurak\nMaximeBHA\nCr3@_Hal0\nJordan\nEthis\n\nBloonCrypto ".$version." (Build ".$revision.")".$addin,true);
+			$construct->SetStr("http://blooncrypto.beat-host.eu/",true);
+			Core::send($user->socket, $construct->get());
+			$send = false;
 		break;
 		case ":update_permissions":
 		case ":reload_permissions":

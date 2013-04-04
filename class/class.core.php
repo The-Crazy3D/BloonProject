@@ -550,5 +550,11 @@ Class Core{
 		}
 		return $cpt;
 	}
+	public static function GetRevision(){
+		return file_get_contents("revision");
+	}
+	public static function GetVersion(){
+		return file_get_contents("version");
+	}
 }
 ?>
