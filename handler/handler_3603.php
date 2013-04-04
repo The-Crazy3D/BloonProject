@@ -7,21 +7,18 @@
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  */
 $split = Core::GetNextString($data);
-$gender = $split[0];
-$data = $split[1];
-$split = Core::GetNextString($data);
-$look = $split[0];
-$user->look = $look;
-$user->gender = $gender;
-DB::exec("UPDATE users SET look = '".$look."',gender = '".$gender."' WHERE id = '".$user->userid ."'");
+$motto = $split[0];
+DB::exec("UPDATE users SET motto = '".$motto."' WHERE id = '".$user->userid ."'");
+$user->motto = $motto;
 $construct = New Constructor;
 $construct->SetHeader(Packet::GetHeader('updateLookMotto'));
 $construct->SetInt24($user->userid);
-$construct->SetStr($look,true);
-$construct->SetStr(strtolower($gender),true);
-$construct->SetStr($user->motto,true);
+$construct->SetStr($user->look,true);
+$construct->SetStr(strtolower($user->gender),true);
+$construct->SetStr($motto,true);
 $construct->SetInt24(0); // winwin
 Core::SendToAllRoom($user->room_id, $construct->get());
+unset($construct);
 
 unset($look,$gender,$split);
 ?>

@@ -99,18 +99,20 @@ if(!$userdata){
 		$construct->SetStr($user->credits .".0",true);
 		Core::send($user->socket, $construct->get());
 		unset($construct);
-		
-		$construct = New Constructor;
-		$construct->SetHeader(Packet::GetHeader('initMsg'));
-		$construct->SetStr(Core::GetSettings("motd"),true);
-		Core::send($user->socket, $construct->get());
-		unset($construct);
+		if(strlen(Core::GetSettings("motd")) > 2){
+			$construct = New Constructor;
+			$construct->SetHeader(Packet::GetHeader('initMsg'));
+			$construct->SetStr(Core::GetSettings("motd"),true);
+			Core::send($user->socket, $construct->get());
+			unset($construct);
+		}
 		
 		Core::LoadFriendBar($user->userid);
 		$friend = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_friendships m, users u WHERE m.user_one_id = ".$user->userid ." AND u.id = m.user_two_id AND u.online = '1' ORDER BY -online;");
-		
-		foreach($friend as $fuser){
-			Core::LoadFriendBar($fuser->id);
+		if($friend){
+			foreach($friend as $fuser){
+				Core::LoadFriendBar($fuser->id);
+			}
 		}
 		
 		$request = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_requests m, users u WHERE m.to_id = ".$user->userid ." AND u.id = m.from_id;");

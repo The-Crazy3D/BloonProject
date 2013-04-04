@@ -25,3 +25,4 @@ If you add handler, add it here !
 1930 : navigator public room
 1650 : load room info
 1332 : change look
+3603 : change motto
