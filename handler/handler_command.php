@@ -53,7 +53,7 @@ if($smessage[0] == ":"){
 		break;
 		case ":about":
 		case ":info":
-		
+			
 		break;
 		case ":update_permissions":
 		case ":reload_permissions":

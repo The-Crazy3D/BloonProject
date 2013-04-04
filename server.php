@@ -13,20 +13,21 @@ ob_implicit_flush();
 spl_autoload_register(function ($class) {
     include 'class/class.' . $class . '.php';
 });
+
+loadClass("updater");
+
 Console::SetTitle("Loading BloonCrypto...");
 
-Updater::Check();
-// Async::call(array("Updater", "Check"), array());
+Async::call(array("Updater", "Check"), array());
 
-// Async::call(array("Console", "SetTitle"), array("Loading BloonCrypto..."));
-
+Config::init();
 
 Console::WriteLine("Welcome to this ALPHA 2.3 Build ".file_get_contents("revision")." of BloonCrypto...");
-// Async::call(array("Console", "WriteLine"), array("Welcome to this ALPHA 1.3 of BloonCrypto..."));
+
 Console::WriteLine();
-// Async::call(array("Console", "WriteLine"), array());
+
 Console::Write("Connecting to database...");
-// Async::call(array("Console", "Write"), array("Connecting to database..."));
+
 try{
 	if(Config::Get("db.port") != 3306){
 		$portext = chr(58).Config::Get("db.port");
@@ -36,13 +37,10 @@ try{
 	@$sql = new PDO('mysql:host='.Config::Get("db.hostname").$portext.';dbname='.Config::Get("db.name"), Config::Get("db.username"), Config::Get("db.password"));
 }catch(Exception $error){
 	Console::WriteLine("failed!");
-	// Async::call(array("Console", "WriteLine"), array("failed!"));
 	Console::WriteLine("Error : ".$error->getMessage());
-	// Async::call(array("Console", "WriteLine"), array("Error : ".$error->getMessage()));
 	exit;
 }
 Console::WriteLine("completed!");
-// Async::call(array("Console", "WriteLine"), array("completed!"));
 
 Core::OnStartTasks();
 

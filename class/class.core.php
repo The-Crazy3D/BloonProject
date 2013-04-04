@@ -342,9 +342,12 @@ Class Core{
 		Console::WriteLine("completed!");
 	}
 	public static function StatsTasks(){
-		global $users;
-		$memory = self::get_php_memory();
-		Console::SetTitle('BloonCrypto - Users online : '.count($users).' - Rooms loaded : 0 - Memory : '.$memory);
+		if(Config::Get("emu.messages.debug")){
+			$addin = "[DEBUG] ";
+		}else{
+			$addin = "";
+		}
+			Console::SetTitle($addin.'BloonCrypto - Users online : '.self::UsersOnline().' - Rooms loaded : '.self::RoomsLoaded().' - Memory : '.self::get_php_memory());
 	}
 	
 	/**
@@ -522,6 +525,30 @@ Class Core{
 			$extra = str_replace("'", "\'", $extra);
 			DB::exec("INSERT INTO cmdlogs (user_id,user_name,command,extra_data, timestamp) VALUES ('".$userid."','".$username."','".$command."','".$extra."','".$timestamp."')");
 		}
+	}
+	public static function UsersOnline(){
+		global $users;
+		$cpt = 0;
+		if(count($users) > 0){
+			foreach($users as $user){
+				if(is_numeric($user->userid)){
+					$cpt++;
+				}
+			}
+		}
+		return $cpt;
+	}
+	public static function RoomsLoaded(){
+		global $users;
+		$cpt = 0;
+		if(count($users) > 0){
+			foreach($users as $user){
+				if(is_numeric($user->room_id)){
+					$cpt++;
+				}
+			}
+		}
+		return $cpt;
 	}
 }
 ?>
