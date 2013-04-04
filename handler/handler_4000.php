@@ -8,6 +8,7 @@
  */
 if(Config::Get("emu.messages.connections")){
 	$release = Core::GetNextString($data);
+	$user->release = $release[0];
 	Core::say("Loaded ".$release[0],1);
 }
 ?>

@@ -18,7 +18,6 @@ $construct->SetStr("12/12/12",true);
 $construct->SetInt24($profile->score);
 $construct->SetInt24($profile->friend_count);
 $friend = DB::mquery("SELECT * FROM messenger_friendships WHERE user_one_id = '".$user->userid ."' AND user_two_id = '".$id."'");
-var_dump($friend);
 if(!$friend){
 	$construct->SetStr(chr(0));
 }else{

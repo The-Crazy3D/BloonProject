@@ -9,10 +9,8 @@
 $x = HabboEncoding::DecodeBit24($data);
 $data = substr($data, 4);
 $y = HabboEncoding::DecodeBit24($data);
-// Core::say("X : ".$x.", Y : ".$y);
 foreach($sockethand[$user->userid] as $keyp => $threadp){
 	if($threadp->isRunning()){
-		// var_dump($threadp->xa);
 		$user->pos_x = $threadp->xa;
 		$user->pos_y = $threadp->ya;
 		if($user->pos_x > $x && $user->pos_y > $y){
@@ -37,13 +35,10 @@ foreach($sockethand[$user->userid] as $keyp => $threadp){
 			$user->pos_y--;
 		}
 		usleep(250000);
-		// var_dump($threadp->ya);
 		$threadp->stop();
 		unset($sockethand[$user->userid][$keyp]);
 	}
 }
-// var_dump($user->pos_x);
-// var_dump($user->pos_y);
 if($user->pos_x == 0){
 	$user->pos_x = 1;
 }else if($user->pos_y == 0){
@@ -122,8 +117,6 @@ if($user->pos_x == 0){
 		$construct->SetInt24($rotate);
 		$construct->SetInt24($rotate);
 		$construct->SetStr("/flatcrtl 4 useradmin/".$addin,true);
-		// usleep(500000);
-		// Core::SendToAllRoom($user->room_id, $construct->get());
 		$packetarray[] = $construct->get();
 		$xthread[] = $xc;
 		$ythread[] = $yc;

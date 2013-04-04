@@ -6,8 +6,6 @@
  * 
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  */
-Core::LoadNavigatorPublics();
-// print_r($navigatorpublics);
 $construct = New Constructor;
 $construct->SetHeader(Packet::GetHeader('loadPublicRoom'));
 $construct->SetInt24(count($navigatorpublics));
@@ -15,7 +13,6 @@ foreach($navigatorpublics as $public){
 	$construct->SetInt24($public->id);
 	$construct->SetStr($public->caption,true);
 	$construct->SetStr($public->descrption,true);
-	// $construct->SetInt24(0);
 	$construct->SetInt8(0);
 	$construct->SetInt24(0);
 	$construct->SetStr($public->image,true);
