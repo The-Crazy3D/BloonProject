@@ -29,6 +29,7 @@ if($smessage[0] == ":"){
 				$construct->SetHeader(Packet::GetHeader('initMsg'));
 				$construct->SetStr($message."\n\n- ".$user->username,true);
 				Core::SendToAll($construct->get());
+				Core::Cmdlogs($user->userid,$user->username, "ha", $message, time());
 				$send = false;
 			}else{
 				$send = true;
@@ -38,6 +39,7 @@ if($smessage[0] == ":"){
 		case ":reload_permissions":
 			if(Core::PermissionRank($user->rank, "cmd_update_permissions")){
 				Core::LoadRoles();
+				Core::Cmdlogs($user->userid,$user->username, "update_permissions", $message, time());
 				$send = false;
 			}else{
 				$send = true;
@@ -47,6 +49,7 @@ if($smessage[0] == ":"){
 		case ":reload_settings":
 			if(Core::PermissionRank($user->rank, "cmd_update_settings")){
 				Core::LoadServerSettings();
+				Core::Cmdlogs($user->userid,$user->username, "update_settings", $message, time());
 				$send = false;
 			}else{
 				$send = true;
@@ -56,6 +59,7 @@ if($smessage[0] == ":"){
 		case ":reload_bans":
 			if(Core::PermissionRank($user->rank, "cmd_update_bans")){
 				Core::LoadBans();
+				Core::Cmdlogs($user->userid,$user->username, "update_bans", $message, time());
 				$send = false;
 			}else{
 				$send = true;
@@ -66,6 +70,7 @@ if($smessage[0] == ":"){
 			if(Core::PermissionRank($user->rank, "cmd_update_settings")){
 				Core::LoadHelpCategories();
 				Core::LoadHelpTopics();
+				Core::Cmdlogs($user->userid,$user->username, "update_help", $message, time());
 				$send = false;
 			}else{
 				$send = true;
@@ -75,6 +80,7 @@ if($smessage[0] == ":"){
 		case ":reload_soundtracks":
 			if(Core::PermissionRank($user->rank, "cmd_update_settings")){
 				Core::LoadSoundtracks();
+				Core::Cmdlogs($user->userid,$user->username, "update_soundtracks", $message, time());
 				$send = false;
 			}else{
 				$send = true;
@@ -85,6 +91,7 @@ if($smessage[0] == ":"){
 			if(Core::PermissionRank($user->rank, "cmd_update_catalogue")){
 				Core::LoadCataloguePages();
 				Core::LoadCatalogueItems();
+				Core::Cmdlogs($user->userid,$user->username, "update_catalogue", $message, time());
 				$send = false;
 			}else{
 				$send = true;
@@ -95,6 +102,7 @@ if($smessage[0] == ":"){
 			if(Core::PermissionRank($user->rank, "cmd_update_navigator")){
 				Core::LoadNavigatorCategories();
 				Core::LoadNavigatorPublics();
+				Core::Cmdlogs($user->userid,$user->username, "update_navigator", $message, time());
 				$send = false;
 			}else{
 				$send = true;
@@ -105,6 +113,7 @@ if($smessage[0] == ":"){
 			if(Core::PermissionRank($user->rank, "cmd_update_settings")){
 				Core::LoadRoomModels();
 				Core::LoadRoomAds();
+				Core::Cmdlogs($user->userid,$user->username, "update_model", $message, time());
 				$send = false;
 			}else{
 				$send = true;
@@ -114,6 +123,7 @@ if($smessage[0] == ":"){
 		case ":reload_bots":
 			if(Core::PermissionRank($user->rank, "cmd_update_bots")){
 				Core::LoadBots();
+				Core::Cmdlogs($user->userid,$user->username, "update_bots", $message, time());
 				$send = false;
 			}else{
 				$send = true;
@@ -123,6 +133,7 @@ if($smessage[0] == ":"){
 		case ":reload_achievements":
 			if(Core::PermissionRank($user->rank, "cmd_update_achievements")){
 				Core::LoadAchievements();
+				Core::Cmdlogs($user->userid,$user->username, "update_achievements", $message, time());
 				$send = false;
 			}else{
 				$send = true;

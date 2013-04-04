@@ -517,5 +517,11 @@ Class Core{
 			DB::exec("INSERT INTO chatlogs (user_id,room_id,hour,minute,full_date,timestamp,message,user_name) VALUES ('".$userid."','".$roomid."','".$hour."','".$minute."','".$fulldate."','".$timestamp."','".$message."','".$username."')");
 		}
 	}
+	public static function Cmdlogs($userid, $username, $command, $extra, $timestamp){
+		if(self::GetSettings("enable_cmdlogs")){
+			$extra = str_replace("'", "\'", $extra);
+			DB::exec("INSERT INTO cmdlogs (user_id,user_name,command,extra_data, timestamp) VALUES ('".$userid."','".$username."','".$command."','".$extra."','".$timestamp."')");
+		}
+	}
 }
 ?>
