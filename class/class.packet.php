@@ -49,6 +49,7 @@ Class Packet{
 		$Outgoing['userLeaveRoom'] = 3770;
 		$Outgoing['userAction'] = 523;
 		$Outgoing['chatBullet'] = 851;
+		$Outgoing['alertLink'] = 3192;
 		if(isset($Outgoing[$name])){
 			return $Outgoing[$name];
 		}else{
