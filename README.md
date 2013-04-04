@@ -12,6 +12,19 @@ To run the EMU you'll need these PHP extensions activated :
 * cURL (updater class)
 * pThreads (multithreading)
 
+### Revision 24000
+
+* Coded Z axis of pathfinder !
+* Fixed updater
+* Added message on startup if missing extension (pthreads)
+* Fixed pathfinder bug if user click in same case
+* Added change look handler
+* Added load function on startup for : chat filter, quests, groups
+* Added start time
+* Cleaned file and updated handler doc.txt
+* Added version file, coded about command
+* Fixed console write on loading room
+* Recoded UsersOnline,RoomsLoaded count system and enhanced config system
 
 ### Revision 23350
 
