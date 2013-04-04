@@ -564,7 +564,7 @@ Class Core{
 		$cpt = 0;
 		if(count($users) > 0){
 			foreach($users as $user){
-				if(is_numeric($user->room_id)){
+				if(isset($user->room_id) && is_numeric($user->room_id)){
 					$cpt++;
 				}
 			}
