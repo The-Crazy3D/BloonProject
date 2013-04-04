@@ -21,7 +21,7 @@ Console::SetTitle("Loading BloonCrypto...");
 // Async::call(array("Console", "SetTitle"), array("Loading BloonCrypto..."));
 
 
-Console::WriteLine("Welcome to this ALPHA 2.2 of BloonCrypto...");
+Console::WriteLine("Welcome to this ALPHA 2.3 of BloonCrypto...");
 // Async::call(array("Console", "WriteLine"), array("Welcome to this ALPHA 1.3 of BloonCrypto..."));
 Console::WriteLine();
 // Async::call(array("Console", "WriteLine"), array());

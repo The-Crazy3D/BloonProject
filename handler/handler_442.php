@@ -39,7 +39,7 @@ if(!$userdata){
 		$user->volume = $userdata->volume;
 		$user->accept_trading = $userdata->accept_trading;
 		
-		if(Core::Get("emu.messages.connections")){
+		if(Config::Get("emu.messages.connections")){
 			Core::say($user->username ." logged in !",1);
 		}
 		

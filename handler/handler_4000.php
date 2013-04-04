@@ -6,7 +6,7 @@
  * 
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  */
-if(Core::Get("emu.messages.connections")){
+if(Config::Get("emu.messages.connections")){
 	$release = Core::GetNextString($data);
 	Core::say("Loaded ".$release[0],1);
 }
