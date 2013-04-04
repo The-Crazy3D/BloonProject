@@ -240,6 +240,9 @@ Class Core{
 		self::LoadRoomAds();
 		self::LoadBots();
 		self::LoadAchievements();
+		self::LoadChatFilter();
+		self::LoadQuests();
+		self::LoadGroups();
 		Console::Beep();
 		self::StatsTasks();
 		self::CleanUpDatabase();
@@ -337,6 +340,26 @@ Class Core{
 		global $achievements;
 		Console::Write("Loading Achievements...");
 		$achievements = DB::mquery("SELECT * FROM achievements");
+		Console::WriteLine("completed!");
+	}
+	public static function LoadChatFilter(){
+		global $chatfilter;
+		Console::Write("Loading Chat Filter...");
+		$chatfilter = DB::mquery("SELECT * FROM wordfilter");
+		Console::WriteLine("completed!");
+	}
+	public static function LoadQuests(){
+		global $quests;
+		Console::Write("Loading Quests...");
+		$quests = DB::mquery("SELECT * FROM quests");
+		Console::WriteLine("completed!");
+	}
+	public static function LoadGroups(){
+		global $groups,$grouprequests,$groupmemberships;
+		Console::Write("Loading Groups...");
+		$quests = DB::mquery("SELECT * FROM quests");
+		$grouprequests = DB::mquery("SELECT * FROM group_requests");
+		$groupmemberships = DB::mquery("SELECT * FROM group_memberships");
 		Console::WriteLine("completed!");
 	}
 	public static function StatsTasks(){
