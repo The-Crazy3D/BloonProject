@@ -65,6 +65,7 @@ Class Core{
 		$msg = str_replace(chr(13), "[13]", $msg);
 		$msg = str_replace(chr(14), "[14]", $msg);
 		$msg = str_replace(chr(15), "[15]", $msg);
+		$msg = str_replace(chr(0xFF), "[0xFF]", $msg);
 		$print.= $msg."\n";
 		print($print);
 	}
@@ -92,14 +93,14 @@ Class Core{
 		if($users[$i]->socket==$socket){ $found=$i; break; }
 	  }
 	  $usertemp = self::getuserbysocket($socket);
-	  if(is_numeric($usertemp->room_id)){
+	  if(isset($usertemp->room_id) && is_numeric($usertemp->room_id)){
 		$construct = New Constructor;
-		$construct->SetHeader(Packet::GetHeader('userLeaveRoom'));
+		$construct->SetHeader(Packet::GetHeader('UserLeftRoom'));
 		$construct->SetStr($usertemp->userid,true);
 		self::SendToRoom($usertemp->room_id, $construct->get(),$usertemp->userid);
 		DB::exec("UPDATE rooms SET users_now = users_now-1 WHERE id = '".$usertemp->room_id."'");
 	  }
-	  if(is_numeric($usertemp->userid)){
+	  if(isset($usertemp->room_id) && is_numeric($usertemp->userid)){
 		$friend = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_friendships m, users u WHERE m.user_one_id = ".$usertemp->userid ." AND u.id = m.user_two_id AND u.online = '1' ORDER BY -online;");
 		if($friend){
 			foreach($friend as $fuser){
@@ -296,7 +297,7 @@ Class Core{
 	public static function LoadCataloguePages(){
 		global $cataloguepages;
 		Console::Write("Loading Catalogue Pages...");
-		$cataloguepages = DB::mquery("SELECT * FROM catalog_pages");
+		$cataloguepages = DB::mquery("SELECT * FROM catalog_pages ORDER BY order_num ASC");
 		Console::WriteLine("completed!");
 	}
 	public static function LoadCatalogueItems(){
@@ -482,7 +483,7 @@ Class Core{
 		$friend = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_friendships m, users u WHERE m.user_one_id = ".$user->userid ." AND u.id = m.user_two_id ORDER BY -online;");
 		if($friend){
 		$construct = New Constructor;
-		$construct->SetHeader(Packet::GetHeader('loadFriend'));
+		$construct->SetHeader(Packet::GetHeader('InitFriends'));
 		$construct->SetInt24(1100);
 		$construct->SetInt24(300);
 		$construct->SetInt24(800);

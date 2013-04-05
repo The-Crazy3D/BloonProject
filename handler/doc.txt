@@ -27,3 +27,5 @@ If you add handler, add it here !
 1332 : change look
 3603 : change motto
 1973 : load inventory
+3038 : load catalogue
+1132 : load catalogue page
