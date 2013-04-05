@@ -26,7 +26,7 @@ Console::SetTitle("Loading BloonCrypto...");
 
 Updater::Check();
 
-Config::init();
+Config::Init();
 
 Console::WriteLine("Welcome to this ALPHA ".Core::GetVersion()." Build ".Core::GetRevision()." of BloonCrypto...");
 
