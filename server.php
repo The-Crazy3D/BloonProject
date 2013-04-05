@@ -10,53 +10,55 @@ error_reporting(E_ALL);
 set_time_limit(0);
 ob_implicit_flush();
 
+if(!extension_loaded("pthreads")){
+	Console::WriteLine("Please install phtreads ! Emulator can't run without it.");
+	exit;
+}
+
+$start_load = microtime();
 spl_autoload_register(function ($class) {
     include 'class/class.' . $class . '.php';
 });
 
-// loadClass("updater");
-// loadClass("console");
-
-Updater::Check();
-// Async::call(array("Updater", "Check"), array());
+loadClass("updater");
 
 Console::SetTitle("Loading BloonCrypto...");
-// Async::call(array("Console", "SetTitle"), array("Loading BloonCrypto..."));
 
-require "config.php";
+Updater::Check();
 
+Config::Init();
 
-Console::WriteLine("Welcome to this ALPHA 2.4 of BloonCrypto...");
-// Async::call(array("Console", "WriteLine"), array("Welcome to this ALPHA 1.3 of BloonCrypto..."));
+Console::WriteLine("Welcome to this ALPHA ".Core::GetVersion()." Build ".Core::GetRevision()." of BloonCrypto...");
+
 Console::WriteLine();
-// Async::call(array("Console", "WriteLine"), array());
-Console::WriteLine("Loading Database...completed!");
-// Async::call(array("Console", "Write"), array(Loading Database..."));
-Console::Write("Connecting to Bloons Database...");
-// Async::call(array("Console", "Write"), array("Connecting to database..."));
+
+Console::Write("Connecting to database...");
+
 try{
-	if($CONFIG['mysql']['port'] != 3306){
-		$portext = chr(58).$CONFIG['mysql']['port'];
+	if(Config::Get("db.port") != 3306){
+		$portext = chr(58).Config::Get("db.port");
 	}else{
 		$portext = "";
 	}
-	@$sql = new PDO('mysql:host='.$CONFIG['mysql']['host'].$portext.';dbname='.$CONFIG['mysql']['database'], $CONFIG['mysql']['user'], $CONFIG['mysql']['password']);
-	unset($CONFIG['mysql']);
+	@$sql = new PDO('mysql:host='.Config::Get("db.hostname").$portext.';dbname='.Config::Get("db.name"), Config::Get("db.username"), Config::Get("db.password"));
 }catch(Exception $error){
 	Console::WriteLine("failed!");
-	// Async::call(array("Console", "WriteLine"), array("failed!"));
 	Console::WriteLine("Error : ".$error->getMessage());
-	// Async::call(array("Console", "WriteLine"), array("Error : ".$error->getMessage()));
 	exit;
 }
 Console::WriteLine("completed!");
-// Async::call(array("Console", "WriteLine"), array("completed!"));
 
 Core::OnStartTasks();
 
-$master  = Core::Socket($CONFIG['bindAddr'],$CONFIG['bindPort']);
+$master  = Core::Socket(Config::Get("game.tcp.bindip"),Config::Get("game.tcp.port"));
 $sockets = array($master);
 $users   = array();
+
+$end_load = microtime();
+
+$statstart = Core::DiffTime($start_load, $end_load);
+Console::WriteLine("Server -> READY! (".$statstart[0]." s, ".$statstart[1]." ms)");
+unset($statstart,$start_load,$end_load);
 
 while(true){
   Core::StatsTasks();
@@ -79,7 +81,7 @@ while(true){
 			$packet = Core::GetHeader($packet);
 			$header = $packet[0];
 			$data = $packet[2];
-			if($CONFIG['debug']){
+			if(Config::Get("emu.messages.debug")){
 				Core::say("[".$header."] ".$data,1);
 			}
 			$filepath = ("handler/handler_".$header.".php");
