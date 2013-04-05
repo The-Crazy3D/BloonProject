@@ -83,12 +83,13 @@ Switch($page->page_layout){
 
 if($page->page_layout != "frontpage" && $page->page_layout != "club_buy"){
 	$itemslist = Catalogue::getCatalogueItems($pageid);
-	// $construct->SetInt24(0);
+	$construct->SetInt24(0);
 	$construct->SetInt24(count($itemslist));
 	if(count($itemslist) > 0){
 		foreach($itemslist as $items){
-			$construct->SetInt24($items->id);
-			$construct->SetStr($items->catalog_name, true);
+			$furni = Catalogue::getItemData($items->id);
+			$construct->SetInt24($furni->id);
+			$construct->SetStr($furni->item_name, true);
 			$construct->SetInt24($items->cost_credits);
 			
 			if($items->cost_snow > 0){
@@ -100,7 +101,6 @@ if($page->page_layout != "frontpage" && $page->page_layout != "club_buy"){
 			}
 			$construct->SetBoolean(true);
 			
-			$furni = Catalogue::getItemData($items->id);
 			$construct->SetInt24(1);
 			$construct->SetStr($furni->type,true);
 			$construct->SetInt24($furni->sprite_id);

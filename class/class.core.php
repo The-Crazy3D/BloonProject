@@ -609,5 +609,8 @@ Class Core{
 	public static function GetWallItems($userid){
 		return DB::mquery('SELECT i.*,f.* FROM items i, furniture f WHERE i.user_id = "'.$userid.'" AND i.room_id = 0 AND i.base_item = f.id AND f.type = "i"');
 	}
+	public static function getItemData($id){
+		return DB::query("SELECT * FROM items WHERE id = '".$id."'");
+	}
 }
 ?>

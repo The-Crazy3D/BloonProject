@@ -44,7 +44,6 @@ $construct->SetInt24(0);
 $construct->SetStr(chr(0));
 $rateroom = $construct->get();
 Core::send($user->socket, $rateroom);
-Core::send($user->socket, $rateroom);
 
 unset($roomid,$roominfo,$rateroom);
 ?>
