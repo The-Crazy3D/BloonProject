@@ -8,14 +8,36 @@
  */
 Class DB{
 
+	private $_sqlConnexion;
+	
 	private static $_instance = null;
 	
 	public static function getInstance(){
-	
+		if( self::$_instance === null )
+			self::$_instance = new self();
+		return self::$_instance;
 	}
 	
-	public function __construct(){
-	
+	private function __construct(){
+		/*
+			$_sqlConnexion should be set here and "global $sql" should disappear...
+		*/
+		Console::Write("Connecting to database...");
+		
+		try{
+			if(Config::Get("db.port") != 3306){
+				$portext = chr(58).Config::Get("db.port");
+			}else{
+				$portext = "";
+			}
+			$this->_sqlConnexion = new PDO('mysql:host='.Config::Get("db.hostname").$portext.';dbname='.Config::Get("db.name"), Config::Get("db.username"), Config::Get("db.password"));
+		}catch(Exception $error){
+			Console::WriteLine("failed!");
+			Console::WriteLine("Error : ".$error->getMessage());
+			exit;
+		}
+		
+		Console::WriteLine("completed!");
 	}
 	
 	public static function query($req){
