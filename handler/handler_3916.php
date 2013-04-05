@@ -7,7 +7,7 @@
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  */
 $construct = New Constructor;
-$construct->SetHeader(Packet::GetHeader('chatBullet'));
+$construct->SetHeader(Packet::GetHeader('TypingStatus'));
 $construct->SetInt24($user->userid);
 $construct->SetInt24(0);
 Core::SendToAllRoom($user->room_id, $construct->get());

@@ -8,7 +8,7 @@
  */
 if( strtolower($message) == "(l)" || preg_match("/<3/i", strtolower($message))){
 	$construct = New Constructor;
-	$construct->SetHeader(Packet::GetHeader('userAction'));
+	$construct->SetHeader(Packet::GetHeader('Action'));
 	$construct->SetInt24($user->userid);
 	$construct->SetInt24(2);
 	Core::SendToAllRoom($user->room_id, $construct->get());
@@ -26,7 +26,7 @@ if($smessage[0] == ":"){
 				$message = str_replace(":hotelalert ", "", $message);
 				$message = str_replace(":hotelalert", "", $message);
 				$construct = New Constructor;
-				$construct->SetHeader(Packet::GetHeader('initMsg'));
+				$construct->SetHeader(Packet::GetHeader('BroadcastMessage'));
 				$construct->SetStr($message."\n\n- ".$user->username,true);
 				Core::SendToAll($construct->get());
 				Core::Cmdlogs($user->userid,$user->username, "ha", $message, time());
@@ -41,7 +41,7 @@ if($smessage[0] == ":"){
 				$message = str_replace(":hal", "", $message);
 				$message = str_replace($split[1]." ", "", $message);
 				$construct = New Constructor;
-				$construct->SetHeader(Packet::GetHeader('alertLink'));
+				$construct->SetHeader(Packet::GetHeader('SendNotif'));
 				$construct->SetStr($message."\n\n- ".$user->username,true);
 				$construct->SetStr($split[1],true);
 				Core::SendToAll($construct->get());
@@ -54,7 +54,7 @@ if($smessage[0] == ":"){
 		case ":about":
 		case ":info":
 			$construct = New Constructor;
-			$construct->SetHeader(Packet::GetHeader('alertLink'));
+			$construct->SetHeader(Packet::GetHeader('SendNotif'));
 			$revision = Core::GetRevision();
 			$version = Core::GetVersion();
 			if(Core::GetSettings("ShowUsersAndRoomsInAbout")){

@@ -15,7 +15,7 @@ $user->look = $look;
 $user->gender = $gender;
 DB::exec("UPDATE users SET look = '".$look."',gender = '".$gender."' WHERE id = '".$user->userid ."'");
 $construct = New Constructor;
-$construct->SetHeader(Packet::GetHeader('updateLookMotto'));
+$construct->SetHeader(Packet::GetHeader('UpdateUserInformation'));
 $construct->SetInt24($user->userid);
 $construct->SetStr($look,true);
 $construct->SetStr(strtolower($gender),true);

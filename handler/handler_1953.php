@@ -13,7 +13,7 @@ $color = HabboEncoding::DecodeBit24($split[1]);
 @include "handler/handler_command.php";
 if($send){
 	$construct = New Constructor;
-	$construct->SetHeader(Packet::GetHeader('talkShout'));
+	$construct->SetHeader(Packet::GetHeader('Shout'));
 	$construct->SetInt24($user->userid);
 	$construct->SetStr($message,true);
 	$construct->SetInt24(0);

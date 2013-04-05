@@ -7,7 +7,7 @@
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  */
 $construct = New Constructor;
-$construct->SetHeader(Packet::GetHeader('createRoomWindow'));
+$construct->SetHeader(Packet::GetHeader('CanCreateRoom'));
 $construct->SetInt24(0);
 $construct->SetInt24($user->userid);
 Core::send($user->socket, $construct->get());

@@ -7,7 +7,7 @@
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  */
 $construct = New Constructor;
-$construct->SetHeader(Packet::GetHeader('loadPublicRoom'));
+$construct->SetHeader(Packet::GetHeader('SerializePublicRooms'));
 $construct->SetInt24(count($navigatorpublics));
 foreach($navigatorpublics as $public){
 	$construct->SetInt24($public->id);

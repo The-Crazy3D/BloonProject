@@ -8,13 +8,12 @@
  */
 $actionid = HabboEncoding::DecodeBit24($data);
 $construct = New Constructor;
-$construct->SetHeader(Packet::GetHeader('pathfinding'));
+$construct->SetHeader(Packet::GetHeader('UpdateState'));
 $construct->SetInt24(1);
 $construct->SetInt24($user->userid);
 $construct->SetInt24($user->pos_x);
 $construct->SetInt24($user->pos_y);
-$construct->SetInt8(1);
-$construct->SetStr(chr(0x30));
+$construct->SetStr($user->pos_z,true);
 $construct->SetInt24($user->rotate);
 $construct->SetInt24($user->rotate);
 $construct->SetStr("/flatcrtl 4 useradmin/sign ".$actionid."//",true);

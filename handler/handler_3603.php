@@ -11,7 +11,7 @@ $motto = $split[0];
 DB::exec("UPDATE users SET motto = '".$motto."' WHERE id = '".$user->userid ."'");
 $user->motto = $motto;
 $construct = New Constructor;
-$construct->SetHeader(Packet::GetHeader('updateLookMotto'));
+$construct->SetHeader(Packet::GetHeader('UpdateUserInformation'));
 $construct->SetInt24($user->userid);
 $construct->SetStr($user->look,true);
 $construct->SetStr(strtolower($user->gender),true);

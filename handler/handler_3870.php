@@ -37,7 +37,7 @@ switch($action){
 				$model = Core::GetModel($roominfo->model_name);
 				$heightmap = str_replace(chr(10), "", $model->heightmap .chr(0x0D));
 				$construct = New Constructor;
-				$construct->SetHeader(Packet::GetHeader('loadRoomModel1'));
+				$construct->SetHeader(Packet::GetHeader('HeightMap'));
 				$construct->SetStr($heightmap,true);
 				Core::send($user->socket, $construct->get());
 				unset($construct);
@@ -60,20 +60,20 @@ switch($action){
 					}
 				}
 				$construct = New Constructor;
-				$construct->SetHeader(Packet::GetHeader('loadRoomModel2'));
+				$construct->SetHeader(Packet::GetHeader('RelativeMap'));
 				$construct->SetStr($heightmap_door,true);
 				Core::send($user->socket, $construct->get());
 				unset($construct);
 				
 				$construct = New Constructor;
-				$construct->SetHeader(Packet::GetHeader('loadRoom1'));
+				$construct->SetHeader(Packet::GetHeader('SerializeFloorItems'));
 				$construct->SetInt24(0);
 				$construct->SetInt24(0);
 				Core::send($user->socket, $construct->get());
 				unset($construct);
 				
 				$construct = New Constructor;
-				$construct->SetHeader(Packet::GetHeader('loadRoom2'));
+				$construct->SetHeader(Packet::GetHeader('SerializeWallItems'));
 				$construct->SetInt24(0);
 				$construct->SetInt24(0);
 				Core::send($user->socket, $construct->get());
@@ -85,7 +85,7 @@ switch($action){
 				$user->rotate = $model->door_dir;
 				$userlist = Core::GetUserByRoom($roomid);
 				$construct = New Constructor;
-				$construct->SetHeader(Packet::GetHeader('loadRoomUser'));
+				$construct->SetHeader(Packet::GetHeader('SetRoomUser'));
 				$construct->SetInt24(count($userlist));
 				foreach($userlist as $roomuser){
 					$construct->SetInt24($roomuser->userid);
@@ -108,7 +108,7 @@ switch($action){
 				unset($construct);
 				
 				$construct = New Constructor;
-				$construct->SetHeader(Packet::GetHeader('loadRoomUser'));
+				$construct->SetHeader(Packet::GetHeader('SetRoomUser'));
 				$construct->SetInt24(1);
 				$construct->SetInt24($user->userid);
 				$construct->SetStr($user->username,true);
@@ -129,7 +129,7 @@ switch($action){
 				unset($construct);
 				
 				$construct = New Constructor;
-				$construct->SetHeader(Packet::GetHeader('loadRoom3'));
+				$construct->SetHeader(Packet::GetHeader('ConfigureWallandFloor'));
 				$construct->SetInt24(0);
 				$construct->SetInt24(0);
 				$construct->SetInt8(0);
@@ -137,11 +137,8 @@ switch($action){
 				Core::send($user->socket, $construct->get());
 				unset($construct);
 				
-				/*$construct = New Constructor;
-				$construct->SetHeader(Packet::GetHeader('loadRoom4'));
-				$construct->SetInt24($user->userid);*/
 				$construct = New Constructor;
-				$construct->SetHeader(Packet::GetHeader('pathfinding'));
+				$construct->SetHeader(Packet::GetHeader('UpdateState'));
 				$construct->SetInt24(1);
 				$construct->SetInt24($user->userid);
 				$construct->SetInt24($model->door_x);
@@ -150,7 +147,7 @@ switch($action){
 				$construct->SetInt24(2);
 				$construct->SetInt24(2);
 				$construct->SetStr("/flatcrtl 4 useradmin/",true);
-				Core::send($user->socket, $construct->get());
+				Core::SendToAllRoom($user->room_id, $construct->get());
 				unset($construct);
 				DB::exec("UPDATE rooms SET users_now = users_now+1 WHERE id = '".$user->room_id."'");
 			break;

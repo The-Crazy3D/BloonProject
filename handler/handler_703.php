@@ -101,7 +101,7 @@ if($x != $user->pos_x || $y != $user->pos_y){
 		}
 		$user->pos_z = Core::GetTileData($xc, $yc, $user->heightmap);
 		$construct = New Constructor;
-		$construct->SetHeader(Packet::GetHeader('pathfinding'));
+		$construct->SetHeader(Packet::GetHeader('UpdateState'));
 		if(isset($xf) && isset($yf)){
 			$addin = "mv ".$xf.",".$yf.",".$zf."//";
 

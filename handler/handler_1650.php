@@ -9,47 +9,42 @@
 $roomid = HabboEncoding::DecodeBit24($data);
 $roominfo = DB::query("SELECT model_name,landscape FROM rooms WHERE id = '".$roomid."'");
 $construct = New Constructor;
-$construct->SetHeader(Packet::GetHeader('loadRoomInfo1'));
+$construct->SetHeader(Packet::GetHeader('PrepareRoomForUsers'));
 Core::send($user->socket, $construct->get());
 unset($construct);
 
 $construct = New Constructor;
-$construct->SetHeader(Packet::GetHeader('loadRoomInfo2'));
+$construct->SetHeader(Packet::GetHeader('InitialRoomInformation'));
 $construct->SetStr($roominfo->model_name,true);
 $construct->SetInt24($roomid);
 Core::send($user->socket, $construct->get());
 unset($construct);
 
 $construct = New Constructor;
-$construct->SetHeader(Packet::GetHeader('loadRoomInfo3'));
+$construct->SetHeader(Packet::GetHeader('RoomDecoration'));
 $construct->SetStr("landscape",true);
 $construct->SetStr($roominfo->landscape,true);
 Core::send($user->socket, $construct->get());
 unset($construct);
 
 $construct = New Constructor;
-$construct->SetHeader(Packet::GetHeader('loadRoomInfo4'));
+$construct->SetHeader(Packet::GetHeader('RoomRightsLevel'));
 $construct->SetInt24(4);
 Core::send($user->socket, $construct->get());
 unset($construct);
 
 $construct = New Constructor;
-$construct->SetHeader(Packet::GetHeader('loadRoomInfo5'));
+$construct->SetHeader(Packet::GetHeader('HasOwnerRights'));
 Core::send($user->socket, $construct->get());
 unset($construct);
 
 $construct = New Constructor;
-$construct->SetHeader(Packet::GetHeader('loadRoomInfo6'));
+$construct->SetHeader(Packet::GetHeader('RateRoom'));
 $construct->SetInt24(0);
 $construct->SetStr(chr(0));
-Core::send($user->socket, $construct->get());
-unset($construct);
+$rateroom = $construct->get();
+Core::send($user->socket, $rateroom);
+Core::send($user->socket, $rateroom);
 
-$construct = New Constructor;
-$construct->SetHeader(Packet::GetHeader('loadRoomInfo6'));
-$construct->SetInt24(0);
-$construct->SetStr(chr(0));
-Core::send($user->socket, $construct->get());
-
-unset($roomid,$roominfo);
+unset($roomid,$roominfo,$rateroom);
 ?>

@@ -7,7 +7,7 @@
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  */
 $construct = New Constructor;
-$construct->SetHeader(Packet::GetHeader('init1'));
+$construct->SetHeader(Packet::GetHeader('SendBannerMessageComposer'));
 $construct->SetStr("12f449917de4f94a8c48dbadd92b6276",true);
 $construct->SetStr(chr(0));
 Core::send($user->socket, $construct->get());

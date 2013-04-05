@@ -16,10 +16,9 @@ DB::exec("INSERT INTO rooms (caption,owner,model_name) VALUES('".$name."','".$us
 $id = DB::query("SELECT id as lastid FROM rooms ORDER BY -id LIMIT 1");
 
 $construct = New Constructor;
-$construct->SetHeader(Packet::GetHeader('createRoom'));
+$construct->SetHeader(Packet::GetHeader('OnCreateRoomInfo'));
 $construct->SetInt24($id->lastid);
 $construct->SetStr($name,true);
 Core::send($user->socket, $construct->get());
-// Core::say("Make room name : ".$name." model : ".$model);
 unset($split,$name,$model);
 ?>

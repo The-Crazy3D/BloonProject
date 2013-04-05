@@ -12,7 +12,7 @@ $key = str_replace("owner:", "", $key);
 $roomlist = DB::mquery("SELECT u.username,u.id as userid,r.id,r.caption,r.state,r.users_max,r.users_now FROM rooms r,users u WHERE u.username = r.owner AND r.owner = '".$key."' OR r.caption LIKE '".$key."%' ORDER BY owner");
 if(!$roomlist){
 	$construct = New Constructor;
-	$construct->SetHeader(Packet::GetHeader('loadUserRoomList'));
+	$construct->SetHeader(Packet::GetHeader('NavigatorPacket'));
 	$construct->SetInt24(5);
 	$construct->SetInt24(0);
 	$construct->SetInt24(0);
@@ -22,7 +22,7 @@ if(!$roomlist){
 	Core::send($user->socket, $construct->get());
 }else{
 	$construct = New Constructor;
-	$construct->SetHeader(Packet::GetHeader('loadUserRoomList'));
+	$construct->SetHeader(Packet::GetHeader('NavigatorPacket'));
 	$construct->SetInt24(5);
 	$construct->SetInt8(0);
 	$construct->SetInt24(count($roomlist));

@@ -8,7 +8,7 @@
  */
 $actionid = HabboEncoding::DecodeBit24($data);
 $construct = New Constructor;
-$construct->SetHeader(Packet::GetHeader('userAction'));
+$construct->SetHeader(Packet::GetHeader('Action'));
 $construct->SetInt24($user->userid);
 $construct->SetInt24($actionid);
 Core::SendToAllRoom($user->room_id, $construct->get());
