@@ -7,6 +7,17 @@
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  */
 Class DB{
+
+	private static $_instance = null;
+	
+	public static function getInstance(){
+	
+	}
+	
+	public function __construct(){
+	
+	}
+	
 	public static function query($req){
 		global $sql;
 		$exe = $sql->prepare($req);
