@@ -602,5 +602,11 @@ Class Core{
 			}
 		}
 	}
+	public static function GetFloorItems($userid){
+		return DB::mquery('SELECT i.id,f.type,f.sprite_id,f.allow_recycle,f.allow_trade,f.allow_inventory_stack,f.allow_marketplace_sell FROM items i, furniture f WHERE i.user_id = "'.$userid.'" AND i.room_id = 0 AND i.base_item = f.id AND f.type = "s"');
+	}
+	public static function GetWallItems($userid){
+		return DB::mquery('SELECT i.*,f.* FROM items i, furniture f WHERE i.user_id = "'.$userid.'" AND i.room_id = 0 AND i.base_item = f.id AND f.type = "i"');
+	}
 }
 ?>

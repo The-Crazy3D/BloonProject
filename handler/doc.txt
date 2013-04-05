@@ -26,3 +26,4 @@ If you add handler, add it here !
 1650 : load room info
 1332 : change look
 3603 : change motto
+1973 : load inventory
