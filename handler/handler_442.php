@@ -99,6 +99,7 @@ if(!$userdata){
 		$construct->SetStr($user->credits .".0",true);
 		Core::send($user->socket, $construct->get());
 		unset($construct);
+		
 		if(strlen(Core::GetSettings("motd")) > 2){
 			$construct = New Constructor;
 			$construct->SetHeader(Packet::GetHeader('BroadcastMessage'));
@@ -111,7 +112,7 @@ if(!$userdata){
 		$friend = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_friendships m, users u WHERE m.user_one_id = ".$user->userid ." AND u.id = m.user_two_id AND u.online = '1' ORDER BY -online;");
 		if($friend){
 			foreach($friend as $fuser){
-				Core::LoadFriendBar($fuser->id);
+				Core::AddFriendBar($fuser->id,$user->userid);
 			}
 		}
 		

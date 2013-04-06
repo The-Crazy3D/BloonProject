@@ -82,16 +82,27 @@ Switch($page->page_layout){
 }
 
 if($page->page_layout != "frontpage" && $page->page_layout != "club_buy"){
-	$itemslist = Catalogue::getCatalogueItems($pageid);
-	$construct->SetInt24(0);
-	$construct->SetInt24(count($itemslist));
+	//$itemslist = Catalogue::getCatalogueItems($pageid);
+	//print_r($itemslist);
+	//$construct->SetInt24(0);
+	$itemslist = DB::mquery("SELECT f.sprite_id,f.public_name,f.type,f.id,c.cost_credits,c.cost_pixels,c.cost_snow,c.amount,c.vip FROM catalog_items c, catalog_pages d, furniture f
+WHERE c.page_id = d.id
+AND c.item_ids = f.id
+AND c.page_id = ".$pageid);
+	if(!$itemslist){
+		$construct->SetInt24(0);
+	}else{
+		$construct->SetInt24(count($itemslist));
+	}
 	if(count($itemslist) > 0){
-		foreach($itemslist as $items){
-			$furni = Catalogue::getItemData($items->id);
-			$construct->SetInt24($furni->id);
-			$construct->SetStr($furni->item_name, true);
+		foreach($itemslist as $items){			
+			//$furni = Catalogue::getItemData($items->id);
+			$construct->SetInt24($items->id);
+			/*if(!$furni->item_name){
+				$furni->item_name = "undefined";
+			}*/
+			$construct->SetStr($items->public_name, true);
 			$construct->SetInt24($items->cost_credits);
-			
 			if($items->cost_snow > 0){
 				$construct->SetInt24($items->snow);
 				$construct->SetInt24(105);
@@ -102,18 +113,13 @@ if($page->page_layout != "frontpage" && $page->page_layout != "club_buy"){
 			$construct->SetBoolean(true);
 			
 			$construct->SetInt24(1);
-			$construct->SetStr($furni->type,true);
-			$construct->SetInt24($furni->sprite_id);
-			// if($page->page_layout == "spaces"){
-			// }else{
-				$construct->SetInt8(0);
-			// }
-			$construct->SetInt24($items->amount);
-			$construct->SetInt24(-1);
-			
-			$construct->SetBoolean(false);
+			$construct->SetStr($items->type,true);
+			$construct->SetInt24($items->sprite_id);
+			$construct->SetInt8(0);
+			$construct->SetInt24(1);
 			$construct->SetInt24(0);
-			$construct->SetBoolean(false);
+			$construct->SetInt8(0);
+			$construct->SetInt24(1);
 		}
 	}
 }else{
@@ -122,7 +128,10 @@ if($page->page_layout != "frontpage" && $page->page_layout != "club_buy"){
 
 $construct->SetInt24(-1);
 $construct->SetBoolean(false);
-Core::send($user->socket, $construct->get());
+
+if($page->enabled == 1){
+	Core::send($user->socket, $construct->get());
+}
 
 unset($pageid,$page,$items,$itemslist);
 ?>

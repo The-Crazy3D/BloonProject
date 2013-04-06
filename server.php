@@ -48,6 +48,10 @@ try{
 }
 Console::WriteLine("completed!");
 
+if(Config::Get("db.OptimizeOnStartup")){
+	Optimizer::Exec(Config::Get("db.name"));
+}
+
 Core::OnStartTasks();
 
 $master  = Core::Socket(Config::Get("game.tcp.bindip"),Config::Get("game.tcp.port"));

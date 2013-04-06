@@ -101,10 +101,11 @@ Class Core{
 		DB::exec("UPDATE rooms SET users_now = users_now-1 WHERE id = '".$usertemp->room_id."'");
 	  }
 	  if(isset($usertemp->room_id) && is_numeric($usertemp->userid)){
+		DB::exec("UPDATE users SET online = '0' WHERE id = '".$usertemp->userid ."'");
 		$friend = DB::mquery("SELECT u.id,u.username,u.look,u.online,u.motto FROM messenger_friendships m, users u WHERE m.user_one_id = ".$usertemp->userid ." AND u.id = m.user_two_id AND u.online = '1' ORDER BY -online;");
 		if($friend){
 			foreach($friend as $fuser){
-				self::LoadFriendBar($fuser->id);
+				self::RemoveFriendBar($fuser->id,$usertemp->userid);
 			}
 		}
 	  }
@@ -228,23 +229,23 @@ Class Core{
 		return Array($string, $reste);
 	}
 	public static function OnStartTasks(){
-		self::LoadServerSettings();
-		self::LoadBans();
-		self::LoadRoles();
-		self::LoadHelpCategories();
-		self::LoadHelpTopics();
-		self::LoadSoundtracks();
-		self::LoadCataloguePages();
-		self::LoadCatalogueItems();
-		self::LoadNavigatorCategories();
-		self::LoadNavigatorPublics();
-		self::LoadRoomModels();
-		self::LoadRoomAds();
-		self::LoadBots();
-		self::LoadAchievements();
-		self::LoadChatFilter();
-		self::LoadQuests();
-		self::LoadGroups();
+		Loader::LoadServerSettings();
+		Loader::LoadBans();
+		Loader::LoadRoles();
+		Loader::LoadHelpCategories();
+		Loader::LoadHelpTopics();
+		Loader::LoadSoundtracks();
+		Loader::LoadCataloguePages();
+		Loader::LoadCatalogueItems();
+		Loader::LoadNavigatorCategories();
+		Loader::LoadNavigatorPublics();
+		Loader::LoadRoomModels();
+		Loader::LoadRoomAds();
+		Loader::LoadBots();
+		Loader::LoadAchievements();
+		Loader::LoadChatFilter();
+		Loader::LoadQuests();
+		Loader::LoadGroups();
 		Console::Beep();
 		self::StatsTasks();
 		self::CleanUpDatabase();
@@ -253,115 +254,6 @@ Class Core{
 		Console::Write("Cleaning up database...");
 		DB::exec("UPDATE users SET online = '0'");
 		DB::exec("UPDATE rooms SET users_now = '0'");
-		Console::WriteLine("completed!");
-	}
-	public static function LoadServerSettings(){
-		global $serversettings;
-		Console::Write("Loading Server Settings...");
-		$serversettings = DB::query("SELECT * FROM server_settings");
-		Console::WriteLine("completed!");
-	}
-	public static function LoadBans(){
-		global $bans;
-		Console::Write("Loading Bans...");
-		$bans = DB::mquery("SELECT * FROM bans");
-		Console::WriteLine("completed!");
-	}
-	public static function LoadRoles(){
-		global $permissions;
-		Console::Write("Loading Roles...");
-		$permissions = Array();
-		$permissions['ranks'] = DB::mquery("SELECT * FROM permissions_ranks");
-		$permissions['users'] = DB::mquery("SELECT * FROM permissions_users");
-		$permissions['vip'] = DB::mquery("SELECT * FROM permissions_vip");
-		Console::WriteLine("completed!");
-	}
-	public static function LoadHelpCategories(){
-		global $helpcategories;
-		Console::Write("Loading Help Categories...");
-		$helpcategories = DB::mquery("SELECT * FROM help_subjects");
-		Console::WriteLine("completed!");
-	}
-	public static function LoadHelpTopics(){
-		global $helptopics;
-		Console::Write("Loading Help Topics...");
-		$helptopics = DB::mquery("SELECT * FROM help_topics");
-		Console::WriteLine("completed!");
-	}
-	public static function LoadSoundtracks(){
-		global $soundtracks;
-		Console::Write("Loading Soundtracks...");
-		$soundtracks = DB::mquery("SELECT * FROM soundtracks");
-		Console::WriteLine("completed!");
-	}
-	public static function LoadCataloguePages(){
-		global $cataloguepages;
-		Console::Write("Loading Catalogue Pages...");
-		$cataloguepages = DB::mquery("SELECT * FROM catalog_pages ORDER BY order_num ASC");
-		Console::WriteLine("completed!");
-	}
-	public static function LoadCatalogueItems(){
-		global $catalogueitems;
-		Console::Write("Loading Catalogue Items...");
-		$catalogueitems = DB::mquery("SELECT * FROM catalog_items");
-		Console::WriteLine("completed!");
-	}
-	public static function LoadNavigatorCategories(){
-		global $navigatorcategories;
-		Console::Write("Loading Navigator Categories...");
-		$navigatorcategories = DB::mquery("SELECT * FROM navigator_flatcats");
-		Console::WriteLine("completed!");
-	}
-	public static function LoadNavigatorPublics(){
-		global $navigatorpublics;
-		Console::Write("Loading Navigator Publics...");
-		$navigatorpublics = DB::mquery("SELECT * FROM navigator_publics ORDER BY -ordernum");
-		Console::WriteLine("completed!");
-	}
-	public static function LoadRoomModels(){
-		global $roommodels;
-		Console::Write("Loading Room Models...");
-		$roommodels = DB::mquery("SELECT * FROM room_models");
-		Console::WriteLine("completed!");
-	}
-	public static function LoadRoomAds(){
-		global $roomads;
-		Console::Write("Loading Room Adverts...");
-		$roomads = DB::mquery("SELECT * FROM room_ads");
-		Console::WriteLine("completed!");
-	}
-	public static function LoadBots(){
-		global $bots,$botsspeech,$botsresponses;
-		Console::Write("Loading Bots...");
-		$bots = DB::mquery("SELECT * FROM bots");
-		$botsspeech = DB::mquery("SELECT * FROM bots_speech");
-		$botsresponses = DB::mquery("SELECT * FROM botsresponses");
-		Console::WriteLine("completed!");
-	}
-	public static function LoadAchievements(){
-		global $achievements;
-		Console::Write("Loading Achievements...");
-		$achievements = DB::mquery("SELECT * FROM achievements");
-		Console::WriteLine("completed!");
-	}
-	public static function LoadChatFilter(){
-		global $chatfilter;
-		Console::Write("Loading Chat Filter...");
-		$chatfilter = DB::mquery("SELECT * FROM wordfilter");
-		Console::WriteLine("completed!");
-	}
-	public static function LoadQuests(){
-		global $quests;
-		Console::Write("Loading Quests...");
-		$quests = DB::mquery("SELECT * FROM quests");
-		Console::WriteLine("completed!");
-	}
-	public static function LoadGroups(){
-		global $groups,$grouprequests,$groupmemberships;
-		Console::Write("Loading Groups...");
-		$quests = DB::mquery("SELECT * FROM quests");
-		$grouprequests = DB::mquery("SELECT * FROM group_requests");
-		$groupmemberships = DB::mquery("SELECT * FROM group_memberships");
 		Console::WriteLine("completed!");
 	}
 	public static function StatsTasks(){
@@ -509,6 +401,50 @@ Class Core{
 		self::send($user->socket, $construct->get());
 		unset($construct,$friend,$fdata);
 		}
+	}
+	public static function AddFriendBar($fid, $uid){
+		$f = self::getuserbyuserid($fid);
+		$u = self::getuserbyuserid($uid);
+		$construct = New Constructor;
+		$construct->SetHeader(Packet::GetHeader('FriendUpdate'));
+		$construct->SetInt24(0);
+		$construct->SetInt24(1);
+		$construct->SetInt24(0);
+		$construct->SetInt24($u->userid);
+		$construct->SetStr($u->username,true);
+		$construct->SetInt24(1);
+		$construct->SetBoolean(true);
+		$construct->SetBoolean(false);
+		$construct->SetStr($u->look,true);		
+		$construct->SetInt24(0);
+		$construct->SetStr($u->motto,true);	
+		$construct->SetInt24(0);
+		$construct->SetBoolean(true);
+		$construct->SetBoolean(true);
+		$construct->SetBoolean(false);
+		$construct->SetBoolean(false);
+		self::send($f->socket, $construct->get());
+	}
+	public static function RemoveFriendBar($fid, $uid){
+		$f = self::getuserbyuserid($fid);
+		$u = self::getuserbyuserid($uid);
+		$construct = New Constructor;
+		$construct->SetHeader(Packet::GetHeader('FriendUpdate'));
+		$construct->SetInt24(0);
+		$construct->SetInt24(1);
+		$construct->SetInt24(0);
+		$construct->SetInt24($u->userid);
+		$construct->SetStr($u->username,true);
+		$construct->SetInt24(1);
+		$construct->SetInt24(0);
+		$construct->SetInt24(0);
+		$construct->SetStr($u->motto,true);	
+		$construct->SetInt24(0);
+		$construct->SetBoolean(true);
+		$construct->SetBoolean(true);
+		$construct->SetBoolean(false);
+		$construct->SetBoolean(false);
+		self::send($f->socket, $construct->get());
 	}
 	public static function PermissionRank($rank, $permission){
 		global $permissions;

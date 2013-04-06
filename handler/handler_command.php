@@ -68,10 +68,28 @@ if($smessage[0] == ":"){
 			Core::send($user->socket, $construct->get());
 			$send = false;
 		break;
+		case ":optimize":
+			if(Core::PermissionRank($user->rank, "cmd_update_settings")){
+				Optimizer::Exec(Config::Get("db.name"));
+				Core::Cmdlogs($user->userid,$user->username, "optimize", $message, time());
+				$send = false;
+			}else{
+				$send = true;
+			}
+		break;
+		case ":shutdown":
+			if(Core::PermissionRank($user->rank, "cmd_shutdown")){
+				Core::Cmdlogs($user->userid,$user->username, "shutdown", $message, time());
+				$send = false;
+				die("Emulator was shutdown by ".$user->username."\n\n");
+			}else{
+				$send = true;
+			}
+		break;
 		case ":update_permissions":
 		case ":reload_permissions":
 			if(Core::PermissionRank($user->rank, "cmd_update_permissions")){
-				Core::LoadRoles();
+				Loader::LoadRoles();
 				Core::Cmdlogs($user->userid,$user->username, "update_permissions", $message, time());
 				$send = false;
 			}else{
@@ -81,7 +99,7 @@ if($smessage[0] == ":"){
 		case ":update_settings":
 		case ":reload_settings":
 			if(Core::PermissionRank($user->rank, "cmd_update_settings")){
-				Core::LoadServerSettings();
+				Loader::LoadServerSettings();
 				Core::Cmdlogs($user->userid,$user->username, "update_settings", $message, time());
 				$send = false;
 			}else{
@@ -91,7 +109,7 @@ if($smessage[0] == ":"){
 		case ":update_bans":
 		case ":reload_bans":
 			if(Core::PermissionRank($user->rank, "cmd_update_bans")){
-				Core::LoadBans();
+				Loader::LoadBans();
 				Core::Cmdlogs($user->userid,$user->username, "update_bans", $message, time());
 				$send = false;
 			}else{
@@ -101,8 +119,8 @@ if($smessage[0] == ":"){
 		case ":update_help":
 		case ":reload_help":
 			if(Core::PermissionRank($user->rank, "cmd_update_settings")){
-				Core::LoadHelpCategories();
-				Core::LoadHelpTopics();
+				Loader::LoadHelpCategories();
+				Loader::LoadHelpTopics();
 				Core::Cmdlogs($user->userid,$user->username, "update_help", $message, time());
 				$send = false;
 			}else{
@@ -112,7 +130,7 @@ if($smessage[0] == ":"){
 		case ":update_soundtracks":
 		case ":reload_soundtracks":
 			if(Core::PermissionRank($user->rank, "cmd_update_settings")){
-				Core::LoadSoundtracks();
+				Loader::LoadSoundtracks();
 				Core::Cmdlogs($user->userid,$user->username, "update_soundtracks", $message, time());
 				$send = false;
 			}else{
@@ -122,8 +140,8 @@ if($smessage[0] == ":"){
 		case ":update_catalogue":
 		case ":reload_catalogue":
 			if(Core::PermissionRank($user->rank, "cmd_update_catalogue")){
-				Core::LoadCataloguePages();
-				Core::LoadCatalogueItems();
+				Loader::LoadCataloguePages();
+				Loader::LoadCatalogueItems();
 				Core::Cmdlogs($user->userid,$user->username, "update_catalogue", $message, time());
 				$send = false;
 			}else{
@@ -133,8 +151,8 @@ if($smessage[0] == ":"){
 		case ":update_navigator":
 		case ":reload_navigator":
 			if(Core::PermissionRank($user->rank, "cmd_update_navigator")){
-				Core::LoadNavigatorCategories();
-				Core::LoadNavigatorPublics();
+				Loader::LoadNavigatorCategories();
+				Loader::LoadNavigatorPublics();
 				Core::Cmdlogs($user->userid,$user->username, "update_navigator", $message, time());
 				$send = false;
 			}else{
@@ -144,8 +162,8 @@ if($smessage[0] == ":"){
 		case ":update_model":
 		case ":reload_model":
 			if(Core::PermissionRank($user->rank, "cmd_update_settings")){
-				Core::LoadRoomModels();
-				Core::LoadRoomAds();
+				Loader::LoadRoomModels();
+				Loader::LoadRoomAds();
 				Core::Cmdlogs($user->userid,$user->username, "update_model", $message, time());
 				$send = false;
 			}else{
@@ -155,7 +173,7 @@ if($smessage[0] == ":"){
 		case ":update_bots":
 		case ":reload_bots":
 			if(Core::PermissionRank($user->rank, "cmd_update_bots")){
-				Core::LoadBots();
+				Loader::LoadBots();
 				Core::Cmdlogs($user->userid,$user->username, "update_bots", $message, time());
 				$send = false;
 			}else{
@@ -165,7 +183,7 @@ if($smessage[0] == ":"){
 		case ":update_achievements":
 		case ":reload_achievements":
 			if(Core::PermissionRank($user->rank, "cmd_update_achievements")){
-				Core::LoadAchievements();
+				Loader::LoadAchievements();
 				Core::Cmdlogs($user->userid,$user->username, "update_achievements", $message, time());
 				$send = false;
 			}else{
