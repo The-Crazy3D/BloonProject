@@ -64,7 +64,7 @@ if($smessage[0] == ":"){
 				$addin = "";
 			}
 			$construct->SetStr("BloonCrypto ".$version."\n\nThanks/Credits:\nBurak\nMaximeBHA\nCr3@_Hal0\nJordan\nEthis\n\nBloonCrypto ".$version." (Build ".$revision.")".$addin,true);
-			$construct->SetStr("http://blooncrypto.beat-host.eu/",true);
+			$construct->SetStr("http://bloonproject.org/",true);
 			Core::send($user->socket, $construct->get());
 			$send = false;
 		break;
