@@ -21,11 +21,15 @@ spl_autoload_register(function ($class) {
 
 Console::SetTitle("Loading BloonCrypto...");
 
-Updater::Check();
+Config::Init();
+
+if(Config::Get("emu.messages.buildcheck")){
+	Updater::Check();
+}else{
+	Console::WriteLine("WARNING! Update check has been disabled in Bloon.conf, you can reactivate it on the Bloon.conf");
+}
 
 $start_load = microtime();
-
-Config::Init();
 
 Console::WriteLine("Welcome to this ALPHA ".Core::GetVersion()." Build ".Core::GetRevision()." of BloonCrypto...");
 
