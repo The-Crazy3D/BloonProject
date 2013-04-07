@@ -88,7 +88,7 @@ while(true){
 			if(Config::Get("emu.messages.debug")){
 				Core::say("[".$header."] ".$data,1);
 			}
-			$filepath = ("handler/handler_".$header.".php");
+			$filepath = ("handler/handler_".Packet::GetIncoming($header).".php");
 			if(file_exists($filepath)){
 				@include($filepath);
 			}
