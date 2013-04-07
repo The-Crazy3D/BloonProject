@@ -65,12 +65,41 @@ switch($action){
 				Core::send($user->socket, $construct->get());
 				unset($construct);
 				
-				$construct = New Constructor;
-				$construct->SetHeader(Packet::GetHeader('SerializeFloorItems'));
-				$construct->SetInt24(0);
-				$construct->SetInt24(0);
-				Core::send($user->socket, $construct->get());
-				unset($construct);
+				$roomitems = DB::mquery("SELECT f.sprite_id, f.interaction_type, i.id, i.x, i.extra_data, i.rot, i.y, i.z FROM furniture f, items i, rooms r
+										WHERE f.id = i.base_item
+										AND i.room_id = r.id
+										AND r.id = ".$roomid);
+				if(!$roomitems){
+					$construct = New Constructor;
+					$construct->SetHeader(Packet::GetHeader('SerializeFloorItems'));
+					$construct->SetInt24(0);
+					$construct->SetInt24(0);
+					Core::send($user->socket, $construct->get());
+				}else{
+					$construct = New Constructor;
+					$construct->SetHeader(Packet::GetHeader('SerializeFloorItems'));
+					$construct->SetInt24(1);
+					$construct->SetInt24($user->userid);
+					$construct->SetStr($user->username, true);
+					$construct->SetInt24(count($roomitems));
+					foreach($roomitems as $ritems){
+						$construct->SetInt24($ritems->id);
+						$construct->SetInt24($ritems->sprite_id);
+						$construct->SetInt24($ritems->x);
+						$construct->SetInt24($ritems->y);
+						$construct->SetInt24($ritems->rot);
+						$construct->SetStr("0.0", true);
+						$construct->SetInt24(0);
+						$construct->SetInt24(0);
+						//$construct->SetStr($ritems->extra_data, true);
+						$construct->SetInt8(0);
+						$construct->SetInt24(-1);
+						$construct->SetInt24(($ritems->ineraction_type == "default") ? 1 : 0);
+						$construct->SetInt24($user->userid);
+					}
+					Core::send($user->socket, $construct->get());
+				}
+				unset($construct,$roomitems,$ritems);
 				
 				$construct = New Constructor;
 				$construct->SetHeader(Packet::GetHeader('SerializeWallItems'));
