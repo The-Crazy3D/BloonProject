@@ -9,6 +9,6 @@
 $construct = New Constructor;
 $construct->SetHeader(Packet::GetHeader('SendBannerMessageComposer'));
 $construct->SetStr("12f449917de4f94a8c48dbadd92b6276",true);
-$construct->SetStr(chr(0));
+$construct->SetBoolean(false);
 Core::send($user->socket, $construct->get());
 ?>

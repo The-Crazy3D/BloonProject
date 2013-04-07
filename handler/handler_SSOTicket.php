@@ -38,7 +38,15 @@ if(!$userdata){
 		$user->vip = $userdata->vip;
 		$user->volume = $userdata->volume;
 		$user->accept_trading = $userdata->accept_trading;
-		
+		$clone = Core::getuserbyuseridarray($user->userid);
+		foreach($clone as $cl){
+			if($cl->id != $user->id){
+				if(isset($cl->socket)){
+					Core::disconnect($cl->socket);
+				}
+			}
+		}
+		unset($clone,$cl);
 		if(Config::Get("emu.messages.connections")){
 			Core::say($user->username ." logged in !",1);
 		}

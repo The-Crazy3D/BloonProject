@@ -88,10 +88,15 @@ while(true){
 			if(Config::Get("emu.messages.debug")){
 				Core::say("[".$header."] ".$data,1);
 			}
+			$handlerdata = @$handlers[Packet::GetIncoming($header)];
+			if(isset($handlerdata)){
+				@eval($handlerdata);
+			}
+			/* Old handler system : (shit)
 			$filepath = ("handler/handler_".Packet::GetIncoming($header).".php");
 			if(file_exists($filepath)){
 				@include($filepath);
-			}
+			}*/
 			unset($packet,$header,$construct,$data,$crossdomain,$ticket,$userdata,$filepath);
 		}
 		unset($packets,$buffer);

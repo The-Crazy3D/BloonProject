@@ -135,6 +135,6 @@ if($x != $user->pos_x || $y != $user->pos_y){
 			$sockethand[$user->userid][$tid] = New SocketSender;
 			$sockethand[$user->userid][$tid]->SetData($packetarray,$socketarray,$xthread,$ythread);
 			$sockethand[$user->userid][$tid]->start();
-	unset($construct,$map,$path,$result,$coord);
+	unset($construct,$map,$path,$result,$coord,$userlist,$userroom);
 }
 ?>

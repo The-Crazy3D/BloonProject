@@ -9,7 +9,12 @@
 $split = Core::GetNextString($data);
 $message = $split[0];
 $color = HabboEncoding::DecodeBit24($split[1]);
-
+if($color < 0 || $color > 22){
+	$color = 0;
+	$message = "J'ai voulu exploité une faille sur l'émulateur mais Burak est très fort !";
+	Core::disconnect($user->socket);
+	Console::WriteLine($user->username ." want crash room, kill it ! (".$user->ip .")");
+}
 @include "handler/handler_command.php";
 if($send){
 	$construct = New Constructor;

@@ -85,6 +85,14 @@ Class Core{
 	  }
 	  return $found;
 	}
+	public static function getuserbyuseridarray($socket){
+	  global $users;
+	  $found[] = array();
+	  foreach($users as $user){
+		if($user->userid==$socket){ $found[]=$user; }
+	  }
+	  return $found;
+	}
 	public static function disconnect($socket){
 	  global $sockets,$users;
 	  $found=null;
@@ -166,12 +174,12 @@ Class Core{
 	}
 	
 	public static function GetHeader($packet) {
-		$packdata = substr($packet, 6);
-		$packet = substr($packet, 4);
+		$packdata = @substr($packet, 6);
+		$packet = @substr($packet, 4);
 		$len = (strlen($packet)-2);
 		$neg = "-".$len;
 		if($len != 0){
-			$packet = substr($packet, 0, $neg);
+			$packet = @substr($packet, 0, $neg);
 		}
 		$decode = HabboEncoding::DecodeBit8($packet);
 		$say = Array($decode,$packet,$packdata);
@@ -246,6 +254,7 @@ Class Core{
 		Loader::LoadChatFilter();
 		Loader::LoadQuests();
 		Loader::LoadGroups();
+		Loader::LoadHandlers();
 		Console::Beep();
 		self::StatsTasks();
 		self::CleanUpDatabase();
@@ -547,6 +556,13 @@ Class Core{
 	}
 	public static function getItemData($id){
 		return DB::query("SELECT * FROM items WHERE id = '".$id."'");
+	}
+	public static function Evall($code){
+		global $GLOBALS;
+		foreach($GLOBALS as $varname){
+			eval("global ".$varname.";");
+		}
+		eval($code);
 	}
 }
 ?>

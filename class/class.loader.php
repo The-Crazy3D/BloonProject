@@ -171,5 +171,23 @@ Class Loader{
 		$groupmemberships = DB::mquery("SELECT * FROM group_memberships");
 		Console::WriteLine("completed!");
 	}
+	public static function LoadHandlers(){
+		global $handlers;
+		$i = 0;
+		Console::Write("Loading Handlers...");
+		foreach (glob("handler/*.php") as $filename){
+			$i++;
+			$action = str_replace("handler/handler_", "", $filename);
+			$action = str_replace(".php", "", $action);
+			$file = file_get_contents($filename);
+			$file = str_replace("<?php","", $file);
+			$file = str_replace("?>","", $file);
+			if(preg_match("/->descrption/i", $file)){
+				var_dump($filename);
+			}
+			$handlers[$action] = $file;
+		}
+		Console::WriteLine("completed! (".$i." handlers loaded)");
+	}
 }
 ?>

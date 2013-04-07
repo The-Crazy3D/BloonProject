@@ -14,6 +14,7 @@ $construct->SetHeader(Packet::GetHeader('AddFloorItemToRoom'));
 $construct->SetInt24($info[0]);
 $item = Core::getItemData($info[0]);
 var_dump($item);
+print_r($info);
 $construct->SetInt24($item->base_item);
 $construct->SetInt24($info[1]);
 $construct->SetInt24($info[2]);
