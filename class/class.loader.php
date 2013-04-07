@@ -182,9 +182,6 @@ Class Loader{
 			$file = file_get_contents($filename);
 			$file = str_replace("<?php","", $file);
 			$file = str_replace("?>","", $file);
-			if(preg_match("/->descrption/i", $file)){
-				var_dump($filename);
-			}
 			$handlers[$action] = $file;
 		}
 		Console::WriteLine("completed! (".$i." handlers loaded)");

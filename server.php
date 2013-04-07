@@ -15,16 +15,15 @@ if(!extension_loaded("pthreads")){
 	exit;
 }
 
-$start_load = microtime();
 spl_autoload_register(function ($class) {
     include 'class/class.' . $class . '.php';
 });
 
-loadClass("updater");
-
 Console::SetTitle("Loading BloonCrypto...");
 
 Updater::Check();
+
+$start_load = microtime();
 
 Config::Init();
 
@@ -88,15 +87,17 @@ while(true){
 			if(Config::Get("emu.messages.debug")){
 				Core::say("[".$header."] ".$data,1);
 			}
-			$handlerdata = @$handlers[Packet::GetIncoming($header)];
-			if(isset($handlerdata)){
-				@eval($handlerdata);
+			if(Config::Get("emu.messages.debug")){
+				$filepath = ("handler/handler_".Packet::GetIncoming($header).".php");
+				if(file_exists($filepath)){
+					@include($filepath);
+				}
+			}else{
+				$handlerdata = @$handlers[Packet::GetIncoming($header)];
+				if(isset($handlerdata)){
+					@eval($handlerdata);
+				}
 			}
-			/* Old handler system : (shit)
-			$filepath = ("handler/handler_".Packet::GetIncoming($header).".php");
-			if(file_exists($filepath)){
-				@include($filepath);
-			}*/
 			unset($packet,$header,$construct,$data,$crossdomain,$ticket,$userdata,$filepath);
 		}
 		unset($packets,$buffer);

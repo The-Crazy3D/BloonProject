@@ -12,7 +12,7 @@ $construct->SetInt24(count($navigatorpublics));
 foreach($navigatorpublics as $public){
 	$construct->SetInt24($public->id);
 	$construct->SetStr($public->caption,true);
-	$construct->SetStr($public->descrption,true);
+	$construct->SetStr($public->description,true);
 	$construct->SetInt8(0);
 	$construct->SetInt24(0);
 	$construct->SetStr($public->image,true);

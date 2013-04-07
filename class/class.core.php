@@ -509,10 +509,14 @@ Class Core{
 	public static function RoomsLoaded(){
 		global $users;
 		$cpt = 0;
+		$array = array();
 		if(count($users) > 0){
 			foreach($users as $user){
 				if(isset($user->room_id) && is_numeric($user->room_id)){
-					$cpt++;
+					if(!in_array($user->room_id, $array)){
+						$cpt++;
+						$array[] = $user->room_id;
+					}
 				}
 			}
 		}
@@ -563,6 +567,57 @@ Class Core{
 			eval("global ".$varname.";");
 		}
 		eval($code);
+	}
+	public static function InitInventory($uid){
+		$user = self::getuserbyuserid($uid);
+		$construct = New Constructor;
+		$construct->SetHeader(Packet::GetHeader('Inventory'));
+		$construct->SetStr("S",true);
+		$construct->SetInt24(1);
+		$construct->SetInt24(1);
+		$flooritems = Core::GetFloorItems($user->userid);
+		if(!$flooritems){
+			$construct->SetInt24(0);
+		}else{
+			$construct->SetInt24(count($flooritems));
+			foreach($flooritems as $flooritem){
+				$construct->SetInt24($flooritem->id);
+				$construct->SetStr(strtoupper($flooritem->type),true);
+				$construct->SetInt24($flooritem->id);
+				$construct->SetInt24($flooritem->sprite_id);
+				$construct->SetInt24(1);
+				$construct->SetInt8(0);
+				$construct->SetInt24(0);
+				
+				$construct->SetStr(chr($flooritem->allow_recycle));
+				$construct->SetStr(chr($flooritem->allow_trade));
+				$construct->SetStr(chr($flooritem->allow_inventory_stack));
+				$construct->SetStr(chr($flooritem->allow_marketplace_sell));
+				
+				$construct->SetStr(chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF));
+				$construct->SetInt8(0);
+				$construct->SetInt24(0);
+			}
+		}
+		Core::send($user->socket, $construct->get());
+		unset($construct);
+		
+		$construct = New Constructor;
+		$construct->SetHeader(Packet::GetHeader('Inventory'));
+		$construct->SetStr("I",true);
+		$construct->SetInt24(1);
+		$construct->SetInt24(1);
+		$wallitems = Core::GetWallItems($user->userid);
+		if(!$wallitems){
+			$construct->SetInt24(0);
+		}else{
+			$construct->SetInt24(count($wallitems));
+			foreach($wallitems as $wallitem){
+			}
+		}
+		Core::send($user->socket, $construct->get());
+		
+		unset($flooritems,$wallitems,$packet1,$packet2);
 	}
 }
 ?>

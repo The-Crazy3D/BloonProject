@@ -12,13 +12,14 @@ $info = explode(" ", $info);
 $construct = New Constructor;
 $construct->SetHeader(Packet::GetHeader('AddFloorItemToRoom'));
 $construct->SetInt24($info[0]);
-$item = Core::getItemData($info[0]);
-var_dump($item);
-print_r($info);
-$construct->SetInt24($item->base_item);
+$item = DB::query("SELECT f.* FROM items i, furniture f
+WHERE i.base_item = f.id
+AND i.id = ".$info[0]);
+DB::exec("UPDATE items SET room_id = '".$user->room_id ."',x = '".$info[1]."',y='".$info[2]."' WHERE id ='".$info[0]."'");
+$construct->SetInt24($item->sprite_id);
 $construct->SetInt24($info[1]);
 $construct->SetInt24($info[2]);
-$construct->SetInt24($info[3]);
+$construct->SetInt24(0);
 $construct->SetStr("0", true);
 $construct->SetInt24(0);
 $construct->SetInt24(0);
@@ -29,5 +30,6 @@ $construct->SetInt24(1);
 $construct->SetInt24($user->userid);
 $construct->SetStr($user->username,true);
 Core::SendToAllRoom($user->room_id, $construct->get());
+Core::InitInventory($user->userid);
 unset($info,$split,$item);
 ?>
