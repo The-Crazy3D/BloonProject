@@ -111,6 +111,14 @@ if($smessage[0] == ":"){
 				$send = true;
 			}
 		break;
+		case ":teleport":
+			if(Core::PermissionRank($user->rank, "cmd_disconnect")){
+				$user->teleport = true;
+				$send = false;
+			}else{
+				$send = true;
+			}
+		break;
 		case ":sit":
 			$construct = New Constructor;
 			$construct->SetHeader(Packet::GetHeader('UpdateState'));

@@ -23,5 +23,16 @@ $construct->SetStr($user->motto,true);
 $construct->SetInt24(0); // winwin
 Core::SendToAllRoom($user->room_id, $construct->get());
 
+unset($construct);
+
+$construct = New Constructor;
+$construct->SetHeader(Packet::GetHeader('UpdateUserInformation'));
+$construct->SetInt24(-1);
+$construct->SetStr($look,true);
+$construct->SetStr(strtolower($gender),true);
+$construct->SetStr($user->motto,true);
+$construct->SetInt24(0); // winwin
+Core::send($user->socket, $construct->get());
+
 unset($look,$gender,$split);
 ?>
