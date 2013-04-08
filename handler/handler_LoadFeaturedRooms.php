@@ -20,7 +20,7 @@ foreach($navigatorpublics as $public){
 	$construct->SetInt24(0);
 	$construct->SetInt24(4);
 	$construct->SetInt24(0);
-	$construct->SetStr(chr(1));
+	$construct->SetBoolean(true);
 	$construct->SetInt24(0);
 }
 // Core::send($user->socket, $construct->get());

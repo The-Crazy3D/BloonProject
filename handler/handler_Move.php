@@ -34,7 +34,7 @@ foreach($sockethand[$user->userid] as $keyp => $threadp){
 		}else if($user->pos_y > $y){
 			$user->pos_y--;
 		}
-		usleep(100000);
+		usleep(250000);
 		$threadp->stop();
 		unset($sockethand[$user->userid][$keyp]);
 	}
@@ -51,7 +51,6 @@ if($user->pos_x == 0){
 	$user->pos_x++;
 	$user->pos_y++;
 }
-var_dump($user->teleport);
 if(!isset($user->teleport)){
 if($x != $user->pos_x || $y != $user->pos_y){
 	$map=Core::GetMap();

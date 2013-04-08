@@ -66,9 +66,12 @@ $end_load = microtime();
 $statstart = Core::DiffTime($start_load, $end_load);
 Console::WriteLine("Server -> READY! (".$statstart[0]." s, ".$statstart[1]." ms)");
 unset($statstart,$start_load,$end_load);
-
+$statsexec = time();
 while(true){
-  Core::StatsTasks();
+  if((time()-$statsexec) > 5){
+	  Core::StatsTasks();
+	  $statsexec = time();
+  }
   $changed = $sockets;
   $write=NULL;
   $except=NULL;

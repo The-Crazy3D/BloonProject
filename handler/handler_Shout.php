@@ -24,7 +24,7 @@ if($send){
 	$construct->SetInt24(0);
 	$construct->SetInt24($color);
 	$construct->SetInt24(0);
-	$construct->SetStr(chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF));
+	$construct->SetInt24(-1);
 	Core::SendToAllRoom($user->room_id, $construct->get());
 }
 

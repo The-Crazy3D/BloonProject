@@ -128,7 +128,8 @@ switch($action){
 					$construct->SetInt24(2);
 					$construct->SetInt24(1);
 					$construct->SetStr(strtolower($roomuser->gender),true);
-					$construct->SetStr(chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF));
+					$construct->SetInt24(-1);
+					$construct->SetInt24(-1);
 					$construct->SetInt24(0);
 					$construct->SetInt24(15);
 				}
@@ -150,7 +151,8 @@ switch($action){
 				$construct->SetInt24(2);
 				$construct->SetInt24(1);
 				$construct->SetStr(strtolower($user->gender),true);
-				$construct->SetStr(chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF));
+				$construct->SetInt24(-1);
+				$construct->SetInt24(-1);
 				$construct->SetInt24(0);
 				$construct->SetInt24(0);
 				

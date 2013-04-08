@@ -19,13 +19,13 @@ $construct->SetInt24($profile->score);
 $construct->SetInt24($profile->friend_count);
 $friend = DB::mquery("SELECT * FROM messenger_friendships WHERE user_one_id = '".$user->userid ."' AND user_two_id = '".$id."'");
 if(!$friend){
-	$construct->SetStr(chr(0));
+	$construct->SetBoolean(false);
 }else{
-	$construct->SetStr(chr(1));
+	$construct->SetBoolean(true);
 }
 $construct->SetInt8($profile->online);
 $construct->SetInt24(0);
-$construct->SetStr(chr(0));
+$construct->SetBoolean(false);
 $construct->SetInt24(time()-$profile->last_online);
 Core::send($user->socket, $construct->get());
 unset($id,$profile,$friend);

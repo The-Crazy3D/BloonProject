@@ -404,7 +404,8 @@ Class Core{
 			$construct->SetStr($fdata->username,true);
 			$construct->SetInt24(0);
 			if($fdata->online == 1){
-				$construct->SetInt8(257);
+				$construct->SetBoolean(true);
+				$construct->SetBoolean(true);
 			}else{
 				$construct->SetInt8(0);
 			}
@@ -412,8 +413,9 @@ Class Core{
 			$construct->SetInt24(0);
 			$construct->SetStr($fdata->motto,true);
 			$construct->SetInt24(0);
-			$construct->SetInt8(257);
-			$construct->SetStr(chr(0));
+			$construct->SetBoolean(true);
+			$construct->SetBoolean(true);
+			$construct->SetBoolean(false);
 		}
 		self::send($user->socket, $construct->get());
 		unset($construct,$friend,$fdata);
@@ -597,12 +599,12 @@ Class Core{
 				$construct->SetInt8(0);
 				$construct->SetInt24(0);
 				
-				$construct->SetStr(chr($flooritem->allow_recycle));
-				$construct->SetStr(chr($flooritem->allow_trade));
-				$construct->SetStr(chr($flooritem->allow_inventory_stack));
-				$construct->SetStr(chr($flooritem->allow_marketplace_sell));
+				$construct->SetBoolean($flooritem->allow_recycle);
+				$construct->SetBoolean($flooritem->allow_trade);
+				$construct->SetBoolean($flooritem->allow_inventory_stack);
+				$construct->SetBoolean($flooritem->allow_marketplace_sell);
 				
-				$construct->SetStr(chr(0xFF).chr(0xFF).chr(0xFF).chr(0xFF));
+				$construct->SetInt24(-1);
 				$construct->SetInt8(0);
 				$construct->SetInt24(0);
 			}

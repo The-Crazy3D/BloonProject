@@ -15,7 +15,7 @@ if(!$roomlist){
 	$construct->SetInt24(0);
 	$construct->SetInt24(0);
 	$construct->SetInt8(0);
-	$construct->SetStr(chr(0));
+	$construct->SetBoolean(false);
 	Core::send($user->socket, $construct->get());
 }else{
 	$construct = New Constructor;
@@ -27,7 +27,7 @@ if(!$roomlist){
 	foreach($roomlist as $rlist){
 		$construct->SetInt24($rlist->id);
 		$construct->SetStr($rlist->caption,true);
-		$construct->SetStr(chr(1));
+		$construct->SetBoolean(true);
 		$construct->SetInt24($user->userid);
 		$construct->SetStr($user->username,true);
 		switch($rlist->state){
@@ -60,7 +60,8 @@ if(!$roomlist){
 		$construct->SetInt24(0);
 		
 		$construct->SetInt24(0);
-		$construct->SetInt8(257);
+		$construct->SetBoolean(true);
+		$construct->SetBoolean(true);
 		$construct->SetInt24(0);
 		$construct->SetInt24(0);
 		$i++;
