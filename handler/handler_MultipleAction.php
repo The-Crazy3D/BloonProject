@@ -65,10 +65,7 @@ switch($action){
 				Core::send($user->socket, $construct->get());
 				unset($construct);
 				
-				$roomitems = DB::mquery("SELECT f.sprite_id, f.interaction_type, i.id, i.x, i.z, i.extra_data, i.rot, i.y, i.z FROM furniture f, items i, rooms r
-										WHERE f.id = i.base_item
-										AND i.room_id = r.id
-										AND r.id = ".$roomid);
+				$roomitems = Core::ReloadRoomFurni($roomid);
 				$roomowner = DB::query("SELECT u.id,u.username FROM users u, rooms r WHERE r.owner = u.username AND r.id = ".$roomid);
 				if(!$roomitems){
 					$construct = New Constructor;
@@ -107,6 +104,7 @@ switch($action){
 				$construct->SetInt24(0);
 				Core::send($user->socket, $construct->get());
 				unset($construct);
+				
 				$user->pos_x = $model->door_x;
 				$user->pos_y = $model->door_y;
 				$user->pos_z = $model->door_z;

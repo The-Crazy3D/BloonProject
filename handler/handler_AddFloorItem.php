@@ -31,5 +31,6 @@ $construct->SetInt24($user->userid);
 $construct->SetStr($user->username,true);
 Core::SendToAllRoom($user->room_id, $construct->get());
 Core::InitInventory($user->userid);
+Core::ReloadRoomFurni($user->room_id);
 unset($info,$split,$item);
 ?>

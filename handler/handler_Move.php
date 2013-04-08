@@ -9,6 +9,16 @@
 $x = HabboEncoding::DecodeBit24($data);
 $data = substr($data, 4);
 $y = HabboEncoding::DecodeBit24($data);
+$tilefurni = Core::GetTileFurni($x, $y, $user->room_id);
+if(isset($tilefurni)){
+	foreach($tilefurni as $tilefurnitem){
+		if($tilefurnitem->can_sit == "1"){
+			$height = $tilefurnitem->stack_height;
+			$finaladdin = "sit ".$height."//";
+			$finalrot = $tilefurnitem->rot;
+		}
+	}
+}
 foreach($sockethand[$user->userid] as $keyp => $threadp){
 	if($threadp->isRunning()){
 		$user->pos_x = $threadp->xa;
@@ -112,9 +122,13 @@ if($x != $user->pos_x || $y != $user->pos_y){
 			$rotate = Core::RotationCalculate(array($xc,$yc),array($xf,$yf));
 		}else{
 			$addin = "";
+			$rotate = Core::RotationCalculate(array($user->pos_x,$user->pos_y),array($xc,$yc));	
+			if(isset($finaladdin)){
+				$addin = $finaladdin;
+				$rotate = $finalrot;
+			}
 			$xfthread[] = $xc;
 			$yfthread[] = $yc;
-			$rotate = Core::RotationCalculate(array($user->pos_x,$user->pos_y),array($xc,$yc));	
 		}
 		$construct->SetInt24(1);
 		$construct->SetInt24($user->userid);
@@ -159,4 +173,5 @@ if($x != $user->pos_x || $y != $user->pos_y){
 		$user->pos_y = $y;
 		Core::SendToAllRoom($user->room_id, $construct->get());
 }
+unset($finaladdin);
 ?>

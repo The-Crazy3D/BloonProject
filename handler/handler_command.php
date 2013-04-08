@@ -96,6 +96,10 @@ if($smessage[0] == ":"){
 				$send = true;
 			}
 		break;
+		case ":update_inventory":
+			Core::InitInventory($user->userid);
+			$send = false;
+		break;
 		case ":disconnect":
 			if(Core::PermissionRank($user->rank, "cmd_disconnect")){
 				$message = str_replace(":disconnect ", "", $message);
