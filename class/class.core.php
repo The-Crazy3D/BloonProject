@@ -77,6 +77,14 @@ Class Core{
 	  }
 	  return $found;
 	}
+	public static function getuserbyusername($socket){
+	  global $users;
+	  $found=null;
+	  foreach($users as $user){
+		if($user->username==$socket){ $found=$user; break; }
+	  }
+	  return $found;
+	}
 	public static function getuserbyuserid($socket){
 	  global $users;
 	  $found=null;

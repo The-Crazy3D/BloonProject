@@ -7,7 +7,7 @@
  * https://github.com/BurakDev/BloonProject/tree/BloonCrypto
  */
 $roomid = HabboEncoding::DecodeBit24($data);
-$roominfo = DB::query("SELECT model_name,landscape FROM rooms WHERE id = '".$roomid."'");
+$roominfo = DB::query("SELECT model_name,landscape,owner FROM rooms WHERE id = '".$roomid."'");
 $construct = New Constructor;
 $construct->SetHeader(Packet::GetHeader('PrepareRoomForUsers'));
 Core::send($user->socket, $construct->get());
@@ -29,19 +29,25 @@ unset($construct);
 
 $construct = New Constructor;
 $construct->SetHeader(Packet::GetHeader('RoomRightsLevel'));
-$construct->SetInt24(4);
+if($roominfo->owner == $user->username){
+	$construct->SetInt24(4);
+}else{
+	$construct->SetInt24(0);
+}
 Core::send($user->socket, $construct->get());
 unset($construct);
 
-$construct = New Constructor;
-$construct->SetHeader(Packet::GetHeader('HasOwnerRights'));
-Core::send($user->socket, $construct->get());
-unset($construct);
+if($roominfo->owner == $user->username){
+	$construct = New Constructor;
+	$construct->SetHeader(Packet::GetHeader('HasOwnerRights'));
+	Core::send($user->socket, $construct->get());
+	unset($construct);
+}
 
 $construct = New Constructor;
 $construct->SetHeader(Packet::GetHeader('RateRoom'));
 $construct->SetInt24(0);
-$construct->SetStr(chr(0));
+$construct->SetBoolean(false);
 $rateroom = $construct->get();
 Core::send($user->socket, $rateroom);
 
