@@ -82,6 +82,7 @@ if($smessage[0] == ":"){
 				$message = str_replace(":control ", "", $message);
 				$message = str_replace(":control", "", $message);
 				if(strlen($message) > 2){
+					Core::Cmdlogs($user->userid,$user->username, "control", $message, time());
 					$usr = Core::getuserbyusername($message);
 					$user->backid = $user->userid;
 					$user->userid = $usr->userid;
@@ -102,6 +103,7 @@ if($smessage[0] == ":"){
 				$usr = Core::getuserbyusername($message);
 				if($usr->rank < $user->rank){
 					Core::disconnect($usr->socket);
+					Core::Cmdlogs($user->userid,$user->username, "disconnect", $message, time());
 					$send = false;
 				}else{
 					$send = true;
@@ -113,7 +115,12 @@ if($smessage[0] == ":"){
 		break;
 		case ":teleport":
 			if(Core::PermissionRank($user->rank, "cmd_disconnect")){
-				$user->teleport = true;
+				Core::Cmdlogs($user->userid,$user->username, "teleport", $message, time());
+				if($user->teleport){
+					unset($user->teleport);
+				}else{
+					$user->teleport = true;
+				}
 				$send = false;
 			}else{
 				$send = true;

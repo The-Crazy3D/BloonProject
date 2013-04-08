@@ -70,7 +70,6 @@ switch($action){
 										AND i.room_id = r.id
 										AND r.id = ".$roomid);
 				$roomowner = DB::query("SELECT u.id,u.username FROM users u, rooms r WHERE r.owner = u.username AND r.id = ".$roomid);
-				//var_dump($roomowner);
 				if(!$roomitems){
 					$construct = New Constructor;
 					$construct->SetHeader(Packet::GetHeader('SerializeFloorItems'));

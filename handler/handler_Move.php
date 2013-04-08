@@ -34,7 +34,7 @@ foreach($sockethand[$user->userid] as $keyp => $threadp){
 		}else if($user->pos_y > $y){
 			$user->pos_y--;
 		}
-		usleep(250000);
+		usleep(100000);
 		$threadp->stop();
 		unset($sockethand[$user->userid][$keyp]);
 	}
@@ -51,6 +51,8 @@ if($user->pos_x == 0){
 	$user->pos_x++;
 	$user->pos_y++;
 }
+var_dump($user->teleport);
+if(!isset($user->teleport)){
 if($x != $user->pos_x || $y != $user->pos_y){
 	$map=Core::GetMap();
 	$path=new PathFinder();
@@ -89,6 +91,8 @@ if($x != $user->pos_x || $y != $user->pos_y){
 	$packetarray = array();
 	$xthread = array();
 	$ythread = array();
+	$xfthread = array();
+	$yfthread = array();
 	foreach($result as $coordkey => $coord){
 		$split = explode("x", $coord);
 		$xc = $split[0];
@@ -104,10 +108,13 @@ if($x != $user->pos_x || $y != $user->pos_y){
 		$construct->SetHeader(Packet::GetHeader('UpdateState'));
 		if(isset($xf) && isset($yf)){
 			$addin = "mv ".$xf.",".$yf.",".$zf."//";
-
+			$xfthread[] = $xf;
+			$yfthread[] = $yf;
 			$rotate = Core::RotationCalculate(array($xc,$yc),array($xf,$yf));
 		}else{
 			$addin = "";
+			$xfthread[] = $xc;
+			$yfthread[] = $yc;
 			$rotate = Core::RotationCalculate(array($user->pos_x,$user->pos_y),array($xc,$yc));	
 		}
 		$construct->SetInt24(1);
@@ -133,8 +140,24 @@ if($x != $user->pos_x || $y != $user->pos_y){
 		}
 			$tid = count($sockethand);
 			$sockethand[$user->userid][$tid] = New SocketSender;
-			$sockethand[$user->userid][$tid]->SetData($packetarray,$socketarray,$xthread,$ythread);
+			$sockethand[$user->userid][$tid]->SetData($packetarray,$socketarray,$xfthread,$yfthread);
 			$sockethand[$user->userid][$tid]->start();
 	unset($construct,$map,$path,$result,$coord,$userlist,$userroom);
+}
+}else if($user->teleport){
+		$construct = New Constructor;
+		$construct->SetHeader(Packet::GetHeader('UpdateState'));
+		$construct->SetInt24(1);
+		$construct->SetInt24($user->userid);
+		$construct->SetInt24($x);
+		$construct->SetInt24($y);
+		$user->pos_z = Core::GetTileData($x, $y, $user->heightmap);
+		$construct->SetStr($user->pos_z,true);
+		$construct->SetInt24($user->rotate);
+		$construct->SetInt24($user->rotate);
+		$construct->SetStr("/flatcrtl 4 useradmin/".$addin,true);
+		$user->pos_x = $x;
+		$user->pos_y = $y;
+		Core::SendToAllRoom($user->room_id, $construct->get());
 }
 ?>
