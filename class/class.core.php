@@ -635,13 +635,17 @@ Class Core{
 		foreach($globalroomitems[$roomid] as $roomitems){
 			if($x == $roomitems->x && $y == $roomitems->y){
 				$result[] = $roomitems;
+			}else if($x == $roomitems->x+$roomitems->length && $y == $roomitems->y){
+				$result[] = $roomitems;
+			}else if($x == $roomitems->x && $y == $roomitems->y+$roomitems->width){
+				$result[] = $roomitems;
 			}
 		}
 		return $result;
 	}
 	public static function ReloadRoomFurni($roomid){
 		global $globalroomitems;
-		$globalroomitems[$roomid] = DB::mquery("SELECT f.sprite_id, f.can_sit, f.stack_height, f.interaction_type, i.id, i.x, i.z, i.extra_data, i.rot, i.y, i.z FROM furniture f, items i, rooms r
+		$globalroomitems[$roomid] = DB::mquery("SELECT f.width, f.length, f.sprite_id, f.can_sit, f.stack_height, f.interaction_type, i.id, i.x, i.z, i.extra_data, i.rot, i.y, i.z FROM furniture f, items i, rooms r
 										WHERE f.id = i.base_item
 										AND i.room_id = r.id
 										AND r.id = ".$roomid);
