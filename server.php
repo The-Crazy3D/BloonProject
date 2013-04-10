@@ -43,7 +43,7 @@ try{
 	}else{
 		$portext = "";
 	}
-	@$sql = new PDO('mysql:host='.Config::Get("db.hostname").$portext.';dbname='.Config::Get("db.name"), Config::Get("db.username"), Config::Get("db.password"));
+	@$sql = new PDO('mysql:host='.Config::Get("db.hostname").$portext.';dbname='.Config::Get("db.name"), Config::Get("db.username"), Config::Get("db.password"),array(PDO::ATTR_PERSISTENT => true));
 }catch(Exception $error){
 	Console::WriteLine("failed!");
 	Console::WriteLine("Error : ".$error->getMessage());
