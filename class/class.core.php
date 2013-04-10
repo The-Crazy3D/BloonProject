@@ -279,7 +279,8 @@ Class Core{
 		}else{
 			$addin = "";
 		}
-			Console::SetTitle($addin.'BloonCrypto - Users online : '.self::UsersOnline().' - Rooms loaded : '.self::RoomsLoaded().' - Memory : '.self::get_php_memory());
+		Console::SetTitle($addin.'BloonCrypto - Users online : '.self::UsersOnline().' - Rooms loaded : '.self::RoomsLoaded().' - Memory : '.self::get_php_memory());
+		Pooling::ManagePool();
 	}
 	
 	/**
