@@ -38,7 +38,9 @@ Class Pooling{
 		$count = count($sql);
 		$useless = $count-$needed;
 		for($i = 0; $i < $useless; $i++){
-			array_pop($sql);
+			$c = array_pop($sql);
+			$c->closeCursor();
+			unset($c);
 		}
 	}
 }
