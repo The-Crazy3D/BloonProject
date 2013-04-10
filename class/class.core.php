@@ -632,14 +632,54 @@ Class Core{
 	public static function GetTileFurni($x, $y, $roomid){
 		global $globalroomitems;
 		$result = array();
+		$posarray = array();
 		foreach($globalroomitems[$roomid] as $roomitems){
-			if($x == $roomitems->x && $y == $roomitems->y){
-				$result[] = $roomitems;
-			}else if($x == $roomitems->x+$roomitems->length && $y == $roomitems->y){
-				$result[] = $roomitems;
-			}else if($x == $roomitems->x && $y == $roomitems->y+$roomitems->width){
-				$result[] = $roomitems;
+			$pos = array();
+			$pos[] = array("x" => $roomitems->x,"y" => $roomitems->y);
+			if($roomitems->length > 1){
+				if($roomitems->rot == "2" || $roomitems->rot == "6"){
+					for($i = 1; $i < $roomitems->length; $i++){
+						$pos[] = array("x" => $roomitems->x,"y" => $roomitems->y+$i);
+						for($j = 1; $j < $roomitems->width; $j++){
+							$pos[] = array("x" => $roomitems->x+$j,"y" => $roomitems->y+$i);
+						}
+					}
+					unset($i,$j);
+				}else if($roomitems->rot == "0"| $roomitems->rot == "4"){
+					for($i = 1; $i < $roomitems->length; $i++){
+						$pos[] = array("x" => $roomitems->x+$i,"y" => $roomitems->y);
+						for($j = 1; $j < $roomitems->width; $j++){
+							$pos[] = array("x" => $roomitems->x+$i,"y" => $roomitems->y+$j);
+						}
+					}
+					unset($i,$j);
+				}
 			}
+			if($roomitems->width > 1){
+				if($roomitems->rot == "2" || $roomitems->rot == "6"){
+					for($i = 1; $i < $roomitems->width; $i++){
+						$pos[] = array("x" => $roomitems->x,"y" => $roomitems->y+$i);
+						for($j = 1; $j < $roomitems->length; $j++){
+							$pos[] = array("x" => $roomitems->x+$j,"y" => $roomitems->y+$i);
+						}
+					}
+					unset($i,$j);
+				}else if($roomitems->rot == "0"| $roomitems->rot == "4"){
+					for($i = 1; $i < $roomitems->width; $i++){
+						$pos[] = array("x" => $roomitems->x+$i,"y" => $roomitems->y);
+						for($j = 1; $j < $roomitems->length; $j++){
+							$pos[] = array("x" => $roomitems->x+$i,"y" => $roomitems->y+$j);
+						}
+					}
+					unset($i,$j);
+				}
+			}
+			foreach($pos as $exec){
+				if($exec['x'] == $x && $exec['y'] == $y){
+					$result[] = $roomitems;
+				}
+			}
+			unset($pos,$exec);
 		}
 		return $result;
 	}
