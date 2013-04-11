@@ -692,26 +692,5 @@ Class Core{
 										AND r.id = ".$roomid);
 		return $globalroomitems[$roomid];
 	}
-	public static function LoadCredits($userid){
-		global $user;
-		$user = self::getuserbyuserid($userid);
-		$query = DB::query("SELECT credits FROM users WHERE id = '".$userid."'");
-		$construct = New Constructor;
-		$construct->SetHeader(Packet::GetHeader('CreditsBalance'));
-		$construct->SetStr($query->credits .".0",true);
-		$user->credits = $query->credits;
-		Core::send($user->socket, $construct->get());
-		return true;
-	}
-	public static function AddCredits($amount,$userid){
-		DB::exec("UPDATE users SET credits = credits+".$amount." WHERE id = '".$userid."'");
-		self::LoadCredits($userid);
-		return true;
-	}
-	public static function RemoveCredits($amount,$userid){
-		DB::exec("UPDATE users SET credits = credits-".$amount." WHERE id = '".$userid."'");
-		self::LoadCredits($userid);
-		return true;
-	}
 }
 ?>

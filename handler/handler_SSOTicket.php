@@ -102,7 +102,11 @@ if(!$userdata){
 		Core::send($user->socket, $construct->get());
 		unset($construct);
 		
-		Core::LoadCredits($user->userid);
+		$construct = New Constructor;
+		$construct->SetHeader(Packet::GetHeader('CreditsBalance'));
+		$construct->SetStr($user->credits .".0",true);
+		Core::send($user->socket, $construct->get());
+		unset($construct);
 		
 		if(strlen(Core::GetSettings("motd")) > 2){
 			$construct = New Constructor;
