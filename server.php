@@ -35,6 +35,8 @@ Console::WriteLine("Welcome to this ALPHA ".Core::GetVersion()." Build ".Core::G
 
 Console::WriteLine();
 
+Pooling::ManagePool();
+/*
 Console::Write("Connecting to database...");
 
 try{
@@ -50,7 +52,7 @@ try{
 	exit;
 }
 Console::WriteLine("completed!");
-
+*/
 if(Config::Get("db.OptimizeOnStartup")){
 	Optimizer::Exec(Config::Get("db.name"));
 }
