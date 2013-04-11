@@ -41,8 +41,10 @@ Class DB{
 	}
 	
 	public static function query($req){
-		global $sql;
-		$exe = $sql->prepare($req);
+		global $sql,$pools;
+		$pool = Pooling::GetPool();
+		$pools[$pool] = time();
+		$exe = $sql[$pool]->prepare($req);
 		$exe->execute();
 		if($exe->rowCount() < 1){
 			return false;
@@ -51,8 +53,10 @@ Class DB{
 		}
 	}
 	public static function mquery($req){
-		global $sql;
-		$exe = $sql->prepare($req);
+		global $sql,$pools;
+		$pool = Pooling::GetPool();
+		$pools[$pool] = time();
+		$exe = $sql[$pool]->prepare($req);
 		$exe->execute();
 		if($exe->rowCount() < 1){
 			return false;
@@ -65,14 +69,18 @@ Class DB{
 		}
 	}
 	public static function numrows($req){
-		global $sql;
-		$exe = $sql->prepare($req);
+		global $sql,$pools;
+		$pool = Pooling::GetPool();
+		$pools[$pool] = time();
+		$exe = $sql[$pool]->prepare($req);
 		$exe->execute();
 		return $exe->rowCount();
 	}
 	public static function exec($req){
-		global $sql;
-		$exe = $sql->prepare($req);
+		global $sql,$pools;
+		$pool = Pooling::GetPool();
+		$pools[$pool] = time();
+		$exe = $sql[$pool]->prepare($req);
 		$exe->execute();
 		return true;
 	}
