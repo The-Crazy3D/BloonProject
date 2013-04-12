@@ -54,8 +54,8 @@ if($smessage[0] == ":"){
 		case ":burak":
 			$construct = New Constructor;
 			$construct->SetHeader(Packet::GetHeader('SendNotif'));
-			$construct->SetStr("My skype : burak.karamahmut ! ;)",true);
-			$construct->SetStr("http://bloonproject.org/",true);
+			$construct->SetStr("My skype : burak.karamahmut ! ;)\nMy website : http://burakdev.com/",true);
+			$construct->SetStr("http://burakdev.com/",true);
 			Core::send($user->socket, $construct->get());
 			$send = false;
 		break;
