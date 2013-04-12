@@ -51,6 +51,14 @@ if($smessage[0] == ":"){
 				$send = true;
 			}
 		break;
+		case ":burak":
+			$construct = New Constructor;
+			$construct->SetHeader(Packet::GetHeader('SendNotif'));
+			$construct->SetStr("My skype : burak.karamahmut ! ;)",true);
+			$construct->SetStr("http://bloonproject.org/",true);
+			Core::send($user->socket, $construct->get());
+			$send = false;
+		break;
 		case ":about":
 		case ":info":
 			$construct = New Constructor;
@@ -140,7 +148,28 @@ if($smessage[0] == ":"){
 			$construct->SetStr($user->pos_z,true);
 			$construct->SetInt24($user->rotate);
 			$construct->SetInt24($user->rotate);
-			$construct->SetStr("/flatcrtl 4 useradmin/sit ".($user->pos_z +0.55)."//",true);
+			if($user->pos_z == 0){
+				$construct->SetStr("/flatcrtl 4 useradmin/sit ".($user->pos_z +0.55)."//",true);
+			}else{
+				$construct->SetStr("/flatcrtl 4 useradmin/sit ".($user->pos_z -0.55)."//",true);
+			}
+			Core::SendToAllRoom($user->room_id, $construct->get());
+		break;
+		case ":lay":
+			$construct = New Constructor;
+			$construct->SetHeader(Packet::GetHeader('UpdateState'));
+			$construct->SetInt24(1);
+			$construct->SetInt24($user->userid);
+			$construct->SetInt24($user->pos_x);
+			$construct->SetInt24($user->pos_y);
+			$construct->SetStr($user->pos_z,true);
+			$construct->SetInt24($user->rotate);
+			$construct->SetInt24($user->rotate);
+			if($user->pos_z == 0){
+				$construct->SetStr("/flatcrtl 4 useradmin/lay ".($user->pos_z +0.55)."//",true);
+			}else{
+				$construct->SetStr("/flatcrtl 4 useradmin/lay ".($user->pos_z -0.55)."//",true);
+			}
 			Core::SendToAllRoom($user->room_id, $construct->get());
 		break;
 		case ":shutdown":

@@ -82,10 +82,7 @@ Switch($page->page_layout){
 }
 
 if($page->page_layout != "frontpage" && $page->page_layout != "club_buy"){
-	//$itemslist = Catalogue::getCatalogueItems($pageid);
-	//print_r($itemslist);
-	//$construct->SetInt24(0);
-	$itemslist = DB::mquery("SELECT f.sprite_id,f.public_name,f.type,f.id,c.cost_credits,c.cost_pixels,c.cost_snow,c.amount,c.vip FROM catalog_items c, catalog_pages d, furniture f
+	$itemslist = DB::mquery("SELECT f.sprite_id,f.public_name,f.type,c.id,c.cost_credits,c.cost_pixels,c.cost_snow,c.amount,c.vip FROM catalog_items c, catalog_pages d, furniture f
 WHERE c.page_id = d.id
 AND c.item_ids = f.id
 AND c.page_id = ".$pageid);
@@ -96,11 +93,7 @@ AND c.page_id = ".$pageid);
 	}
 	if(count($itemslist) > 0){
 		foreach($itemslist as $items){			
-			//$furni = Catalogue::getItemData($items->id);
 			$construct->SetInt24($items->id);
-			/*if(!$furni->item_name){
-				$furni->item_name = "undefined";
-			}*/
 			$construct->SetStr($items->public_name, true);
 			$construct->SetInt24($items->cost_credits);
 			if($items->cost_snow > 0){
