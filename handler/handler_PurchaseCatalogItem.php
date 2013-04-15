@@ -17,8 +17,6 @@ WHERE c.item_ids = f.id
 AND c.id = ".$id2);
 if($user->credits >= $item->cost_credits*$amount){
 	Core::RemoveCredits($item->cost_credits*$amount, $user->userid);
-}else{
-	// insufficiant credits
 }
 
 $construct = New Constructor;
@@ -44,8 +42,8 @@ if($amount > 100){
 }else{
 	for($i = 1; $i <= $amount; $i++){
 		DB::exec("INSERT INTO items (user_id,base_item) VALUES('".$user->userid ."','".$item->item_ids ."')");
+		Core::InitInventory($user->userid);
 	}
-	Core::InitInventory($user->userid);
 }
 
 unset($id1, $id2, $amount,$item);
