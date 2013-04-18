@@ -13,6 +13,7 @@ while(true){
 	system("echo ________________________________________________________");
 	system("echo Emulator restarted : ".date("d/m/Y").' '.date("H:i:s"));
 	system("echo ________________________________________________________");
-	system('"C:\xampp\php\php.exe" server.php');
+	system('"php/php.exe" server.php');
+	sleep(5);
 }
 ?>

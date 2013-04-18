@@ -10,14 +10,22 @@ error_reporting(E_ALL);
 set_time_limit(0);
 ob_implicit_flush();
 
-if(!extension_loaded("pthreads")){
-	Console::WriteLine("Please install phtreads ! Emulator can't run without it.");
-	exit;
-}
-
 spl_autoload_register(function ($class) {
     include 'class/class.' . $class . '.php';
 });
+
+if(!extension_loaded("pthreads")){
+	Console::WriteLine("Please install php phtreads ! Emulator can't run without it.");
+	exit;
+}
+if(!extension_loaded("sockets")){
+	Console::WriteLine("Please install php sockets ! Emulator can't run without it.");
+	exit;
+}
+if(!extension_loaded("pdo_mysql")){
+	Console::WriteLine("Please install php mysql pdo ! Emulator can't run without it.");
+	exit;
+}
 
 Console::SetTitle("Loading BloonCrypto...");
 
@@ -36,23 +44,7 @@ Console::WriteLine("Welcome to this ALPHA ".Core::GetVersion()." Build ".Core::G
 Console::WriteLine();
 
 Pooling::ManagePool();
-/*
-Console::Write("Connecting to database...");
 
-try{
-	if(Config::Get("db.port") != 3306){
-		$portext = chr(58).Config::Get("db.port");
-	}else{
-		$portext = "";
-	}
-	@$sql = new PDO('mysql:host='.Config::Get("db.hostname").$portext.';dbname='.Config::Get("db.name"), Config::Get("db.username"), Config::Get("db.password"),array(PDO::ATTR_PERSISTENT => true));
-}catch(Exception $error){
-	Console::WriteLine("failed!");
-	Console::WriteLine("Error : ".$error->getMessage());
-	exit;
-}
-Console::WriteLine("completed!");
-*/
 if(Config::Get("db.OptimizeOnStartup")){
 	Optimizer::Exec(Config::Get("db.name"));
 }
