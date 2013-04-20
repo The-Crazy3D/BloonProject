@@ -16,4 +16,5 @@ $construct->SetInt24(0);
 $construct->SetInt24(99597);
 Core::SendToAllRoom($user->room_id, $construct->get());
 Core::InitInventory($user->userid);
+Core::ReloadRoomFurni($user->room_id);
 ?>

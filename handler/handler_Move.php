@@ -13,7 +13,8 @@ $tilefurni = Core::GetTileFurni($x, $y, $user->room_id);
 if(isset($tilefurni)){
 	foreach($tilefurni as $tilefurnitem){
 		if($tilefurnitem->can_sit == "1"){
-			$height = $tilefurnitem->stack_height;
+			//$height = (Core::GetTileData($x, $y, $user->heightmap)+Core::GetTileHeight($x, $y, $user->room_id))-1;
+			$height = Core::GetTileData($x, $y, $user->heightmap);
 			$finaladdin = "sit ".$height."//";
 			$finalrot = $tilefurnitem->rot;
 		}

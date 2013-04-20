@@ -713,5 +713,13 @@ Class Core{
 		self::LoadCredits($userid);
 		return true;
 	}
+	public static function GetTileHeight($x, $y, $roomid){
+		$furni = self::GetTileFurni($x, $y, $roomid);
+		$height = 0;
+		foreach($furni as $item){
+			$height = $height+$item->stack_height;
+		}
+		return $height;
+	}
 }
 ?>

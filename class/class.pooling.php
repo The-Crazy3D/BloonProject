@@ -60,7 +60,6 @@ Class Pooling{
 		for($i = 0; $i < $useless; $i++){
 			$c = array_pop($sql);
 			array_pop($pools);
-			$c->closeCursor();
 			unset($c);
 		}
 	}

@@ -20,7 +20,12 @@ $construct->SetInt24($item->sprite_id);
 $construct->SetInt24($info[1]);
 $construct->SetInt24($info[2]);
 $construct->SetInt24(0);
-$construct->SetStr("0", true);
+$furniheight = Core::GetTileHeight($info[1], $info[2], $user->room_id);
+if($furniheight == 0){
+	$construct->SetStr("0", true);
+}else{
+	$construct->SetStr($furniheight, true);
+}
 $construct->SetInt24(0);
 $construct->SetInt24(0);
 $construct->SetBoolean(false);
