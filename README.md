@@ -1,18 +1,46 @@
 # BloonCrypto
 
-BloonCrypto : a new Habbo EMU based on the latest habbo official revision created with PHP.
-
-You want to join US ? Contact US on Skype : burak.karamahmut
+BloonCrypto is one of the three project from BloonProject.
+BloonCrypto is the world #1 Habbo Hotel Emulator to be in PHP.
+BloonCrypto support a R63 Post-Shuffle Release.
+BloonCrypto start at 6.0MB (used memory), auto-optimize SQL.
 
 ![BloonCrypto](http://i.imgur.com/aW9PZSl.png "BloonCrypto")
 
 ## Requierments
-To run the EMU you'll need these PHP extensions activated :
 
-* OpenSSL (updater and ssl support)
-* Zip (updater class)
-* cURL (updater class)
-* pThreads (multithreading)
+NO MORE REQUIERMENTS, when you download the zipsource, a php configuration is auto-installed and ready for use.
+
+### Revision 27350
+Just a WARNING : All modifications, all new features, all enhancement are from the Revision 24100 to Revision 27350
+This revision is a 'pre-beta' revision.
+
+* Fixed pathfinding sit bug
+* Started stacking item and fixed minor bug
+* Added pre-configured PHP 5.4 (with all needed extension and optimised (php.ini)
+* Fixed minor bug of purchase catalog
+* Coded PickupItem handler, finished PurchaseCatalogItem handler, fixed minor bug of OpenCatalogPage handler
+* Updated default conf file
+* Enhanced pooling class
+* Started PDO pooling system
+* Now pdo is persistent connexion
+* Fixed GetTileFurni function (thanks to Quackster for help)
+* Coded command for reload inventory, coded sitting on chair furni
+* Enhanced server.php, packet structure
+* Added :teleport, :disconnect and enhanced pathfinder (unfinished)
+* Fixed change look bug
+* Fixed items on loading room, coded :control and :disconnect
+* Updating conf system
+* Coded loading furni on loading room !
+* Fixed rooms_loaded count, fixed addflooritem handler, fixed inventory
+* Added :sit command
+* Fixed critical security issue, recoded handling system (more fast !)
+* Enhanced handler (now use name system)
+* Created auto-optimize system, enhanced class, finished catalog_pages
+* Fixed minor bug
+* Started catalogue
+* Updated packet header name
+* Started inventory, started edit of all packet id name (unfinished)
 
 
 ### Revision 24100
